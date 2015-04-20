@@ -4,7 +4,8 @@
        "media": {
            "kompas": 1000,
            "inilah": 810,
-           "cnn": 688
+           "cnn": 688,
+           "detik":1190
        }
       }, 
       {
@@ -12,7 +13,8 @@
        "media": {
            "kompas": 120,
            "inilah": 480,
-           "cnn": 668
+           "cnn": 668,
+           "detik":890
        }
       },
       {
@@ -20,7 +22,8 @@
        "media": {
            "kompas": 3078,
            "inilah": 2149,
-           "cnn": 3948
+           "cnn": 3948,
+           "detik":90
        }
       },
       {
@@ -28,7 +31,8 @@
        "media": {
            "kompas": 1330,
            "inilah": 1449,
-           "cnn": 1678
+           "cnn": 1678,
+           "detik":890
        }
       },
       {
@@ -36,7 +40,8 @@
        "media": {
            "kompas": 3230,
            "inilah": 2129,
-           "cnn": 4298
+           "cnn": 4298,
+           "detik":1890
        }
       },
       {
@@ -44,7 +49,8 @@
        "media": {
            "kompas": 1330,
            "inilah": 2219,
-           "cnn": 4398
+           "cnn": 4398,
+           "detik":2890
        }
       },
       {
@@ -52,7 +58,8 @@
        "media": {
            "kompas": 4330,
            "inilah": 5219,
-           "cnn": 6398
+           "cnn": 6398,
+           "detik":1890
        }
       },
       {
@@ -60,7 +67,8 @@
        "media": {
            "kompas": 2330,
            "inilah": 3519,
-           "cnn": 3698
+           "cnn": 3698,
+           "detik":8390
        }
       },
       {
@@ -68,7 +76,8 @@
        "media": {
            "kompas": 4330,
            "inilah": 5519,
-           "cnn": 7698
+           "cnn": 7698,
+           "detik":890
        }
       },
       {
@@ -76,7 +85,8 @@
        "media": {
            "kompas": 1000,
            "inilah": 810,
-           "cnn": 688
+           "cnn": 688,
+           "detik":1890
        }
       }, 
       {
@@ -84,7 +94,8 @@
        "media": {
            "kompas": 4120,
            "inilah": 6480,
-           "cnn": 8668
+           "cnn": 8668,
+           "detik":2890
        }
       },
       {
@@ -92,7 +103,8 @@
        "media": {
            "kompas": 3078,
            "inilah": 2149,
-           "cnn": 3948
+           "cnn": 3948,
+           "detik":4890
        }
       },
       {
@@ -100,7 +112,8 @@
        "media": {
            "kompas": 1330,
            "inilah": 1449,
-           "cnn": 1678
+           "cnn": 1678,
+           "detik":8590
        }
       },
       {
@@ -108,7 +121,8 @@
        "media": {
            "kompas": 3380,
            "inilah": 2299,
-           "cnn": 1498
+           "cnn": 1498,
+           "detik":890
        }
       },
       {
@@ -116,7 +130,8 @@
        "media": {
            "kompas": 7330,
            "inilah": 4219,
-           "cnn": 1498
+           "cnn": 1498,
+           "detik":1190
        }
       },
       {
@@ -124,7 +139,8 @@
        "media": {
            "kompas": 6330,
            "inilah": 4519,
-           "cnn": 1698
+           "cnn": 1698,
+           "detik":6890
        }
       },
       {
@@ -132,7 +148,8 @@
        "media": {
            "kompas": 3330,
            "inilah": 3519,
-           "cnn": 3918
+           "cnn": 3918,
+           "detik":1890
        }
       },
       {
@@ -140,7 +157,8 @@
        "media": {
            "kompas": 4330,
            "inilah": 5159,
-           "cnn": 7498
+           "cnn": 7498,
+           "detik":10
        }
       }
     ]
