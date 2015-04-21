@@ -1,0 +1,17 @@
+{% extends "data/layout.html" %}
+
+{% block title %}Word Frequency{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <h1>Word Frequency</h1>
+  <p class="important">the most used words</p>
+{% endblock %}
+
+

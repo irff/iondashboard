@@ -10,6 +10,9 @@
 	{%if var == "mediasummary" %}
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/summary.css') }}">
 	{% endif %}
+	{%if var == "wordfrequency" %}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/word.css') }}">
+	{% endif %}
 </head>
 <body>
 	<header>
@@ -30,5 +33,9 @@
 	{% endif %}
 	{%if var == "mediasummary" %}
 	<script src="{{ url_for('static', filename='js/medsum.js') }}"></script>
+	{% endif %}
+	{%if var == "wordfrequency" %}
+	<script src="{{ url_for('static', filename='js/d3-layout-cloud.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/wordfrequency.js') }}"></script>
 	{% endif %}
 </html>
