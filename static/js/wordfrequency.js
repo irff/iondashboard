@@ -22,9 +22,29 @@ var svg = d3.select("#result").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+// set SVG element to the highest layer on SVG
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+
+// set SVG element to its normal layer on SVG
+d3.selection.prototype.moveToBack = function() { 
+    return this.each(function() { 
+        var firstChild = this.parentNode.parentNode.parentNode.firstChild; 
+        if (firstChild) { 
+            this.parentNode.parentNode.parentNode.insertBefore(this, firstChild); 
+        } 
+    }); 
+};
+
+
+var selected;
+
 d3.json("../../static/js/words.json", function(error, data) {
   data = data.result[0].media;
-
+  //console.log(data);
   x.domain(d3.keys(data).map(function(d) { return d; }));
   y.domain([0, d3.max(d3.keys(data), function(d) { return data[d]; })]);
 
@@ -46,27 +66,46 @@ d3.json("../../static/js/words.json", function(error, data) {
       .style("text-anchor", "end")
       .text("Total");
 
-  svg.selectAll(".bar")
-      .data(d3.keys(data))
-    .enter().append("rect")
+  var group = svg.selectAll(".tooltip")
+    .data(d3.keys(data))
+    .enter().append("g");
+    
+    group.append("rect")
       .attr("class", "bar")
       .attr("x", function(d) { return x(d); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(data[d]); })
-      .attr("height", function(d) { return height - y(data[d]); });
+      .attr("height", function(d) { return height - y(data[d]); })
+      .on("mouseover",function(){
+        selected = d3.select(this.parentNode).moveToFront()
+        selected.select("g").transition().duration(100).style({opacity:'1'}).style({cursor:'pointer'})
+      })
+      .on("mouseout",function(){
+        selected = d3.select(this.parentNode);
+        selected.select("g").transition().duration(40).style({opacity:'0'});
+      });
 
-  svg.selectAll(".tips")
-      .data(d3.keys(data))
-    .enter().append("text")
-      .attr("class", "tips")
-      .attr("x", function(d) { return x(d); })
-      .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(data[d]); })
-      .attr("height", function(d) { return height - y(data[d]); });    
-  
-  svg.selectAll(".bar")
-      .data(d3.keys(data))
-    .enter().append()
+    
+    var gg = group.append("g")
+      .style("opacity","0");
+
+    gg.append("rect")
+      .attr("class", "tooltip")
+      .style("fill","rgba(1,1,1,0.999999)")
+      //.style("opacity","0")
+      .attr("x", function(d){ return x(d);})
+      .attr("y", function(d){ return y(data[d])-1;})
+      .attr("width", 40)
+      .attr("height", 24)
+    
+    gg.append("text")
+      .style("fill","white")
+      //.style("opacity","0")
+      .attr("transform", function(d){ 
+        return "translate("+(x(d)+5)+","+(y(data[d])+20)+")";
+      })
+      .attr("dy","-.35em")
+      .text(function(d){return data[d];})
 
 });
 

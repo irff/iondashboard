@@ -4,18 +4,18 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/data.css') }}">
-    {%if var == "mediashare" %}
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}">
-	{% endif %}
-	{%if var == "mediasummary" %}
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/summary.css') }}">
-	{% endif %}
-	{%if var == "wordfrequency" %}
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/word.css') }}">
-	{% endif %}
-	{%if var == "keyopinionleader" %}
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/kol.css') }}">
-	{% endif %}
+    {%- if var == "mediashare" %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}">
+	{%- endif %}
+	{%- if var == "mediasummary" %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/summary.css') }}">
+	{%- endif %}
+	{%- if var == "wordfrequency" %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/word.css') }}">
+	{%- endif %}
+	{%- if var == "keyopinionleader" %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/kol.css') }}">
+	{%- endif %}
 </head>
 <body>
 	<header>

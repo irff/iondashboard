@@ -94,7 +94,7 @@ d3.json("../../static/js/medsum.json", function(error, data) {
       .attr("dy", ".35em")
       .style("text-anchor", "middle")
       .style("font-size","13px")
-      .text(function(d) { return Math.floor((d.media[e]/tot)*1000000)/1000+"%"; });
+      .text(function(d) { return Math.floor((d.media[e]/tot)*100000)/1000+"%"; });
       i +=1;
   });
   // console.log(color.domain());
