@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, abort
 from flask import Flask, session, redirect, url_for, escape, request, flash, get_flashed_messages
 from jinja2 import TemplateNotFound
-from models import *
 
 page = Blueprint('page', __name__, template_folder='application/templates')
 
