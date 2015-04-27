@@ -4,15 +4,15 @@ from jinja2 import TemplateNotFound
 
 data = Blueprint('data', __name__, template_folder='application/templates')
 
-@data.route('/index')
+@data.route('/index/')
 @data.route('/')
 def index():
     try:
-        return render_template('data/index.html')
+        return render_template('data/index.html' % data, var="index")
     except TemplateNotFound:
         abort(404)
 
-@data.route('/data', defaults={'data': 'index'})
+@data.route('/data/', defaults={'data': 'index'})
 @data.route('/data/<data>')
 def show(data):
     try:

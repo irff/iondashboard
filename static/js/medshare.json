@@ -3,7 +3,7 @@
        "date": "2015-01-01",
        "media": {
            "kompas": 1000,
-           "inilah": 810,
+           "inilah": 0,
            "cnn": 688,
            "detik":1190
        }
@@ -12,7 +12,7 @@
        "date": "2015-01-02",
        "media": {
            "kompas": 120,
-           "inilah": 480,
+           "inilah": 0,
            "cnn": 668,
            "detik":890
        }
@@ -21,7 +21,7 @@
        "date": "2015-01-03",
        "media": {
            "kompas": 3078,
-           "inilah": 2149,
+           "inilah": 0,
            "cnn": 3948,
            "detik":90
        }
@@ -32,7 +32,7 @@
            "kompas": 1330,
            "inilah": 1449,
            "cnn": 1678,
-           "detik":890
+           "detik":0
        }
       },
       {

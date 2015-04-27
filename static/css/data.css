@@ -1,3 +1,7 @@
+#logo {
+
+}
+
 #result {
   font-size: 12px ;
   position: absolute;
@@ -5,16 +9,21 @@
   margin-left: -480px;
 }
 
-ul {
+#right {
 	float: right;
+	height: 100%;
+}
+
+#left {
+	float: left;
 	height: 100%;
 }
 
 ul li {
 	cursor: pointer;
-	margin-left:20px;
-	margin-right: 20px;
-	display: inline;
+	padding: 0px 20px 0px 20px;
+	height: 100%;
+	display: inline-block;
 }
 
 ul li:hover {
@@ -23,12 +32,14 @@ ul li:hover {
 
 ul li div{
 	height: 100%;
-	display: inline;
+	display: inline-block;
+	line-height: 43px;
 }
 
 ul li div a {
 	text-decoration: none;
 	color: white;
+	display: inline-block;
 }
 
 h1{

@@ -23,8 +23,9 @@ function sum(data){
 
 var val = '';
 
-d3.json("../../static/js/kol.json", function(error, data) {
+d3.json("http://128.199.81.117:8274/api/v1/keyopinionleader", function(error, data) {
   data = data.result
+  //console.log(data);
   color.domain(d3.keys(data[0]["people"]));
   // console.log(color.domain());
   data.forEach(function(d) {
@@ -100,5 +101,13 @@ d3.json("../../static/js/kol.json", function(error, data) {
   });
   // console.log(color.domain());
 
-});
+})
+.header("Content-Type","application/json")
+.send("POST",JSON.stringify({
+  media:[],
+  name: ["jokowi","prabowo","samad","sby","megawati"],
+  keyword: "presiden",
+  begin: "2014-04-01 01:00:00",
+  end: "2015-04-04 01:00:00"
+}));
 

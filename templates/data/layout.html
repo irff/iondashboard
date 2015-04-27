@@ -3,7 +3,13 @@
     <title>Langgar Media Monitoring Dashboard</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    {%- if var != "index" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/data.css') }}">
+    {%- endif %}
+    {%- if var == "index" %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datepicker.css') }}">
+    {%- endif %}
     {%- if var == "mediashare" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}">
 	{%- endif %}
@@ -19,10 +25,12 @@
 </head>
 <body>
 	<header>
-		<span style="padding:15px;">
-    		<a style="text-align:center" href="{{ url_for('data.index') }}">Dashboard</a>
-    	</span>
-    	<ul>
+		<ul id="left">
+    		<li><div><a href="/data"><h2>Dashboard</h2></a></div></li>
+    		<li><div><a href="#">News Media</a></div></li>
+    		<li><div><a href="#">Social Media</a></div></li>
+    	</ul>
+    	<ul id="right">
     		<li><div><a href="/data/mediashare">Media Share</a></div></li>
     		<li><div><a href="/data/mediasummary">Media Summary</a></div></li>
     		<li><div><a href="/data/wordfrequency">Word Frequency</a></div></li>
@@ -34,22 +42,49 @@
         {% endblock %}
     </div>
 
+    {%-if var == "index" %}
+        <div id="search">
+            <div class="body">
+                <form>
+                    <h1>Keyword</h1>
+                    <input type="text" id="keyword" name="keyword" placeholder="*Jokowi*">
+                    <h1>Date Range</h1>    
+                    <div id="date">
+                        <input datepicker data-auto-close="true" data-date-format="yy-mm-dd" type="text" name="date_start">
+                        &nbsp;to&nbsp;
+                        <input datepicker data-auto-close="true" data-date-format="yy-mm-dd" type="text" name="date_end">
+                    </div>
+                    <div id="button">
+                        <input type="submit" value="Analyze">
+                    </div>
+                </form>
+            </div>
+        </div>
+    {%-endif %}
     <div id="result">
+        asd
     </div>
+
 </body>
+    {%-if var != "index" %}
 	<script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
-	{%if var == "mediashare" %}
+    {%-endif %}
+    {%-if var == "index" %}
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
+    {%-endif %}
+	{%-if var == "mediashare" %}
 	<script src="{{ url_for('static', filename='js/d3-tip.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/medshare.js') }}"></script>
-	{% endif %}
-	{%if var == "mediasummary" %}
+	{%-endif %}
+	{%-if var == "mediasummary" %}
 	<script src="{{ url_for('static', filename='js/medsum.js') }}"></script>
-	{% endif %}
-	{%if var == "wordfrequency" %}
+	{%-endif %}
+	{%-if var == "wordfrequency" %}
 	<script src="{{ url_for('static', filename='js/d3-layout-cloud.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/wordfrequency.js') }}"></script>
-	{% endif %}
-	{%if var == "keyopinionleader" %}
+	{%-endif %}
+	{%-if var == "keyopinionleader" %}
 	<script src="{{ url_for('static', filename='js/kol.js') }}"></script>
-	{% endif %}
+	{%-endif %}
 </html>

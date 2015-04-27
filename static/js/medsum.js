@@ -1,16 +1,17 @@
 var width = 960,
     height = 500,
-    radius = Math.min(width, height) / 2.8,
+    radius = Math.min(width, height) / 2.7,
     padding = 10;
 
-var color = d3.scale.ordinal()
-  .range(["#F44336", "#FF9800", "#4FC3F7", "#3F51B5", "#009688", "#00E676", "#FFEB3B"]);
+//var color = d3.scale.ordinal()
+//  .range(["#F44336", "#FF9800", "#4FC3F7", "#3F51B5", "#009688", "#00E676", "#FFEB3B"]);
+var color = d3.scale.category20c()
 
 var percentageFormat = d3.format("%");
 
 var arc = d3.svg.arc()
     .outerRadius(radius)
-    .innerRadius(radius - 75);
+    .innerRadius(100);
 
 var pie = d3.layout.pie()
     .value(function(d) { return d.total; });
@@ -23,7 +24,7 @@ function sum(data){
 
 var val = '';
 
-d3.json("../../static/js/medsum.json", function(error, data) {
+d3.json("http://128.199.81.117:8274/api/v1/mediashare/summary", function(error, data) {
   data = data.result
   color.domain(d3.keys(data[0]["media"]));
   // console.log(color.domain());
@@ -41,7 +42,7 @@ d3.json("../../static/js/medsum.json", function(error, data) {
     .selectAll("g")
       .data(color.domain().slice().reverse())
     .enter().append("g")
-      .attr("transform", function(d, i) { return "translate(200," + i * 25 + ")"; });
+      .attr("transform", function(d, i) { return "translate(100," + (i * 25) + ")"; });
 
   legend.append("rect")
       .attr("width", 18)
@@ -99,5 +100,12 @@ d3.json("../../static/js/medsum.json", function(error, data) {
   });
   // console.log(color.domain());
 
-});
+})
+.header("Content-Type","application/json")
+.send("POST",JSON.stringify({
+  media:[],
+  keyword: "media",
+  begin: "2014-04-01 01:00:00",
+  end: "2015-04-04 01:00:00"
+}));
 
