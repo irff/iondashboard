@@ -8,52 +8,54 @@
     {%- endif %}
     {%- if var == "index" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datepicker.css') }}">
     {%- endif %}
     {%- if var == "mediashare" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}">
-	{%- endif %}
-	{%- if var == "mediasummary" %}
+    {%- endif %}
+    {%- if var == "mediasummary" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/summary.css') }}">
-	{%- endif %}
-	{%- if var == "wordfrequency" %}
+    {%- endif %}
+    {%- if var == "wordfrequency" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/word.css') }}">
-	{%- endif %}
-	{%- if var == "keyopinionleader" %}
+    {%- endif %}
+    {%- if var == "keyopinionleader" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/kol.css') }}">
-	{%- endif %}
+    {%- endif %}
 </head>
 <body>
-	<header>
-		<ul id="left">
-    		<li><div><a href="/data"><h2>Dashboard</h2></a></div></li>
-    		<li><div><a href="#">News Media</a></div></li>
-    		<li><div><a href="#">Social Media</a></div></li>
-    	</ul>
-    	<ul id="right">
-    		<li><div><a href="/data/mediashare">Media Share</a></div></li>
-    		<li><div><a href="/data/mediasummary">Media Summary</a></div></li>
-    		<li><div><a href="/data/wordfrequency">Word Frequency</a></div></li>
-    		<li><div><a href="/data/keyopinionleader">Key Opinion Leader</a></div></li>
-    	</ul>
+    <header>
+        <ul id="left">
+            <li><div><a href="/data"><h2>Dashboard</h2></a></div></li>
+            <li><div><a href="#">News Media</a></div></li>
+            <li><div><a href="#">Social Media</a></div></li>
+        </ul>
+        <ul id="right">
+            <li><div><a href="/data/mediashare">Media Share</a></div></li>
+            <li><div><a href="/data/mediasummary">Media Summary</a></div></li>
+            <li><div><a href="/data/wordfrequency">Word Frequency</a></div></li>
+            <li><div><a href="/data/keyopinionleader">Key Opinion Leader</a></div></li>
+        </ul>
     </header>
-    <div class="content">
+    <!-- <div class="content">
         {% block content %}
         {% endblock %}
-    </div>
+    </div> -->
 
     {%-if var == "index" %}
         <div id="search">
             <div class="body">
                 <form>
-                    <h1>Keyword</h1>
-                    <input type="text" id="keyword" name="keyword" placeholder="*Jokowi*">
-                    <h1>Date Range</h1>    
-                    <div id="date">
-                        <input datepicker data-auto-close="true" data-date-format="yy-mm-dd" type="text" name="date_start">
-                        &nbsp;to&nbsp;
-                        <input datepicker data-auto-close="true" data-date-format="yy-mm-dd" type="text" name="date_end">
+                    <div id="keyword">
+                        <input type="text" id="keyword" name="keyword" placeholder="Keyword">
                     </div>
+                    <div id="space">&nbsp;</div>
+                    <div id="date">
+                        <input datepicker data-auto-close="true" data-date-format="yy-mm-dd" type="text" name="date_start" placeholder="Start Date">
+                        <input datepicker data-auto-close="true" data-date-format="yy-mm-dd" type="text" name="date_end" placeholder="End Date">
+                    </div>
+                    &nbsp;
                     <div id="button">
                         <input type="submit" value="Analyze">
                     </div>
@@ -62,29 +64,40 @@
         </div>
     {%-endif %}
     <div id="result">
-        asd
+        {%-if var == "index" %}
+            <div id="medshare">
+                <button>Mediashare</button>
+            </div>
+            <div class="double">
+                <div id="medsum">
+                    <button>Media summary</button>
+                </div>
+                <div id="keyop">
+                    Key Opinion Leader
+                </div>
+            </div>
+        {%-endif %}
     </div>
 
 </body>
-    {%-if var != "index" %}
-	<script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
-    {%-endif %}
+    <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
     {%-if var == "index" %}
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     {%-endif %}
-	{%-if var == "mediashare" %}
-	<script src="{{ url_for('static', filename='js/d3-tip.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/medshare.js') }}"></script>
-	{%-endif %}
-	{%-if var == "mediasummary" %}
-	<script src="{{ url_for('static', filename='js/medsum.js') }}"></script>
-	{%-endif %}
-	{%-if var == "wordfrequency" %}
-	<script src="{{ url_for('static', filename='js/d3-layout-cloud.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/wordfrequency.js') }}"></script>
-	{%-endif %}
-	{%-if var == "keyopinionleader" %}
-	<script src="{{ url_for('static', filename='js/kol.js') }}"></script>
-	{%-endif %}
+    {%-if var == "mediashare" %}
+    <script src="{{ url_for('static', filename='js/d3-tip.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/medshare.js') }}"></script>
+    {%-endif %}
+    {%-if var == "mediasummary" %}
+    <script src="{{ url_for('static', filename='js/medsum.js') }}"></script>
+    {%-endif %}
+    {%-if var == "wordfrequency" %}
+    <script src="{{ url_for('static', filename='js/d3-layout-cloud.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wordfrequency.js') }}"></script>
+    {%-endif %}
+    {%-if var == "keyopinionleader" %}
+    <script src="{{ url_for('static', filename='js/kol.js') }}"></script>
+    {%-endif %}
 </html>

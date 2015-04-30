@@ -4,11 +4,13 @@ from jinja2 import TemplateNotFound
 
 data = Blueprint('data', __name__, template_folder='application/templates')
 
-@data.route('/index/')
-@data.route('/')
+@data.route('/index/', methods=['POST'])
+@data.route('/', methods=['POST'])
 def index():
+    reqq = request.form
+    print(request)
     try:
-        return render_template('data/index.html' % data, var="index")
+        return render_template('data/index.html' % data, var="index",req=reqq)
     except TemplateNotFound:
         abort(404)
 
