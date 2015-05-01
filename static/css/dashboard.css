@@ -1,6 +1,14 @@
 /* Start media share */
+body {
+  overflow-x:hidden;
+  background:white;
+}
+
 #result {
   margin-top: 10px;
+  font-family: Arial!important;
+  height: 100%;
+  background: #f1f1f1;
 }
 
 .ooltip {
@@ -9,6 +17,10 @@
     height: auto;
     padding: 10px;
     background-color: rgba(1,1,1,0.3);
+}
+
+#medshare {
+  background: white;
 }
 
 .tooltip.hidden {
@@ -61,4 +73,12 @@
   top: 100%;
   left: 0;
 }
+/*End media share*/
+
+/*Start media summary*/
+
 /*End media summary*/
+
+/*Start key opinion leader*/
+
+/*End key opinion leader*/

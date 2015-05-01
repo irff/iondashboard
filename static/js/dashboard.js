@@ -1,3 +1,10 @@
+// Script for date
+$("datepicker").datepicker({
+    isDisabled: function(date) {
+        return date.valueOf() > now ? true : false;
+    }
+})
+
 // Start media share
 
 // Customized from http://bl.ocks.org/mbostock/3884955
@@ -14,7 +21,7 @@ var x = d3.time.scale()
 var y = d3.scale.linear()
     .range([height, 0]);
 
-var color = d3.scale.category10();
+var color = d3.scale.category20();
 
 var xAxis = d3.svg.axis()
     .scale(x)
@@ -56,7 +63,7 @@ d3.selection.prototype.moveToBack = function() {
 };
 
 //Change the path to url for production use
-d3.json("../../static/js/medshare.json", function(error, data) {
+d3.json("http://128.199.81.117:8274/api/v1/mediashare", function(error, data) {
   //console.log(data.result)
   data = data.result
   color.domain(d3.keys(data[0]["media"]));
@@ -109,8 +116,8 @@ d3.json("../../static/js/medshare.json", function(error, data) {
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return color(d.name); })
 
-// Add legend on the last line of chart      
-media.append("text")
+  // Add legend on the last line of chart      
+  media.append("text")
     .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
     .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.total) + ")"; })
     .attr("x", 3)
@@ -136,7 +143,6 @@ media.append("text")
       .y(function(d) { return y(d["media"][e]) - 5; });
 
     cls = ".dot"+e
-    console.log(cls)
     svg.selectAll(cls)
       .data(data)
       .enter().append("circle")
@@ -174,36 +180,43 @@ media.append("text")
       .attr("height", 34)
 
     node.append("foreignObject")
-      .html(function(d){return "<div style='text-align:center;color:white;'>"+String(d["date"]).substring(4,11)+"<br>"+d["media"][e]+"</div>";})
+      .html(function(d){return "<div style='text-align:center;color:white;font-size:12px;'>"+String(d["date"]).substring(4,11)+"<br>"+d["media"][e]+"</div>";})
       .attr("x", teks.x())
       .attr("y", teks.y())
       .style("fill","white")
       .attr("width", 70)
       .attr("height", 40);
   })
-});
+})
+.header("Content-Type","application/json")
+.send("POST",JSON.stringify({
+  media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com"],
+  keyword: "jokowi",
+  begin: "2015-01-01 01:00:00",
+  end: "2015-04-04 01:00:00"
+}));
 
 // End media share
 
 
 // Start media summary
 
-var width = $(window).width()/2,
-    height = 300,
-    radius = Math.min(width, height) / 2.7,
-    padding = 0;
+var width_medsum = $(window).width()/2,
+    height_medsum = 300,
+    radius_medsum = Math.min(width_medsum, height_medsum) / 2.7,
+    padding_medsum = 0;
 
 //var color = d3.scale.ordinal()
 //  .range(["#F44336", "#FF9800", "#4FC3F7", "#3F51B5", "#009688", "#00E676", "#FFEB3B"]);
-var color2 = d3.scale.category20c()
+var color_medsum = d3.scale.category20c();
 
-var percentageFormat = d3.format("%");
+var percentageFormat_medsum = d3.format("%");
 
-var arc = d3.svg.arc()
-    .outerRadius(radius)
+var arc_medsum = d3.svg.arc()
+    .outerRadius(radius_medsum)
     .innerRadius(0);
 
-var pie = d3.layout.pie()
+var pie_medsum = d3.layout.pie()
     .value(function(d) { return d.total; });
 
 function sum(data){
@@ -214,81 +227,85 @@ function sum(data){
 
 var val = '';
 
-var canvas2 = d3.select("#medsum");
+var canvas_medsum = d3.select("#medsum");
 
 d3.json("http://128.199.81.117:8274/api/v1/mediashare/summary", function(error, data) {
   data = data.result
-  color2.domain(d3.keys(data[0]["media"]));
+  color_medsum.domain(d3.keys(data[0]["media"]));
   // console.log(color.domain());
   data.forEach(function(d) {
     //console.log(d);
-    d.total = color2.domain().map(function(name) {
+    d.total = color_medsum.domain().map(function(name) {
       return {name: name, total: d["media"][name]};
     });
   });
 
-  var legend = canvas2.append("svg")
+  var legend = canvas_medsum.append("svg")
       .attr("class", "legend")
-      .attr("width", radius * 2)
-      .attr("height", radius * 2)
+      .attr("width", radius_medsum * 2)
+      .attr("height", radius_medsum * 2)
     .selectAll("g")
-      .data(color2.domain().slice().reverse())
+      .data(color_medsum.domain().slice().reverse())
     .enter().append("g")
       .attr("transform", function(d, i) { return "translate(40," + (i * 25) + ")"; });
 
   legend.append("rect")
       .attr("width", 18)
       .attr("height", 18)
-      .style("fill", color);
+      .style("fill", color_medsum);
 
   legend.append("text")
       .attr("x", 24)
       .attr("y", 9)
       .attr("dy", ".35em")
+      .style("font-size","13px")
       .text(function(d) { console.log(d);return d+" ("+data[0]["media"][d]+")"; });
 
-  var svg = canvas2.selectAll(".pie")
+  var svg = canvas_medsum.selectAll(".pie")
       .data(data)
     .enter().append("svg")
       .attr("class", "pie")
-      .attr("width", radius * 2)
-      .attr("height", radius * 2)
+      .attr("width", radius_medsum * 2)
+      .attr("height", radius_medsum * 2)
     .append("g")
-      .attr("transform", "translate(" + radius + "," + radius + ")");
+      .attr("transform", "translate(" + radius_medsum + "," + radius_medsum + ")");
 
   svg.selectAll(".arc")
-      .data(function(d) { return pie(d.total); })
+      .data(function(d) { return pie_medsum(d.total); })
     .enter().append("path")
       .attr("class", "arc")
-      .attr("d", arc)
-      .style("fill", function(d) { return color2(d.data.name); });
+      .attr("d", arc_medsum)
+      .style("fill", function(d) { return color_medsum(d.data.name); });
 
   svg.append("text")
       .attr("dy", ".35em")
-      .style("text-anchor", "middle")
-      .text(function(d) { return "Media Summary"; });
+      .style("text-anchor", "middle");
+      // .text(function(d) { return "Media Summary"; });
 
-  var gg = canvas2.selectAll(".pie")
-        .data(pie(data))
+  var gg = canvas_medsum.selectAll(".pie")
+        .data(pie_medsum(data))
         .enter().append("g")
         .attr("class", "val");
 
   val = data[0].media;
-  percent = color2.domain();
+  percent = color_medsum.domain();
   var i = 0;
   var tot = sum(data);
   percent.forEach(function(e){
     // console.log(e);
     svg.append("text")
       .attr("transform", function(d) {
-        //console.log(arc.centroid(pie(d.total)[i]));
-        return "translate(" + arc.centroid(pie(d.total)[i]) + ")";
+        // console.log(d);
+        // console.log((d.total)[i]);
+        // console.log(pie(d.total)[i]);
+        // console.log("---");
+        return "translate(" + arc_medsum.centroid(pie_medsum(d.total)[i]) + ")";
       })
       .attr("dy", ".35em")
       .style("text-anchor", "middle")
       .style("font-size","13px")
-      .text(function(d) { return Math.floor((d.media[e]/tot)*100000)/1000+"%"; })
-      .style("opacity","0");
+      // .text(function(d) { return Math.floor((d.media[e]/tot)*100000)/1000+"%"; })
+      .style("opacity","1");
       i +=1;
   });
   // console.log(color.domain());
@@ -307,5 +324,120 @@ d3.json("http://128.199.81.117:8274/api/v1/mediashare/summary", function(error, 
 // End media summary
 
 // Start key opinion leader
+var width_kop = $(window).width()/2 -100,
+    height_kop = 300,
+    radius_kop = Math.min(width_kop, height_kop) / 2.8,
+    padding_kop = 10;
+
+// var color = d3.scale.ordinal()
+  // .range(["#F44336", "#FF9800", "#4FC3F7", "#3F51B5", "#009688", "#00E676", "#FFEB3B","#FF5722","#76FF03","#F50057"]);
+
+var percentageFormat_kop = d3.format("%");
+
+var arc_kop = d3.svg.arc()
+    .outerRadius(radius_kop)
+    .innerRadius(0);
+
+var pie_kop = d3.layout.pie()
+    .value(function(d) { return d.total; });
+
+
+var val = '';
+
+d3.json("http://128.199.81.117:8274/api/v1/keyopinionleader", function(error, data) {
+
+  function sum(d){
+    res = 0;
+    console.log(d);
+    Object.keys(d[0].people).forEach(function(e){res += d[0].people[e]});
+    return res;  
+  }
+
+  data = data.result
+  //console.log(data);
+  color.domain(d3.keys(data[0]["people"]));
+  // console.log(color.domain());
+  data.forEach(function(d) {
+    //console.log(d);
+    d.total = color.domain().map(function(name) {
+      return {name: name, total: d["people"][name]};
+    });
+  });
+
+  var canvas3 = d3.select("#keyop");
+
+  var legend = canvas3.append("svg")
+      .attr("class", "legend")
+      .attr("width", radius_kop * 2 )
+      .attr("height", radius_kop * 2)
+      .selectAll("g")
+      .data(color.domain().slice().reverse())
+      .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(0," + i * 25 + ")"; });
+
+  legend.append("rect")
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("font-size","13px")
+      .text(function(d) { console.log(d);return d+" ("+data[0]["people"][d]+")"; });
+
+  var svg = canvas3.selectAll(".pie")
+      .data(data)
+    .enter().append("svg")
+      .attr("class", "pie")
+      .attr("width", radius_kop * 2)
+      .attr("height", radius_kop * 2)
+    .append("g")
+      .attr("transform", "translate(" + radius_kop + "," + radius_kop + ")");
+
+  svg.selectAll(".arc")
+      .data(function(d) { return pie_kop(d.total); })
+    .enter().append("path")
+      .attr("class", "arc")
+      .attr("d", arc_kop)
+      .style("fill", function(d) { return color(d.data.name); });
+
+  var gg = canvas3.selectAll(".pie")
+        .data(pie_kop(data))
+        .enter().append("g")
+        .attr("class", "val");
+
+  val = data[0].people;
+  percent = color.domain();
+  var i = 0;
+  var tot = sum(data);
+  console.log(tot);
+  percent.forEach(function(e){
+    // console.log(e);
+    svg.append("text")
+      .attr("transform", function(d) {
+        //console.log(arc.centroid(pie(d.total)[i]));
+        return "translate(" + arc_kop.centroid(pie_kop(d.total)[i]) + ")";
+      })
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .style("font-size","13px")
+      .style("opacity","0")
+      .text(function(d) { return Math.floor((d.people[e]/tot)*100000)/1000+"%"; });
+      i +=1;
+  });
+  // console.log(color.domain());
+
+})
+.header("Content-Type","application/json")
+.send("POST",JSON.stringify({
+  media:[],
+  name: ["jokowi","prabowo","samad","sby","megawati","habibie","paloh"],
+  keyword: "presiden",
+  begin: "2014-04-01 01:00:00",
+  end: "2015-04-04 01:00:00"
+}));
+
 
 // End key opinion leader

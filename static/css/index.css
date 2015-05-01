@@ -20,7 +20,7 @@ ul li {
 }
 
 ul li:hover {
-	background: #448AFF;
+	background: #EF9A9A;
 }
 
 ul li div{
@@ -105,11 +105,11 @@ p{
 }
 
 #search .body #button input[type="submit"]{
-	background: #2979FF;
+	background: #F44336;
 	height: 40px;
 	color:white;
 	cursor: pointer;
-	border : 1px solid #2979FF;
+	border : 1px solid #F44336;
 }
 
 #result {
@@ -121,14 +121,27 @@ p{
 	width: 100%;
 }
 
+#result #medsum {
+	border-right:15px solid #f1f1f1; 
+}
+
+#result #keyop {
+	width: 48%!important;
+}
+
 #result .double {
-	margin-top: 10px;
 	width: 100%;
 }
 
 #result .double > div {
-	width: 50%;
+	width: 40%;
 	float:left;
 }
 
-
+#footer {
+	clear: both;
+	text-align: center;
+	background: #f1f1f1;
+	border-top:15px solid #f1f1f1;
+	margin-top: 10px;
+}

@@ -54,7 +54,8 @@ table {
 }
 
 header {
-	background: #2979FF;
+	background: #F44336;
+	/*background: #2979FF;*/
 	/*background: #303F9F;*/
 	height: 50px;
 	vertical-align: middle;

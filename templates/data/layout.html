@@ -66,18 +66,28 @@
     <div id="result">
         {%-if var == "index" %}
             <div id="medshare">
-                <button>Mediashare</button>
+                <h1>Mediashare</h1>
             </div>
+            <br>
             <div class="double">
                 <div id="medsum">
-                    <button>Media summary</button>
+                    <h1>Media summary</h1>
+                    <br>
                 </div>
                 <div id="keyop">
-                    Key Opinion Leader
+                    <h1>Key Opinion Leader</h1>
+                    <br>
                 </div>
             </div>
         {%-endif %}
     </div>
+
+    {%-if var == "index" %}
+    <div id="footer">
+        <img src="{{ url_for('static', filename='img/logo.png') }}"><br>
+        Backed from Langgar.co
+    </div>
+    {%-endif%}
 
 </body>
     <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
