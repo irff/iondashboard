@@ -121,16 +121,24 @@ p{
 	width: 100%;
 }
 
+#result #word {
+	clear: both;
+	width: 100%;
+	border-top:15px solid #f1f1f1;
+}
+
 #result #medsum {
 	border-right:15px solid #f1f1f1; 
 }
 
 #result #keyop {
-	width: 48%!important;
+	width: 50%!important;
+	padding-bottom: 8px;
 }
 
 #result .double {
 	width: 100%;
+	text-align: center;
 }
 
 #result .double > div {

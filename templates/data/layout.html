@@ -38,10 +38,13 @@
             <li><div><a href="/data/keyopinionleader">Key Opinion Leader</a></div></li>
         </ul>
     </header>
-    <!-- <div class="content">
-        {% block content %}
-        {% endblock %}
-    </div> -->
+
+    {%-if var != "index" %}
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    {%-endif%}
 
     {%-if var == "index" %}
         <div id="search">
@@ -65,19 +68,23 @@
     {%-endif %}
     <div id="result">
         {%-if var == "index" %}
-            <div id="medshare">
+            <div id="medshare" class="lazy">
                 <h1>Mediashare</h1>
             </div>
             <br>
             <div class="double">
-                <div id="medsum">
+                <div id="medsum" class="lazy">
                     <h1>Media summary</h1>
                     <br>
                 </div>
-                <div id="keyop">
+                <div id="keyop" class="lazy">
                     <h1>Key Opinion Leader</h1>
                     <br>
                 </div>
+            </div>
+            <br style="clear:both;">
+            <div id="word" class="lazy">
+                <h1>Word Frequency</h1>
             </div>
         {%-endif %}
     </div>
@@ -93,6 +100,7 @@
     <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
     {%-if var == "index" %}
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/load.js') }}"></script>
     <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     {%-endif %}
