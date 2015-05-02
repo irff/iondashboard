@@ -12,12 +12,33 @@ $("datepicker").datepicker({
     }
 })
 
+var click_status;
 
+d3_zindex();
 load_media_share();
 load_media_summary();
 load_key_opinion_leader();
 load_word_frequency();
 
+
+function d3_zindex(){
+  // set SVG element to the highest layer on SVG
+  d3.selection.prototype.moveToFront = function() {
+    return this.each(function(){
+      this.parentNode.appendChild(this);
+    });
+  };
+
+  // set SVG element to its normal layer on SVG
+  d3.selection.prototype.moveToBack = function() { 
+      return this.each(function() { 
+          var firstChild = this.parentNode.firstChild; 
+          if (firstChild) { 
+              this.parentNode.insertBefore(this, firstChild); 
+          } 
+      }); 
+  };
+}
 
 // Start media share
 // Customized from http://bl.ocks.org/mbostock/3884955
@@ -57,24 +78,6 @@ function load_media_share(){
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-  // set SVG element to the highest layer on SVG
-  d3.selection.prototype.moveToFront = function() {
-    return this.each(function(){
-      this.parentNode.appendChild(this);
-    });
-  };
-
-  // set SVG element to its normal layer on SVG
-  d3.selection.prototype.moveToBack = function() { 
-      return this.each(function() { 
-          var firstChild = this.parentNode.firstChild; 
-          if (firstChild) { 
-              this.parentNode.insertBefore(this, firstChild); 
-          } 
-      }); 
-  };
 
   //Change the path to url for production use
   d3.json("http://128.199.81.117:8274/api/v1/mediashare", function(error, data) {
@@ -127,9 +130,31 @@ function load_media_share(){
     .attr("height", 50)
     .selectAll("g")
     .style("text-align","center")
+    .style("cursor","pointer")
     .data(color.domain().slice().reverse())
     .enter().append("g")
-    .attr("transform", function(d, i) { console.log("hehe "+d);return "translate("+((i*150)+100)+",20)"; });
+    .attr("transform", function(d, i) { return "translate("+((i*150)+100)+",20)"; })
+    .on("click",function(d){
+      var clicked = d3.select(this);
+
+      //get element status from its attribute
+      click_status = d3.select("#"+d.replace(/[.]/g,"-")).attr("clicked");
+
+      //set active status
+      var active = click_status == "true" ? false : true;
+
+      //set display value according to element status
+      this_opacity_val = active ? 0 : 1;
+      other_opacity_val = active ? 1 : 0;
+
+      //update dipslay according to element status
+      d3.select("#"+d.replace(/[.]/g,"-")).style("opacity",this_opacity_val);
+      d3.selectAll("."+d.replace(/[.]/g,"-")+"-dots").style("opacity",this_opacity_val);
+      d3.selectAll("."+d.replace(/[.]/g,"-")+"-tips").style("display",function(){return active ? "none":"inline";});
+      d.active = active;
+      d3.select("#"+d.replace(/[.]/g,"-")).attr("clicked",active);
+
+    });
 
     legend.append("rect")
         .attr("width", 18)
@@ -146,7 +171,9 @@ function load_media_share(){
     var media = svg.selectAll(".media")
         .data(medias)
         .enter().append("g")
-        .attr("class", "media");
+        .attr("class", "media")
+        .attr("clicked","false")
+        .attr("id",function(d){return d.name.replace(/[.]/g,"-");});
 
     media.append("path")
         .attr("class", "line")
@@ -163,7 +190,6 @@ function load_media_share(){
 
 
     med_list.forEach(function(e){
-      console.log(data);
       var dots = d3.svg.line()
         .interpolate("cardinal")
         .x(function(d) { return x(d["date"]); })
@@ -172,12 +198,12 @@ function load_media_share(){
       var tip = d3.svg.line()
         .interpolate("cardinal")
         .x(function(d) { return x(d["date"]) - 30; })
-        .y(function(d) { return y(d["media"][e]) - 10; });
+        .y(function(d) { return y(d["media"][e]) - 20; });
 
       var teks = d3.svg.line()
         .interpolate("cardinal")
         .x(function(d) { return x(d["date"])-35; })
-        .y(function(d) { return y(d["media"][e]) - 5; });
+        .y(function(d) { return y(d["media"][e]) - 15; });
 
       cls = ".dot"+e
       svg.selectAll(cls)
@@ -188,20 +214,22 @@ function load_media_share(){
         .attr("total",function(d){return d["media"][e];})
         .attr("cx", dots.x())
         .attr("cy", dots.y())
+        .attr("class",function(d){return e.replace(/[.]/g,"-")+"-dots";})
         .attr("r", 4)
 
       var node = svg.selectAll(cls)
         .data(data)
         .enter().append("g")
         .attr("transform", function(d, i) { return "scale(1,1)"; })
+        .attr("class",e.replace(/[.]/g,"-")+"-tips g-tips")
         .style("opacity","0")
         .on("mouseover",function(){
           var selected_dot = d3.select(this);
-          selected_dot.moveToFront().transition().duration(100).style({opacity:'1'}).style({cursor:'pointer'})
+          selected_dot.transition().duration(100).style({opacity:'1'}).style({cursor:'pointer'})
         })
         .on("mouseout",function(){
           var selected_dot = d3.select(this);
-          selected_dot.moveToBack().transition().duration(40).style({opacity:'0'});
+          selected_dot.transition().duration(40).style({opacity:'0'});
         })
 
       node.append("rect")
@@ -227,7 +255,7 @@ function load_media_share(){
   })
   .header("Content-Type","application/json")
   .send("POST",JSON.stringify({
-    media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com"],
+    media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com","kontan"],
     keyword: "jokowi",
     begin: "2015-01-01 01:00:00",
     end: "2015-04-04 01:00:00"
@@ -281,9 +309,9 @@ function load_media_summary(){
         .attr("class", "legend")
         .attr("width", radius_medsum * 2)
         .attr("height", radius_medsum * 2)
-      .selectAll("g")
+        .selectAll("g")
         .data(color_medsum.domain().slice().reverse())
-      .enter().append("g")
+        .enter().append("g")
         .attr("transform", function(d, i) { return "translate(40," + (i * 25) + ")"; });
 
     legend.append("rect")
@@ -296,20 +324,20 @@ function load_media_summary(){
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("font-size","13px")
-        .text(function(d) { console.log(d);return d+" ("+data[0]["media"][d]+")"; });
+        .text(function(d) { return d+" ("+data[0]["media"][d]+")"; });
 
     var svg = canvas_medsum.selectAll(".pie")
         .data(data)
-      .enter().append("svg")
+        .enter().append("svg")
         .attr("class", "pie")
         .attr("width", radius_medsum * 2)
         .attr("height", radius_medsum * 2)
-      .append("g")
+        .append("g")
         .attr("transform", "translate(" + radius_medsum + "," + radius_medsum + ")");
 
     svg.selectAll(".arc")
         .data(function(d) { return pie_medsum(d.total); })
-      .enter().append("path")
+        .enter().append("path")
         .attr("class", "arc")
         .attr("d", arc_medsum)
         .style("fill", function(d) { return color_medsum(d.data.name); });
@@ -332,10 +360,6 @@ function load_media_summary(){
       // console.log(e);
       svg.append("text")
         .attr("transform", function(d) {
-          // console.log(d);
-          // console.log((d.total)[i]);
-          // console.log(pie(d.total)[i]);
-          // console.log("---");
           return "translate(" + arc_medsum.centroid(pie_medsum(d.total)[i]) + ")";
         })
         .attr("dy", ".35em")
@@ -384,7 +408,6 @@ function load_key_opinion_leader(){
 
     function sum(d){
       res = 0;
-      console.log(d);
       Object.keys(d[0].people).forEach(function(e){res += d[0].people[e]});
       return res;  
     }
@@ -421,20 +444,20 @@ function load_key_opinion_leader(){
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("font-size","13px")
-        .text(function(d) { console.log(d);return d+" ("+data[0]["people"][d]+")"; });
+        .text(function(d) { return d+" ("+data[0]["people"][d]+")"; });
 
     var svg = canvas3.selectAll(".pie")
         .data(data)
-      .enter().append("svg")
+        .enter().append("svg")
         .attr("class", "pie")
         .attr("width", radius_kop * 2)
         .attr("height", radius_kop * 2)
-      .append("g")
+        .append("g")
         .attr("transform", "translate(" + radius_kop + "," + radius_kop + ")");
 
     svg.selectAll(".arc")
         .data(function(d) { return pie_kop(d.total); })
-      .enter().append("path")
+        .enter().append("path")
         .attr("class", "arc")
         .attr("d", arc_kop)
         .style("fill", function(d) { return color(d.data.name); });
@@ -448,7 +471,6 @@ function load_key_opinion_leader(){
     percent = color.domain();
     var i = 0;
     var tot = sum(data);
-    console.log(tot);
     percent.forEach(function(e){
       // console.log(e);
       svg.append("text")
@@ -480,7 +502,7 @@ function load_key_opinion_leader(){
 // Start word frequency
 function load_word_frequency(){
   var margin = {top: 20, right: 20, bottom: 50, left: 50},
-    width = $(window).width() - margin.left - margin.right,
+    width = $(window).width() - margin.left - margin.right - 150,
     height = 300 - margin.top - margin.bottom;
 
   var x = d3.scale.ordinal()
