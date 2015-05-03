@@ -14,12 +14,29 @@ $("datepicker").datepicker({
 
 var click_status;
 
+function get_url_param(){
+  var _GET = {},
+    args = location.search.substr(1).split(/&/);
+  for (var i=0; i<args.length; ++i) {
+      var tmp = args[i].split(/=/);
+      if (tmp[0] != "") {
+          _GET[decodeURIComponent(tmp[0])] = decodeURIComponent(tmp.slice(1).join("").replace("+", " "));
+      }
+  }
+  return _GET;
+}
+
+console.log(get_url_param());
 d3_zindex();
 load_media_share();
 load_media_summary();
 load_key_opinion_leader();
 load_word_frequency();
 
+
+function load_data(){
+
+}
 
 function d3_zindex(){
   // set SVG element to the highest layer on SVG
@@ -49,6 +66,9 @@ function load_media_share(){
     parseDate = d3.time.format("%Y-%m-%d").parse;
 
   var canvas = d3.select("#medshare");
+  canvas.style("background-image","url(/static/img/loader.gif)");
+  canvas.style("background-repeat","no-repeat");
+  canvas.style("background-position","center center");
 
   var x = d3.time.scale()
       .range([0, width]);
@@ -81,7 +101,9 @@ function load_media_share(){
 
   //Change the path to url for production use
   d3.json("http://128.199.81.117:8274/api/v1/mediashare", function(error, data) {
+  //d3.json("http://127.0.0.1:8274/api/v1/mediashare", function(error, data) {
     //console.log(data.result)
+    canvas.attr("style","");
     data = data.result
     color.domain(d3.keys(data[0]["media"]));
     med_list = color.domain();
@@ -148,9 +170,9 @@ function load_media_share(){
       other_opacity_val = active ? 1 : 0;
 
       //update dipslay according to element status
-      d3.select("#"+d.replace(/[.]/g,"-")).style("opacity",this_opacity_val);
-      d3.selectAll("."+d.replace(/[.]/g,"-")+"-dots").style("opacity",this_opacity_val);
-      d3.selectAll("."+d.replace(/[.]/g,"-")+"-tips").style("display",function(){return active ? "none":"inline";});
+      d3.select("#"+d.replace(/[.]/g,"-")).transition().duration(250).style("opacity",this_opacity_val);
+      d3.selectAll("."+d.replace(/[.]/g,"-")+"-dots").transition().duration(250).style("opacity",this_opacity_val);
+      d3.selectAll("."+d.replace(/[.]/g,"-")+"-tips").transition().duration(250).style("display",function(){return active ? "none":"inline";});
       d.active = active;
       d3.select("#"+d.replace(/[.]/g,"-")).attr("clicked",active);
 
@@ -266,7 +288,7 @@ function load_media_share(){
 
 // Start media summary
 function load_media_summary(){
-  var width_medsum = $(window).width()/2,
+  var width_medsum = $(window).width()/2.5,
     height_medsum = 300,
     radius_medsum = Math.min(width_medsum, height_medsum) / 2.7,
     padding_medsum = 0;
@@ -292,9 +314,17 @@ function load_media_summary(){
 
   var val = '';
 
-  var canvas_medsum = d3.select("#medsum");
+  var canvas_medsum = d3.select("#medsum").append("svg")
+      .attr("width", width_medsum)
+      .attr("height", height_medsum);
+  
+  canvas_medsum.style("background-image","url(/static/img/loader.gif)");
+  canvas_medsum.style("background-repeat","no-repeat");
+  canvas_medsum.style("background-position","center center");
 
   d3.json("http://128.199.81.117:8274/api/v1/mediashare/summary", function(error, data) {
+  //d3.json("http://127.0.0.1:8274/api/v1/mediashare", function(error, data) {
+    canvas_medsum.attr("style","");
     data = data.result
     color_medsum.domain(d3.keys(data[0]["media"]));
     // console.log(color.domain());
@@ -384,8 +414,8 @@ function load_media_summary(){
 
 // Start key opinion leader
 function load_key_opinion_leader(){
-  var width_kop = $(window).width()/2 -100,
-    height_kop = 300,
+  var width_kop = $(window).width() - ($(window).width()/2.5) - 15,
+    height_kop = 300 - 5,
     radius_kop = Math.min(width_kop, height_kop) / 2.8,
     padding_kop = 10;
 
@@ -403,15 +433,21 @@ function load_key_opinion_leader(){
 
 
   var val = '';
+  var canvas3 = d3.select("#keyop").append("svg")
+      .attr("width",width_kop)
+      .attr("height",height_kop);
+  canvas3.style("background-image","url(/static/img/loader.gif)");
+  canvas3.style("background-repeat","no-repeat");
+  canvas3.style("background-position","center center");
 
   d3.json("http://128.199.81.117:8274/api/v1/keyopinionleader", function(error, data) {
-
+  //d3.json("http://127.0.0.1:8274/api/v1/mediashare", function(error, data) {
     function sum(d){
       res = 0;
       Object.keys(d[0].people).forEach(function(e){res += d[0].people[e]});
       return res;  
     }
-
+    canvas3.attr("style","");
     data = data.result
     //console.log(data);
     color.domain(d3.keys(data[0]["people"]));
@@ -423,7 +459,7 @@ function load_key_opinion_leader(){
       });
     });
 
-    var canvas3 = d3.select("#keyop");
+    
 
     var legend = canvas3.append("svg")
         .attr("class", "legend")
