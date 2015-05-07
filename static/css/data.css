@@ -4,9 +4,8 @@
 
 #result {
   font-size: 12px ;
-  position: absolute;
-  left:50%;
-  margin-left: -480px;
+  position: relative;
+  text-align: center;
 }
 
 #right {

@@ -7,13 +7,16 @@ load_media_share();
 // Start media share
 // Customized from http://bl.ocks.org/mbostock/3884955
 function load_media_share(){
-  console.log(localStorage.getItem("medshare_data"));
+  // console.log(localStorage.getItem("medshare_data"));
   var margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = 1000 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom,
+    height = 300 - margin.top - margin.bottom,
     parseDate = d3.time.format("%Y-%m-%d").parse;
 
   var canvas = d3.select("#result");
+  canvas.style("background-image","url(/static/img/loader.gif)");
+  canvas.style("background-repeat","no-repeat");
+  canvas.style("background-position","center center");
 
   var x = d3.time.scale()
       .range([0, width]);
@@ -32,7 +35,6 @@ function load_media_share(){
       .orient("left");
 
   var line = d3.svg.line()
-      .interpolate("cardinal")
       .x(function(d) { return x(d["date"]); })
       .y(function(d) { return y(d["total"]); });
 
@@ -48,6 +50,7 @@ function load_media_share(){
   d3.json("http://128.199.81.117:8274/api/v1/mediashare", function(error, data) {
     //console.log(data.result)
     //data = d3.nest().key(function(d){return String(d.date).substr(0,7)}).entries(data.result);
+    canvas.attr("style","");
     data = data.result;
     data_murah = data
     // console.log(data);
