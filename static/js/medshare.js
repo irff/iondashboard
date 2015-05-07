@@ -7,6 +7,7 @@ load_media_share();
 // Start media share
 // Customized from http://bl.ocks.org/mbostock/3884955
 function load_media_share(){
+  console.log(localStorage.getItem("medshare_data"));
   var margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = 1000 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom,
@@ -226,5 +227,5 @@ function load_media_share(){
     })
   })
   .header("Content-Type","application/json")
-  .send("POST",sessionStorage.getItem("medshare_data"));
+  .send("POST",localStorage.getItem("medshare_data"));
 }

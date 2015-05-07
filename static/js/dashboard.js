@@ -10,18 +10,20 @@ $("datepicker").datepicker({
     }
 })
 
-check_session();
+window.onload = check_local();
 
-function check_session(){
-  if (sessionStorage.getItem("medshare_data") && sessionStorage.getItem("kol_data") && sessionStorage.getItem("medsum_data")){
+function check_local(){
+  if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data")){
     $('#result').show();
-    medshare_data = sessionStorage.getItem("medshare_data");
-    kol_data = sessionStorage.getItem("kol_data");
-    medsum_data = sessionStorage.getItem("medsum_data");
-    wordfreq_data = sessionStorage.getItem("wordfreq_data");
-    console.log(medshare_data);
-    console.log(kol_data);
-    console.log(medsum_data);
+    medshare_data = localStorage.getItem("medshare_data");
+    kol_data = localStorage.getItem("kol_data");
+    medsum_data = localStorage.getItem("medsum_data");
+    wordfreq_data = localStorage.getItem("wordfreq_data");
+  
+    document.search["keyword"].value = localStorage.getItem("keyword");    
+    document.search["date_start"].value = localStorage.getItem("begin");
+    document.search["date_end"].value = localStorage.getItem("end");
+
     d3_zindex();
     load_media_share();
     load_media_summary();
@@ -30,7 +32,6 @@ function check_session(){
   } else {
     $("#result").hide();
   }
-
 }
 
 var click_status;
@@ -44,6 +45,10 @@ function save_session(data){
   var start = document.search["date_start"].value;
   var end = document.search["date_end"].value;
 
+  localStorage.setItem("keyword",keyword);
+  localStorage.setItem("begin",start);
+  localStorage.setItem("end",end);
+
   if (!keyword || !start || !end){
     return false;
   }
@@ -55,7 +60,7 @@ function save_session(data){
     end: end+" 01:00:00"
   });
 
-  sessionStorage.setItem("medshare_data",tmp_data);
+  localStorage.setItem("medshare_data",tmp_data);
 
   tmp_data = JSON.stringify({
     media:[],
@@ -65,7 +70,7 @@ function save_session(data){
     end: end+" 01:00:00"
   });
 
-  sessionStorage.setItem("kol_data",tmp_data);
+  localStorage.setItem("kol_data",tmp_data);
 
   tmp_data = JSON.stringify({
     media:[],
@@ -74,7 +79,7 @@ function save_session(data){
     end: end+" 01:00:00"
   });
 
-  sessionStorage.setItem("medsum_data",tmp_data);
+  localStorage.setItem("medsum_data",tmp_data);
 
   tmp_data = JSON.stringify({
     media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com","kontan","kompas.com"],
@@ -84,7 +89,7 @@ function save_session(data){
     end: end+" 01:00:00"
   });
 
-  sessionStorage.setItem("wordfreq_data",tmp_data);
+  localStorage.setItem("wordfreq_data",tmp_data);
 
   window.location.reload();
   return true;
