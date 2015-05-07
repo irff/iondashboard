@@ -104,7 +104,7 @@ p{
 	text-align:center;
 }
 
-#search .body #button input[type="submit"]{
+#search .body #button input[type="button"]{
 	background: #F44336;
 	height: 40px;
 	color:white;
@@ -129,12 +129,15 @@ p{
 
 #result #medsum {
 	border-right:15px solid #f1f1f1; 
+	height: 300px;
 }
 
 #result #keyop {
 	width: 58.89%!important;
 	padding-bottom: 8px;
+	height: 300px;
 }
+
 
 #result .double {
 	width: 100%;

@@ -106,7 +106,7 @@ d3.json("http://128.199.81.117:8274/api/v1/mediashare/summary", function(error, 
       .on("mouseout",function(){
         selected_dot = d3.select(this);
         selected_dot.style({opacity:'1'});
-        selected_dot.select("g").moveToBack().transition().duration(40).style({opacity:'0'});
+        selected_dot.select("g").transition().duration(40).style({opacity:'0'});
       });
 
     pp.append("path")

@@ -1,9 +1,7 @@
-//lazy load
-$(function() {
-    $("#medshare").unveil(300);
-    $("#medsum").unveil(300);
-    $("#keyop").unveil(300);
-});
+var medshare_data;
+var medsum_data;
+var kol_data;
+var wordfreq_data;
 
 // Script for date
 $("datepicker").datepicker({
@@ -12,7 +10,86 @@ $("datepicker").datepicker({
     }
 })
 
+check_session();
+
+function check_session(){
+  if (sessionStorage.getItem("medshare_data") && sessionStorage.getItem("kol_data") && sessionStorage.getItem("medsum_data")){
+    $('#result').show();
+    medshare_data = sessionStorage.getItem("medshare_data");
+    kol_data = sessionStorage.getItem("kol_data");
+    medsum_data = sessionStorage.getItem("medsum_data");
+    wordfreq_data = sessionStorage.getItem("wordfreq_data");
+    console.log(medshare_data);
+    console.log(kol_data);
+    console.log(medsum_data);
+    d3_zindex();
+    load_media_share();
+    load_media_summary();
+    load_key_opinion_leader();
+    load_word_frequency();
+  } else {
+    $("#result").hide();
+  }
+
+}
+
 var click_status;
+
+function get_data(data){
+  console.log(data);  
+}
+
+function save_session(data){
+  var keyword = document.search["keyword"].value;
+  var start = document.search["date_start"].value;
+  var end = document.search["date_end"].value;
+
+  if (!keyword || !start || !end){
+    return false;
+  }
+
+  var tmp_data = JSON.stringify({
+    media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com","kontan","kompas.com"],
+    keyword: keyword,
+    begin: start+" 01:00:00",
+    end: end+" 01:00:00"
+  });
+
+  sessionStorage.setItem("medshare_data",tmp_data);
+
+  tmp_data = JSON.stringify({
+    media:[],
+    name: ["jokowi","prabowo","samad","sby","megawati","habibie","paloh"],
+    keyword: keyword,
+    begin: start+" 01:00:00",
+    end: end+" 01:00:00"
+  });
+
+  sessionStorage.setItem("kol_data",tmp_data);
+
+  tmp_data = JSON.stringify({
+    media:[],
+    keyword: keyword,
+    begin: start+" 01:00:00",
+    end: end+" 01:00:00"
+  });
+
+  sessionStorage.setItem("medsum_data",tmp_data);
+
+  tmp_data = JSON.stringify({
+    media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com","kontan","kompas.com"],
+    keyword: keyword,
+    limit:20,
+    begin: start+" 01:00:00",
+    end: end+" 01:00:00"
+  });
+
+  sessionStorage.setItem("wordfreq_data",tmp_data);
+
+  window.location.reload();
+  return true;
+}
+
 
 function get_url_param(){
   var _GET = {},
@@ -25,14 +102,6 @@ function get_url_param(){
   }
   return _GET;
 }
-
-console.log(get_url_param());
-d3_zindex();
-load_media_share();
-load_media_summary();
-load_key_opinion_leader();
-load_word_frequency();
-
 
 function load_data(){
 
@@ -276,12 +345,7 @@ function load_media_share(){
     })
   })
   .header("Content-Type","application/json")
-  .send("POST",JSON.stringify({
-    media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com","kontan"],
-    keyword: "jokowi",
-    begin: "2015-01-01 01:00:00",
-    end: "2015-04-04 01:00:00"
-  }));
+  .send("POST",medshare_data);
 }
 // End media share
 
@@ -314,7 +378,7 @@ function load_media_summary(){
 
   var val = '';
 
-  var canvas_medsum = d3.select("#medsum").append("svg")
+  var canvas_medsum = d3.select("#medsum")
       .attr("width", width_medsum)
       .attr("height", height_medsum);
   
@@ -403,12 +467,7 @@ function load_media_summary(){
 
   })
   .header("Content-Type","application/json")
-  .send("POST",JSON.stringify({
-    media:[],
-    keyword: "jokowi",
-    begin: "2015-01-01 01:00:00",
-    end: "2015-04-04 01:00:00"
-  }));
+  .send("POST",medsum_data);
 }
 // End media summary
 
@@ -433,7 +492,7 @@ function load_key_opinion_leader(){
 
 
   var val = '';
-  var canvas3 = d3.select("#keyop").append("svg")
+  var canvas3 = d3.select("#keyop")
       .attr("width",width_kop)
       .attr("height",height_kop);
   canvas3.style("background-image","url(/static/img/loader.gif)");
@@ -525,13 +584,7 @@ function load_key_opinion_leader(){
 
   })
   .header("Content-Type","application/json")
-  .send("POST",JSON.stringify({
-    media:[],
-    name: ["jokowi","prabowo","samad","sby","megawati","habibie","paloh"],
-    keyword: "presiden",
-    begin: "2014-04-01 01:00:00",
-    end: "2015-04-04 01:00:00"
-  }));
+  .send("POST",kol_data);
 }
 // End key opinion leader
 
@@ -554,6 +607,11 @@ function load_word_frequency(){
   var yAxis = d3.svg.axis()
       .scale(y)
       .orient("left")
+
+  var canvas = d3.select("#word");
+  canvas.style("background-image","url(/static/img/loader.gif)");
+  canvas.style("background-repeat","no-repeat");
+  canvas.style("background-position","center center");
 
   var svg = d3.select("#word").append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -581,8 +639,10 @@ function load_word_frequency(){
 
   var selected;
 
-  d3.json("../../static/js/words.json", function(error, data) {
-    data = data.result[0].media;
+  d3.json("http://128.199.81.117:8274/api/v1/wordfrequencymanual", function(error, data) {
+
+    data = data.result[0].words;
+    canvas.attr("style","");
     //console.log(data);
     x.domain(d3.keys(data).map(function(d) { return d; }));
     y.domain([0, d3.max(d3.keys(data), function(d) { return data[d]; })]);
@@ -646,6 +706,8 @@ function load_word_frequency(){
         .attr("dy","-.35em")
         .text(function(d){return data[d];})
 
-  });
+  })
+  .header("Content-Type","application/json")
+  .send("POST",wordfreq_data);
 }
 // End word frequency

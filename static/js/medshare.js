@@ -1,3 +1,5 @@
+var data_murah;
+
 // Start media share
 // Customized from http://bl.ocks.org/mbostock/3884955
 load_media_share();
@@ -6,7 +8,7 @@ load_media_share();
 // Customized from http://bl.ocks.org/mbostock/3884955
 function load_media_share(){
   var margin = {top: 20, right: 80, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
+    width = 1000 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom,
     parseDate = d3.time.format("%Y-%m-%d").parse;
 
@@ -44,7 +46,15 @@ function load_media_share(){
   //Change the path to url for production use
   d3.json("http://128.199.81.117:8274/api/v1/mediashare", function(error, data) {
     //console.log(data.result)
-    data = data.result
+    //data = d3.nest().key(function(d){return String(d.date).substr(0,7)}).entries(data.result);
+    data = data.result;
+    data_murah = data
+    // console.log(data);
+    // data = d3.nest().key(function(d){return d.substring(0,7);}).rollup(function(d){
+    //   return d3.sum(d,function(d){
+
+    //   });
+    // });
     color.domain(d3.keys(data[0]["media"]));
     med_list = color.domain();
     //console.log(med_list)
@@ -216,10 +226,5 @@ function load_media_share(){
     })
   })
   .header("Content-Type","application/json")
-  .send("POST",JSON.stringify({
-    media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com","kontan"],
-    keyword: "jokowi",
-    begin: "2015-01-01 01:00:00",
-    end: "2015-04-04 01:00:00"
-  }));
+  .send("POST",sessionStorage.getItem("medshare_data"));
 }
