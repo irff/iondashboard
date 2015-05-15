@@ -12,24 +12,24 @@
 	height: 100%;
 }
 
-ul li {
+header ul li {
 	cursor: pointer;
 	padding: 0px 20px 0px 20px;
 	height: 100%;
 	display: inline-block;
 }
 
-ul li:hover {
+header ul li:hover {
 	background: #EF9A9A;
 }
 
-ul li div{
+header ul li div{
 	height: 100%;
 	display: inline-block;
 	line-height: 43px;
 }
 
-ul li div a {
+header ul li div a {
 	text-decoration: none;
 	color: white;
 	display: inline-block;
@@ -49,6 +49,51 @@ p{
 	width: 100%;
 	background: #f1f1f1;
 	border:1px solid #E5E5E5;
+}
+
+#media-list {
+	width: 100%;
+	background: #f1f1f1;
+	border:1px solid #E5E5E5;
+	padding:10px 30px 10px 30px;	
+}
+
+#media-list select {
+	width: 90%;
+	background: white;
+	border-radius: 0px!important;
+	outline:medium none!important;
+	border: 1px solid #e0e0e0;
+	padding:10px;
+	font-size: 14px;
+}
+
+#media-list select .select2-selection__choice {
+	font-size:14px;
+}
+
+#media-list .select2 .selection .select2-selection--multiple {
+	border-radius: 0!important;
+	outline:medium none!important;
+	border: 1px solid #e0e0e0!important;
+	padding:2px;
+}
+
+#media-list .select2 .selection .select2-selection--multiple:focus {
+	border-color:red;
+}
+
+#media-list .select2 .selection .select2-selection__choice{
+	border-radius: 0!important;
+	border : 0!important;
+	font-size: 14px;
+	padding: 4px;
+	background-color: #F44336;
+	color: white;
+}
+
+#media-list .select2-selection__choice__remove {
+	color : white;
 }
 
 #search form {

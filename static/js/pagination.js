@@ -19,7 +19,7 @@
 				displayedPages: 5,
 				edges: 2,
 				currentPage: 1,
-				hrefTextPrefix: '#page-',
+				hrefTextPrefix: '#',
 				hrefTextSuffix: '',
 				prevText: 'Prev',
 				nextText: 'Next',

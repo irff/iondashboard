@@ -3,6 +3,7 @@
     <title>Langgar Media Monitoring Dashboard</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/select2.css') }}">
     {%- if var != "index" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/data.css') }}">
     {%- endif %}
@@ -66,6 +67,11 @@
                 </form>
             </div>
         </div>
+        <div id="media-list">
+            <form name="media">
+                <select id="medlist" name="medlist" multiple="multiple" data-placeholder="Select your media"></select>
+            </form>
+        </div>
     {%-endif %}
     <div id="result">
         {%-if var == "index" %}
@@ -113,6 +119,7 @@
     <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
     {%-if var == "index" %}
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/select2.js') }}"></script>
     <script src="{{ url_for('static', filename='js/load.js') }}"></script>
     <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>

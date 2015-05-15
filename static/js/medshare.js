@@ -47,7 +47,7 @@ function load_media_share(){
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   //Change the path to url for production use
-  d3.json("http://128.199.81.117:8274/api/v1/mediashare", function(error, data) {
+  d3.json("http://128.199.120.29:8274/api/v1/mediashare", function(error, data) {
     //console.log(data.result)
     //data = d3.nest().key(function(d){return String(d.date).substr(0,7)}).entries(data.result);
     canvas.attr("style","");
@@ -99,6 +99,21 @@ function load_media_share(){
         .style("text-anchor", "end")
         .text("Total Articles");
 
+    var med_num = color.domain().slice().reverse();
+
+    function get_distance(d, padding){
+      console.log(d+" "+padding);
+      padding += 20;
+      var dist = 50;
+      var stop = med_num.indexOf(d);
+      for (var i=0;i<stop;++i){
+        dist += (med_num[i].split(".")[0].length*6);
+        dist += padding;
+      }
+      console.log(dist);
+      return dist;
+    }
+
     var legend = canvas.append("svg")
     // .attr("style","transform: translate(100px,-10px)")
     .attr("class", "legend")
@@ -107,28 +122,29 @@ function load_media_share(){
     .selectAll("g")
     .style("text-align","center")
     .style("cursor","pointer")
-    .data(color.domain().slice().reverse())
+    .data(med_num)
     .enter().append("g")
-    .attr("transform", function(d, i) { return "translate("+((i*150)+100)+",20)"; })
+    .attr("transform", function(d, i) { return "translate("+get_distance(d,20)+",20)"; })
     .on("click",function(d){
       var clicked = d3.select(this);
 
+      new_d = d.split(".").join("").split("/").join("");
       //get element status from its attribute
-      click_status = d3.select("#"+d.replace(/[.]/g,"-")).attr("clicked");
+      click_status = d3.select("#"+new_d).attr("clicked");
 
       //set active status
-      var active = click_status == "true" ? false : true;
+      var active = click_status == "true" ? false : true;s
 
       //set display value according to element status
       this_opacity_val = active ? 0 : 1;
       other_opacity_val = active ? 1 : 0;
 
       //update dipslay according to element status
-      d3.select("#"+d.replace(/[.]/g,"-")).style("opacity",this_opacity_val);
-      d3.selectAll("."+d.replace(/[.]/g,"-")+"-dots").style("opacity",this_opacity_val);
-      d3.selectAll("."+d.replace(/[.]/g,"-")+"-tips").style("display",function(){return active ? "none":"inline";});
+      d3.select("#"+new_d).style("opacity",this_opacity_val);
+      d3.selectAll("."+new_d+"-dots").style("opacity",this_opacity_val);
+      d3.selectAll("."+new_d+"-tips").style("display",function(){return active ? "none":"inline";});
       d.active = active;
-      d3.select("#"+d.replace(/[.]/g,"-")).attr("clicked",active);
+      d3.select("#"+new_d).attr("clicked",active);
 
     });
 
@@ -142,14 +158,14 @@ function load_media_share(){
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("font-size","13px")
-        .text(function(d) { return d; });
+        .text(function(d) { return d.split(".")[0]; });
 
     var media = svg.selectAll(".media")
         .data(medias)
         .enter().append("g")
         .attr("class", "media")
         .attr("clicked","false")
-        .attr("id",function(d){return d.name.replace(/[.]/g,"-");});
+        .attr("id",function(d){return d.name.split(".").join("").split("/").join("");});
 
     media.append("path")
         .attr("class", "line")
@@ -181,7 +197,7 @@ function load_media_share(){
         .x(function(d) { return x(d["date"])-35; })
         .y(function(d) { return y(d["media"][e]) - 15; });
 
-      cls = ".dot"+e
+      cls = ".dot"+e.split(".").join("").split("/").join("")
       svg.selectAll(cls)
         .data(data)
         .enter().append("circle")
@@ -190,14 +206,14 @@ function load_media_share(){
         .attr("total",function(d){return d["media"][e];})
         .attr("cx", dots.x())
         .attr("cy", dots.y())
-        .attr("class",function(d){return e.replace(/[.]/g,"-")+"-dots";})
+        .attr("class",function(d){return e.split(".").join("").split("/").join("")+"-dots";})
         .attr("r", 4)
 
       var node = svg.selectAll(cls)
         .data(data)
         .enter().append("g")
         .attr("transform", function(d, i) { return "scale(1,1)"; })
-        .attr("class",e.replace(/[.]/g,"-")+"-tips g-tips")
+        .attr("class",e.split(".").join("").split("/").join("")+"-tips g-tips")
         .style("opacity","0")
         .on("mouseover",function(){
           var selected_dot = d3.select(this);

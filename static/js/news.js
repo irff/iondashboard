@@ -41,8 +41,8 @@ function get_news(from,size){
 	    type: 'POST',
 	    // make sure you respect the same origin policy with this url:
 	    // http://en.wikipedia.org/wiki/Same_origin_policy
-	    url: 'http://128.199.81.117:8274/api/v1/news',
-	    data: '{"media":["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com","kontan","kompas.com"],"keyword":"'+localStorage.getItem("keyword")+'","begin":"'+localStorage.getItem("begin")+' 01:00:00","end":"'+localStorage.getItem("end")+' 01:00:00","from_page":'+from+',"page_size":'+size+'}',
+	    url: 'http://128.199.120.29:8274/api/v1/news',
+	    data: '{"media":'+localStorage.getItem("medlist")+',"keyword":"'+localStorage.getItem("keyword")+'","begin":"'+localStorage.getItem("begin")+' 01:00:00","end":"'+localStorage.getItem("end")+' 01:00:00","from_page":'+from+',"page_size":'+size+'}',
 	    success: function(msg){
 	        response = msg.result[0].news;
 			generate_result(response);

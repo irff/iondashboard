@@ -13,6 +13,7 @@ $("datepicker").datepicker({
 window.onload = check_local();
 
 function check_local(){
+  select_multiple();
   if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data")){
     $('#result').show();
     medshare_data = localStorage.getItem("medshare_data");
@@ -34,6 +35,23 @@ function check_local(){
   }
 }
 
+function select_multiple(){
+  get_media_list();
+  $("#medlist").select2();
+}
+
+function get_media_list(){
+  $.getJSON("http://128.199.120.29:8274/api/v1/listmedia",function(data){
+     data = data.result;
+     var options = [];
+     $.each(data,function(c,d){
+      options.push("<option value='"+d+"'>"+d+"</option>");
+     });
+
+     $("#medlist").append(options);
+  });
+}
+
 var click_status;
 
 function get_data(data){
@@ -53,8 +71,11 @@ function save_session(data){
     return false;
   }
 
+  list_media = $("#medlist").val();
+  localStorage.setItem("medialist",list_media);
+
   var tmp_data = JSON.stringify({
-    media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com","kontan","kompas.com"],
+    media:list_media,
     keyword: keyword,
     begin: start+" 01:00:00",
     end: end+" 01:00:00"
@@ -73,7 +94,7 @@ function save_session(data){
   localStorage.setItem("kol_data",tmp_data);
 
   tmp_data = JSON.stringify({
-    media:[],
+    media:list_media,
     keyword: keyword,
     begin: start+" 01:00:00",
     end: end+" 01:00:00"
@@ -82,7 +103,7 @@ function save_session(data){
   localStorage.setItem("medsum_data",tmp_data);
 
   tmp_data = JSON.stringify({
-    media:["suara.com","merdeka.com","metrotvnews.com","viva.co.id","pikiran","okezone.com","kontan","kompas.com"],
+    media:list_media,
     keyword: keyword,
     limit:20,
     begin: start+" 01:00:00",
@@ -174,9 +195,7 @@ function load_media_share(){
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   //Change the path to url for production use
-  d3.json("http://128.199.81.117:8274/api/v1/mediashare", function(error, data) {
-  //d3.json("http://127.0.0.1:8274/api/v1/mediashare", function(error, data) {
-    //console.log(data.result)
+  d3.json("http://128.199.120.29:8274/api/v1/mediashare", function(error, data) {
     canvas.attr("style","");
     data = data.result
     color.domain(d3.keys(data[0]["media"]));
@@ -219,6 +238,21 @@ function load_media_share(){
         .style("text-anchor", "end")
         .text("Total Articles");
 
+    var med_num = color.domain().slice().reverse();
+
+    function get_distance(d, padding){
+      console.log(d.split(".").join("").split("/").join("")+" "+padding);
+      padding += 25;
+      var dist = 30;
+      var stop = med_num.indexOf(d);
+      for (var i=0;i<stop;++i){
+        dist += (med_num[i].split(".")[0].length*6);
+        dist += padding;
+      }
+      console.log(dist);
+      return dist;
+    }
+
     var legend = canvas.append("svg")
     // .attr("style","transform: translate(100px,-10px)")
     .attr("class", "legend")
@@ -227,14 +261,17 @@ function load_media_share(){
     .selectAll("g")
     .style("text-align","center")
     .style("cursor","pointer")
-    .data(color.domain().slice().reverse())
+    .data(med_num)
     .enter().append("g")
-    .attr("transform", function(d, i) { return "translate("+((i*150)+100)+",20)"; })
+    .attr("transform", function(d, i) { return "translate("+get_distance(d,20)+",20)"; })
     .on("click",function(d){
       var clicked = d3.select(this);
 
+      new_d = d.split(".").join("").split("/").join("");
+      console.log(new_d);
+
       //get element status from its attribute
-      click_status = d3.select("#"+d.replace(/[.]/g,"-")).attr("clicked");
+      click_status = d3.select("#"+new_d).attr("clicked");
 
       //set active status
       var active = click_status == "true" ? false : true;
@@ -244,11 +281,11 @@ function load_media_share(){
       other_opacity_val = active ? 1 : 0;
 
       //update dipslay according to element status
-      d3.select("#"+d.replace(/[.]/g,"-")).transition().duration(250).style("opacity",this_opacity_val);
-      d3.selectAll("."+d.replace(/[.]/g,"-")+"-dots").transition().duration(250).style("opacity",this_opacity_val);
-      d3.selectAll("."+d.replace(/[.]/g,"-")+"-tips").transition().duration(250).style("display",function(){return active ? "none":"inline";});
+      d3.select("#"+new_d).transition().duration(250).style("opacity",this_opacity_val);
+      d3.selectAll("."+new_d+"-dots").transition().duration(250).style("opacity",this_opacity_val);
+      d3.selectAll("."+new_d+"-tips").transition().duration(250).style("display",function(){return active ? "none":"inline";});
       d.active = active;
-      d3.select("#"+d.replace(/[.]/g,"-")).attr("clicked",active);
+      d3.select("#"+new_d).attr("clicked",active);
 
     });
 
@@ -262,14 +299,14 @@ function load_media_share(){
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("font-size","13px")
-        .text(function(d) { return d; });
+        .text(function(d) { return d.split(".")[0]; });
 
     var media = svg.selectAll(".media")
         .data(medias)
         .enter().append("g")
         .attr("class", "media")
         .attr("clicked","false")
-        .attr("id",function(d){return d.name.replace(/[.]/g,"-");});
+        .attr("id",function(d){return d.name.split(".").join("").split("/").join("");});
 
     media.append("path")
         .attr("class", "line")
@@ -301,7 +338,7 @@ function load_media_share(){
         .x(function(d) { return x(d["date"])-35; })
         .y(function(d) { return y(d["media"][e]) - 15; });
 
-      cls = ".dot"+e
+      cls = ".dot"+e.split(".").join("").split("/").join("")
       svg.selectAll(cls)
         .data(data)
         .enter().append("circle")
@@ -310,14 +347,14 @@ function load_media_share(){
         .attr("total",function(d){return d["media"][e];})
         .attr("cx", dots.x())
         .attr("cy", dots.y())
-        .attr("class",function(d){return e.replace(/[.]/g,"-")+"-dots";})
+        .attr("class",function(d){return e.split(".").join("").split("/").join("")+"-dots";})
         .attr("r", 4)
 
       var node = svg.selectAll(cls)
         .data(data)
         .enter().append("g")
         .attr("transform", function(d, i) { return "scale(1,1)"; })
-        .attr("class",e.replace(/[.]/g,"-")+"-tips g-tips")
+        .attr("class",e.split(".").join("").split("/").join("")+"-tips g-tips")
         .style("opacity","0")
         .on("mouseover",function(){
           var selected_dot = d3.select(this);
@@ -391,7 +428,7 @@ function load_media_summary(){
   canvas_medsum.style("background-repeat","no-repeat");
   canvas_medsum.style("background-position","center center");
 
-  d3.json("http://128.199.81.117:8274/api/v1/mediashare/summary", function(error, data) {
+  d3.json("http://128.199.120.29:8274/api/v1/mediashare/summary", function(error, data) {
   //d3.json("http://127.0.0.1:8274/api/v1/mediashare", function(error, data) {
     canvas_medsum.attr("style","");
     data = data.result
@@ -504,7 +541,7 @@ function load_key_opinion_leader(){
   canvas3.style("background-repeat","no-repeat");
   canvas3.style("background-position","center center");
 
-  d3.json("http://128.199.81.117:8274/api/v1/keyopinionleader", function(error, data) {
+  d3.json("http://128.199.120.29:8274/api/v1/keyopinionleader", function(error, data) {
   //d3.json("http://127.0.0.1:8274/api/v1/mediashare", function(error, data) {
     function sum(d){
       res = 0;
@@ -644,7 +681,7 @@ function load_word_frequency(){
 
   var selected;
 
-  d3.json("http://128.199.81.117:8274/api/v1/wordfrequencymanual", function(error, data) {
+  d3.json("http://128.199.120.29:8274/api/v1/wordfrequencymanual", function(error, data) {
 
     data = data.result[0].words;
     canvas.attr("style","");
