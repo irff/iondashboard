@@ -101,7 +101,6 @@ function load_media_share(){
     var med_num = color.domain().slice().reverse();
 
     function get_distance(d, padding){
-      console.log(d+" "+padding);
       padding += 20;
       var dist = 50;
       var stop = med_num.indexOf(d);
@@ -109,7 +108,6 @@ function load_media_share(){
         dist += (med_num[i].split(".")[0].length*6);
         dist += padding;
       }
-      console.log(dist);
       return dist;
     }
 

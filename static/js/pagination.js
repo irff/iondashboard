@@ -30,7 +30,7 @@
 				onPageClick: function(pageNumber, event) {
 					var size = $("#list-news").data("size");
 					var page = pageNumber;
-
+					$("#list-news").data("from",page*size);
 					get_news(page*size,size);
 				},
 				onInit: function() {

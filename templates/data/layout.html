@@ -25,6 +25,9 @@
     {%- if var == "keyopinionleader" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/kol.css') }}">
     {%- endif %}
+    {%- if var == "test" %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/c3.min.css') }}">
+    {%- endif %}
 </head>
 <body>
     <header>
@@ -84,6 +87,9 @@
                     <h1>Media summary</h1>
                     <br>
                 </div>
+                <div id="separator" style="width:1%;height:300px;">
+                    &nbsp;
+                </div>
                 <div id="keyop" class="lazy">
                     <h1>Key Opinion Leader</h1>
                     <br>
@@ -140,5 +146,10 @@
     {%-endif %}
     {%-if var == "keyopinionleader" %}
     <script src="{{ url_for('static', filename='js/kol.js') }}"></script>
+    {%-endif %}
+    {%-if var == "test" %}
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/c3/c3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/test.js') }}"></script>
     {%-endif %}
 </html>

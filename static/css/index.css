@@ -173,13 +173,10 @@ p{
 }
 
 #result #medsum {
-	border-right:15px solid #f1f1f1; 
 	height: 300px;
 }
 
 #result #keyop {
-	width: 58.89%!important;
-	padding-bottom: 8px;
 	height: 300px;
 }
 
@@ -190,7 +187,8 @@ p{
 }
 
 #result .double > div {
-	width: 40%;
+	width: 49.5%;
+	height:300px;
 	float:left;
 }
 

@@ -1,14 +1,7 @@
 var template = $("#related-news ul");
+var total_article = 0;
 
-update_pagination();
-
-function update_pagination(){
-	$('#pagination').pagination({
-		pages: 20,
-		cssStyle: 'light-theme'
-	});
-	get_news(0,10);
-}
+get_news();
 
 function generate_result(data){	
 	var list = "";
@@ -35,7 +28,9 @@ function generate_item(data){
 	return result;
 }
 
-function get_news(from,size){
+function get_news(){
+	var from = $("#list-news").data("from");
+	var size = $("#list-news").data("size");
 	$.ajax({
 	    type: 'POST',
 	    // make sure you respect the same origin policy with this url:
@@ -44,7 +39,14 @@ function get_news(from,size){
 	    data: '{"media":'+localStorage.getItem("medlist")+',"keyword":"'+localStorage.getItem("keyword")+'","begin":"'+localStorage.getItem("begin")+' 01:00:00","end":"'+localStorage.getItem("end")+' 01:00:00","from_page":'+from+',"page_size":'+size+'}',
 	    success: function(msg){
 	        response = msg.result[0].news;
+	        total_article = msg.total;
 			generate_result(response);
+			console.log(from/size);
+			$('#pagination').pagination({
+				pages: Math.floor(total_article/size),
+				currentPage: (from/size) == 0 ? 1 : from/size,
+				cssStyle: 'light-theme'
+			});
 	    },
 	    beforeSend : function() {
 	          template.html(

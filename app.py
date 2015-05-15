@@ -16,4 +16,4 @@ app.register_blueprint(data)
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(port=config.PORT)
+    app.run(port=config.PORT, host='0.0.0.0')

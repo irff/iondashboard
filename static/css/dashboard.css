@@ -15,14 +15,6 @@ body {
   background: #f1f1f1;
 }
 
-.ooltip {
-    position: absolute;
-    width: 200px;
-    height: auto;
-    padding: 10px;
-    background-color: rgba(1,1,1,0.3);
-}
-
 #medshare {
   background: white;
 }
@@ -75,6 +67,10 @@ body {
 
 .x.axis path {
   display: none;
+}
+
+.select2-results__option[aria-selected="true"] {
+  display: none!important;
 }
 /*End media share*/
 
