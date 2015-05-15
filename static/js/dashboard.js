@@ -243,7 +243,7 @@ function load_media_share(){
     function get_distance(d, padding){
       console.log(d.split(".").join("").split("/").join("")+" "+padding);
       padding += 25;
-      var dist = 30;
+      var dist = 30 *(med_num.length);
       var stop = med_num.indexOf(d);
       for (var i=0;i<stop;++i){
         dist += (med_num[i].split(".")[0].length*6);

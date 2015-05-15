@@ -8,26 +8,26 @@ body {
 }
 
 #result {
-  background: white!important;
-  padding-top:10px;
+  background-color: white!important;
 }
 
 #related-news {
-  position: relative;
-  width: 600px;
-  margin-left: 50%;
-  left: -300px;
+  width: 40%;
+  margin:0 auto;
 }
 
 #related-news #pagination{
-  text-align: center;
+  margin: 0 auto;
+  text-align: center
+}
+
+#related-news #pagination {
+  
 }
 
 #related-news > ul {
   font-size: 13px;
-  width: 50%;
   text-align: center;
-  display: inline!important;
 }
 
 #related-news > ul li {
@@ -39,25 +39,33 @@ body {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  border-top: 3px solid #f1f1f3 !important;
   box-shadow: 0 1px 2px rgba(0,0,0,.1);
-  margin-bottom: 10px;
 }
 
 #related-news > ul li .title{
   font-size: 20px;
-  font-weight: 900;
+  margin-bottom: 5px;
 }
 
-#related-news > ul li .title{
-  font-size: 20px;
-  font-weight: 900;
+#related-news > ul li div{
+  display: block;
+  line-height: 20px!important;
+}
+
+#related-news > ul li .url > a{
+  color: #2979FF!important;
+}
+
+#related-news > ul li .url > a:hover{
+  text-decoration: underline;
 }
 
 #related-news > ul li:hover {
   
 }
 
-.ooltip {
+.tooltip {
     position: absolute;
     width: 200px;
     height: auto;

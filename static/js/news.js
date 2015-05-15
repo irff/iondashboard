@@ -5,8 +5,9 @@ update_pagination();
 function update_pagination(){
 	$('#pagination').pagination({
 		pages: 20,
-		cssStyle: 'compact-theme'
+		cssStyle: 'light-theme'
 	});
+	get_news(0,10);
 }
 
 function generate_result(data){	
@@ -21,20 +22,18 @@ function generate_item(data){
 	// console.log(data);
 	// console.log(data.privider);
 	result = "<li>";
-	result = result +"<span class='title'>"+ data.title +"</span><br>";
-	result = result +"<span class='author'>by : "+ data.author +"</span><br>";
-	result = result +"<span class='provider'>site: "+ data.provider +"</span><br>";
-	result = result +"<span class='url'><a href='"+ data.url +"'>[article's link]</a></span><br>";
+	result = result +"<div class='title'>"+ data.title +"</div>";
+	result = result +"<div class='author'>by : "+ data.author +"</div>";
+	result = result +"<div class='provider'>site: "+ data.provider +"</div>";
+	result = result +"<div class='url'><a href='"+ data.url +"'>[article's link]</a>&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://128.199.120.29:3000/?url="+data.url+"'>[Download snapshot]</a></div>";
 
 	formatted = moment(data.publish);
 	formatted = String(formatted._d).substring(0,25);
-	result = result +"<span class='time'>time: "+ formatted +"WIB</span><br>";
-	result = result +"<span class='loc'>location:"+ data.location +"</span><br>";
-	result = result +"<span class='crawled'>crawled time: "+ String(moment(data.date_crawl)._d).substring(0,25) +"WIB</span><br>";
+	result = result +"<div class='time'>time: "+ formatted +"WIB</div>";
+	result = result +"<div class='loc'>location:"+ data.location +"</div>";
+	result = result +"<div class='crawled' style='text-align:right;color:#212121;'>crawled on "+ String(moment(data.date_crawl)._d).substring(0,25) +"WIB</div>";
 	return result;
 }
-
-get_news(0,10);
 
 function get_news(from,size){
 	$.ajax({
@@ -49,7 +48,7 @@ function get_news(from,size){
 	    },
 	    beforeSend : function() {
 	          template.html(
-	            '<img style="margin-left:50%;left:-48px;" src="/static/img/loader.gif" />'
+	            '<img style="" src="/static/img/loader.gif" />'
 	          );   
         }
 	});

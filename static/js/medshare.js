@@ -38,7 +38,6 @@ function load_media_share(){
       .x(function(d) { return x(d["date"]); })
       .y(function(d) { return y(d["total"]); });
 
-  var div = canvas.append("div").attr("class","tooltip");
 
   var svg = canvas.append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -133,7 +132,7 @@ function load_media_share(){
       click_status = d3.select("#"+new_d).attr("clicked");
 
       //set active status
-      var active = click_status == "true" ? false : true;s
+      var active = click_status == "true" ? false : true;
 
       //set display value according to element status
       this_opacity_val = active ? 0 : 1;

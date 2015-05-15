@@ -28,8 +28,10 @@
 				labelMap: [],
 				selectOnClick: true,
 				onPageClick: function(pageNumber, event) {
-					// Callback triggered when a page is clicked
-					// Page number is given as an optional parameter
+					var size = $("#list-news").data("size");
+					var page = pageNumber;
+
+					get_news(page*size,size);
 				},
 				onInit: function() {
 					// Callback triggered immediately after initialization
