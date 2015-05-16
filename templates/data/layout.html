@@ -6,6 +6,9 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/select2.css') }}">
     {%- if var != "index" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/data.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pagination.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/news.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/c3.min.css') }}">
     {%- endif %}
     {%- if var == "index" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
@@ -15,7 +18,6 @@
     {%- endif %}
     {%- if var == "mediashare" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pagination.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/c3.min.css') }}">
     {%- endif %}
     {%- if var == "mediasummary" %}
@@ -26,9 +28,6 @@
     {%- endif %}
     {%- if var == "keyopinionleader" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/kol.css') }}">
-    {%- endif %}
-    {%- if var == "test" %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/c3.min.css') }}">
     {%- endif %}
 </head>
 <body>
@@ -134,15 +133,15 @@
     <script src="{{ url_for('static', filename='js/c3/c3.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/test.js') }}"></script>
     {%-endif %}
-    {%-if var == "mediashare" %}
+    {%-if var != "index" %}
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
     <script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
     <script src="{{ url_for('static', filename='js/c3/c3.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/medshare.js') }}"></script>
-    {%-endif %}
-    {%-if var != "index" %}
     <script src="{{ url_for('static', filename='js/news.js') }}"></script>
+    {%-endif %}
+    {%-if var == "mediashare" %}
+    <script src="{{ url_for('static', filename='js/medshare.js') }}"></script>
     {%-endif %}
     {%-if var == "mediasummary" %}
     <script src="{{ url_for('static', filename='js/medsum.js') }}"></script>
