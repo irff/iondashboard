@@ -31,12 +31,19 @@ function generate_item(data){
 function get_news(){
 	var from = $("#list-news").data("from");
 	var size = $("#list-news").data("size");
+	var data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
+	var post_data = "";
+	if (data_media) {
+		post_data = '{"media":["'+ data_media+'"],"keyword":"'+localStorage.getItem("keyword")+'","begin":"'+localStorage.getItem("begin")+' 01:00:00","end":"'+localStorage.getItem("end")+' 01:00:00","from_page":'+from+',"page_size":'+size+'}';
+	} else {
+		post_data = '{"keyword":"'+localStorage.getItem("keyword")+'","begin":"'+localStorage.getItem("begin")+' 01:00:00","end":"'+localStorage.getItem("end")+' 01:00:00","from_page":'+from+',"page_size":'+size+'}';
+	}
 	$.ajax({
 	    type: 'POST',
 	    // make sure you respect the same origin policy with this url:
 	    // http://en.wikipedia.org/wiki/Same_origin_policy
 	    url: 'http://128.199.120.29:8274/api/v1/news',
-	    data: '{"media":'+localStorage.getItem("medlist")+',"keyword":"'+localStorage.getItem("keyword")+'","begin":"'+localStorage.getItem("begin")+' 01:00:00","end":"'+localStorage.getItem("end")+' 01:00:00","from_page":'+from+',"page_size":'+size+'}',
+	    data: post_data,
 	    success: function(msg){
 	        response = msg.result[0].news;
 	        total_article = msg.total;

@@ -28,11 +28,11 @@ function check_local(){
 
     set_selected_media();
 
-    d3_zindex();
-    load_media_share();
-    load_media_summary();
-    load_key_opinion_leader();
-    load_word_frequency();
+    // d3_zindex();
+    // load_media_share();
+    // load_media_summary();
+    // load_key_opinion_leader();
+    // load_word_frequency();
   } else {
     $("#result").hide();
   }
@@ -76,10 +76,6 @@ function get_media_list(){
 
 var click_status;
 
-function get_data(data){
-  console.log(data);  
-}
-
 function save_session(data){
   var keyword = document.search["keyword"].value;
   var start = document.search["date_start"].value;
@@ -93,7 +89,7 @@ function save_session(data){
   localStorage.setItem("begin",start);
   localStorage.setItem("end",end);
 
-  list_media = $("#medlist").val();
+  list_media = $("#medlist").val() ? $("#medlist").val() : [];
   localStorage.setItem("medialist",list_media);
 
   var tmp_data = JSON.stringify({
