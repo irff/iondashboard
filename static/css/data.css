@@ -4,8 +4,19 @@
 
 #result {
   font-size: 12px ;
+  min-height: 300px;
   position: relative;
   text-align: center;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
 }
 
 #right {

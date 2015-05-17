@@ -1,111 +1,89 @@
-var margin = {top: 20, right: 20, bottom: 50, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+window.onload = init_chart();
 
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
+Array.prototype.indexOfNested = function(str){
+  for (var i=0;i<this.length;++i){
+    if (this[i][0] === str)
+      return i;
+  }
+  return -1;
+}
 
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-
-var svg = d3.select("#result").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-// set SVG element to the highest layer on SVG
-d3.selection.prototype.moveToFront = function() {
-  return this.each(function(){
-    this.parentNode.appendChild(this);
+function init_chart(){
+  $(document)
+  .ajaxStart(function () {
+    $("#result").html('<img class="loader" src="/static/img/loader.gif" />');
+    console.log("AJAX start calling");
+  })
+  .ajaxStop(function () {
+    console.log("AJAX stop calling");
   });
-};
 
-// set SVG element to its normal layer on SVG
-d3.selection.prototype.moveToBack = function() { 
-    return this.each(function() { 
-        var firstChild = this.parentNode.parentNode.parentNode.firstChild; 
-        if (firstChild) { 
-            this.parentNode.parentNode.parentNode.insertBefore(this, firstChild); 
-        } 
-    }); 
-};
+  $.when(get_wordfrequency()).done(function(d){
+    make_barchart(prettify_frequency_data(d[0].result[0].words),get_category(d[0].result[0].words));
+  });
+}
 
+function get_wordfrequency(){
+  return $.ajax({
+      type: 'POST',
+      url: 'http://128.199.120.29:8274/api/v1/wordfrequencymanual',
+      data: localStorage.getItem("wordfreq_data")
+  });   
+}
 
-var selected;
+function prettify_frequency_data(data){
+  result = ["Word Frequency"];
+  Object.keys(data).forEach(function(d){
+    result.push(data[d]);
+  });
+  return result;
+}
 
-d3.json("../../static/js/words.json", function(error, data) {
-  data = data.result[0].media;
-  //console.log(data);
-  x.domain(d3.keys(data).map(function(d) { return d; }));
-  y.domain([0, d3.max(d3.keys(data), function(d) { return data[d]; })]);
+function get_category(data){
+  result = [];
+  Object.keys(data).forEach(function(d){
+    result.push(d);
+  });
+  return result;
+}
 
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-      .selectAll("text")
-        .style("text-anchor","start")
-        .style("transform","rotate(45deg)");
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 10)
-      .attr("dy", ".41em")
-      .style("text-anchor", "end")
-      .text("Total");
-
-  var group = svg.selectAll(".tooltip")
-    .data(d3.keys(data))
-    .enter().append("g");
-    
-    group.append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d); })
-      .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(data[d]); })
-      .attr("height", function(d) { return height - y(data[d]); })
-      .on("mouseover",function(){
-        selected = d3.select(this.parentNode).moveToFront()
-        selected.select("g").transition().duration(100).style({opacity:'1'}).style({cursor:'pointer'})
-      })
-      .on("mouseout",function(){
-        selected = d3.select(this.parentNode);
-        selected.select("g").transition().duration(40).style({opacity:'0'});
-      });
-
-    
-    var gg = group.append("g")
-      .style("opacity","0");
-
-    gg.append("rect")
-      .attr("class", "tooltip")
-      .style("fill","rgba(1,1,1,0.999999)")
-      //.style("opacity","0")
-      .attr("x", function(d){ return x(d);})
-      .attr("y", function(d){ return y(data[d])-1;})
-      .attr("width", 40)
-      .attr("height", 24)
-    
-    gg.append("text")
-      .style("fill","white")
-      //.style("opacity","0")
-      .attr("transform", function(d){ 
-        return "translate("+(x(d)+5)+","+(y(data[d])+20)+")";
-      })
-      .attr("dy","-.35em")
-      .text(function(d){return data[d];})
-
-});
-
+function make_barchart(data,cat){
+  var chart = c3.generate({
+      bindto : '#result',
+      padding: {
+        top: 50
+      },
+      data: {
+          columns: [
+              data,
+          ],
+          type: 'bar'
+      },
+      bar: {
+          width: {
+              ratio: 0.5
+          }
+      },
+      axis : {
+        x : {
+          type: 'category',
+          categories : cat,
+          label: {
+            text: "20 kata terbanyak",
+          }
+        },
+        y : {
+          label: {
+            text: "Jumlah kata"
+          }
+        }
+      }
+  });
+  d3.select('#word svg').append('text')
+    .attr('x', d3.select('#word svg').node().getBoundingClientRect().width / 2)
+    .attr('y', 50)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '2em')
+    .style('font-family',"Roboto', sans-serif")
+    .text('Word Frequency');
+}

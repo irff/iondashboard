@@ -18,19 +18,32 @@ $("datepicker").datepicker({
 window.onload = dashboard_init();
 
 function dashboard_init(){
-  check_local();
-  $.when(get_mediashare(),get_mediasummary(),get_keyopinion(),get_wordfrequency()).done(function(a,b,c,d){
-    make_multiline(prettify_share_data(a[0].result));
-    make_piechart(prettify_summary_data(b[0].result[0].media), '#medsum', 'Media Summary');
-    make_piechart(prettify_summary_data(c[0].result[0].people),"#keyop", "Key Opinion Leader");
-    make_barchart(prettify_frequency_data(d[0].result[0].words),get_category(b.result[0].words));
+  
+  $(document)
+  .ajaxStart(function () {
+    $("#medshare").html('<img class="loader" src="/static/img/loader.gif" />');
+    $("#medsum").html('<img class="loader" src="/static/img/loader.gif" />');
+    $("#keyop").html('<img class="loader" src="/static/img/loader.gif" />');
+    $("#word").html('<img class="loader" src="/static/img/loader.gif" />');
+    console.log("AJAX start calling");
+  })
+  .ajaxStop(function () {
+    console.log("AJAX stop calling");
   });
+
+  if (check_local()) {
+    $.when(get_mediashare(),get_mediasummary(),get_keyopinion(),get_wordfrequency()).done(function(a,b,c,d){
+      make_multiline(prettify_share_data(a[0].result));
+      make_piechart(prettify_summary_data(b[0].result[0].media), '#medsum', 'Media Summary');
+      make_piechart(prettify_summary_data(c[0].result[0].people),"#keyop", "Key Opinion Leader");
+      make_barchart(prettify_frequency_data(d[0].result[0].words),get_category(d[0].result[0].words));
+    });
+  }
 }
 
 function check_local(){
   select_multiple();
   if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data")){
-    $('#result').show();
     medshare_data = localStorage.getItem("medshare_data");
     kol_data = localStorage.getItem("kol_data");
     medsum_data = localStorage.getItem("medsum_data");
@@ -41,10 +54,9 @@ function check_local(){
     document.search["date_start"].value = localStorage.getItem("begin");
     document.search["date_end"].value = localStorage.getItem("end");
 
-    // set_selected_media();
-  } else {
-    $("#result").hide();
-  }
+    return true;
+  } 
+  return false;
 }
 
 function set_selected_media(){
@@ -109,7 +121,7 @@ function save_session(data){
   localStorage.setItem("medshare_data",tmp_data);
 
   tmp_data = JSON.stringify({
-    media:[],
+    media:list_media,
     name: ["jokowi","prabowo","samad","sby","megawati","habibie","paloh"],
     keyword: keyword,
     begin: start+" 01:00:00",
@@ -253,10 +265,10 @@ function make_barchart(data,cat){
   });
   d3.select('#word svg').append('text')
     .attr('x', d3.select('#word svg').node().getBoundingClientRect().width / 2)
-    .attr('y', 16)
+    .attr('y', 50)
     .attr('text-anchor', 'middle')
     .style('font-size', '2em')
-    .style('font-weight','900')
+    .style('font-family',"Roboto', sans-serif")
     .text('Word Frequency');
 }
 
@@ -264,6 +276,10 @@ function make_multiline(data){
   var chart = c3.generate({
       padding: {
         top: 50
+      },
+      size:{
+        height:400,
+        width: $(window).width()*0.9
       },
       bindto: '#medshare',
       data: {
@@ -300,10 +316,10 @@ function make_multiline(data){
   });
   d3.select('#medshare svg').append('text')
     .attr('x', d3.select('#medshare svg').node().getBoundingClientRect().width / 2)
-    .attr('y', 50)
+    .attr('y', 25)
     .attr('text-anchor', 'middle')
     .style('font-size', '2em')
-    .style('font-weight','900')
+    .style('font-family',"Roboto', sans-serif")
     .text('Media Share');
 }
 
@@ -324,10 +340,10 @@ function make_piechart(data, div, desc){
   });
   d3.select(div+' svg').append('text')
     .attr('x', d3.select(div+' svg').node().getBoundingClientRect().width / 2)
-    .attr('y', 50)
+    .attr('y', 25)
     .attr('text-anchor', 'middle')
     .style('font-size', '2em')
-    .style('font-weight','900')
+    .style('font-family',"Roboto', sans-serif")
     .text(desc);
 
 }

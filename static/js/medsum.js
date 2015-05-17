@@ -1,4 +1,4 @@
-init_chart();
+window.onload = init_chart();
 
 Array.prototype.indexOfNested = function(str){
   for (var i=0;i<this.length;++i){
@@ -9,6 +9,14 @@ Array.prototype.indexOfNested = function(str){
 }
 
 function init_chart(){
+  $(document)
+  .ajaxStart(function () {
+    $("#result").html('<img class="loader" src="/static/img/loader.gif" />');
+    console.log("AJAX start calling");
+  })
+  .ajaxStop(function () {
+    console.log("AJAX stop calling");
+  });
   $.when(get_mediasummary()).done(function(b){
     make_piechart(prettify_summary_data(b.result[0].media), '#result', 'Media Summary');
   });

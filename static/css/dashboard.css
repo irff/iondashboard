@@ -6,6 +6,18 @@ body {
 
 .lazy {
   background:white;
+  min-height: 300px;
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
 }
 
 #result {
@@ -17,6 +29,7 @@ body {
 
 #medshare {
   background: white;
+  height: 300px;
 }
 
 .tooltip.hidden {
