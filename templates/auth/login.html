@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <h1>Login</h1>
+    <form method="POST">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+     <input type="text" placeholder="username" name="username" required>
+    <input type="password" placeholder="password" name="password" required>
+    <input type="submit">
+  </form>
+{% endblock %}
