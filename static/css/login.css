@@ -17,6 +17,16 @@ body {
 	transform: translate(-50%,-50%);
 }
 
+#auth .flashes > li {
+	background: #eee;
+  	padding: 10px;
+  	margin-top: 13px;
+  	text-align: center;
+  	font-size: 14px;
+  	color: #212121;
+	border-radius:2px;
+}
+
 
 #auth > #head {
 	color: #EF5350;

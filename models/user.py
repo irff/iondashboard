@@ -7,7 +7,7 @@ import hashlib
 import settings
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/iondashboard'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mantabg@n@localhost/iondashboard'
 db = SQLAlchemy(app)
 
 class User(db.Model):
