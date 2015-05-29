@@ -10,7 +10,8 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Login</h1>
+<div id="auth">
+  <div id="head">Login</div>
     <form method="POST">
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -25,4 +26,5 @@
     <input type="password" placeholder="password" name="password" required>
     <input type="submit">
   </form>
+</div>
 {% endblock %}
