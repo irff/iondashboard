@@ -17,7 +17,10 @@ function check_local(){
     kol_data = localStorage.getItem("kol_data");
     medsum_data = localStorage.getItem("medsum_data");
     wordfreq_data = localStorage.getItem("wordfreq_data");
-    list_media = localStorage.getItem("medialist");
+    
+    if (localStorage.getItem("medialist")) {
+      set_selected_media();
+    }
 
     document.search["keyword"].value = localStorage.getItem("keyword");    
     document.search["date_start"].value = localStorage.getItem("begin");
@@ -34,7 +37,7 @@ function set_selected_media(){
   $(".select2-selection--multiple").attr("aria-owns","select2-medlist-results");
   var ul_list = $(".select2-selection__rendered");
   var media_list = localStorage.getItem("medialist").split(",");
-  $("#medialist").val(localStorage.getItem("medialist"));
+  $("#medialist").val(media_list).change();
   var inserted_element = [];
 
   media_list.forEach(function(d){
