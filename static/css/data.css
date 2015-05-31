@@ -29,24 +29,24 @@
 	height: 100%;
 }
 
-ul li {
+.navbar li {
 	cursor: pointer;
 	padding: 0px 20px 0px 20px;
 	height: 100%;
 	display: inline-block;
 }
 
-ul li:hover {
+.navbar li:hover {
 	/*background: #448AFF;*/
 }
 
-ul li div{
+.navbar li div{
 	height: 100%;
 	display: inline-block;
 	line-height: 43px;
 }
 
-ul li div a {
+.navbar li div a {
 	text-decoration: none;
 	color: white;
 	display: inline-block;

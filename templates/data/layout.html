@@ -4,46 +4,75 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fonts.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/select2.css') }}">
-    {%- if var != "index" %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datepicker.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/c3.min.css') }}">
+
+{%- if var != "index" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/data.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pagination.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/news.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/c3.min.css') }}">
-    {%- endif %}
-    {%- if var == "index" %}
+{%- endif %}
+
+{%- if var == "index" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/datepicker.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/c3.min.css') }}">
-    {%- endif %}
-    {%- if var == "mediashare" %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/c3.min.css') }}">
-    {%- endif %}
-    {%- if var == "mediasummary" %}
+{%- endif %}
+    
+{%- if var == "mediashare" %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share.css') }}">    
+{%- endif %}
+
+{%- if var == "mediasummary" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/summary.css') }}">
-    {%- endif %}
-    {%- if var == "wordfrequency" %}
+{%- endif %}
+    
+{%- if var == "wordfrequency" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/word.css') }}">
-    {%- endif %}
-    {%- if var == "keyopinionleader" %}
+{%- endif %}
+    
+{%- if var == "keyopinionleader" %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/kol.css') }}">
-    {%- endif %}
+{%- endif %}
+
 </head>
 <body>
     <header>
-        <ul id="left">
+        <ul class="navbar" id="left">
             <li><div><a href="/data"><h2>Dashboard</h2></a></div></li>
             <li><div><a href="#">News Media</a></div></li>
             <li><div><a href="#">Social Media</a></div></li>
         </ul>
-        <ul id="right">
+        <ul class="navbar" id="right">
             <li><div><a href="/data/mediashare">Media Share</a></div></li>
             <li><div><a href="/data/mediasummary">Media Summary</a></div></li>
             <li><div><a href="/data/wordfrequency">Word Frequency</a></div></li>
             <li><div><a href="/data/keyopinionleader">Key Opinion Leader</a></div></li>
         </ul>
     </header>
+
+    <div id="search">
+        <div class="body">
+            <form name="search">
+                <div id="keyword">
+                    <input type="text" id="keyword" name="keyword" placeholder="Keyword">
+                </div>
+                <div id="space">&nbsp;</div>
+                <div id="date">
+                    <input datepicker data-auto-close="true" data-date-format="yyyy-mm-dd" type="text" name="date_start" placeholder="Start Date">
+                    <input datepicker data-auto-close="true" data-date-format="yyyy-mm-dd" type="text" name="date_end" placeholder="End Date">
+                </div>
+                &nbsp;
+                <div id="button">
+                    <input type="button" value="Analyze" onclick="save_session()">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="media-list">
+        <form name="media">
+            <select id="medlist" name="medlist" multiple="multiple" data-placeholder="Select your media"></select>
+        </form>
+    </div>
 
     {%-if var != "index" %}
         <div class="content">
@@ -52,31 +81,6 @@
         </div>
     {%-endif%}
 
-    {%-if var == "index" %}
-        <div id="search">
-            <div class="body">
-                <form name="search">
-                    <div id="keyword">
-                        <input type="text" id="keyword" name="keyword" placeholder="Keyword">
-                    </div>
-                    <div id="space">&nbsp;</div>
-                    <div id="date">
-                        <input datepicker data-auto-close="true" data-date-format="yyyy-mm-dd" type="text" name="date_start" placeholder="Start Date">
-                        <input datepicker data-auto-close="true" data-date-format="yyyy-mm-dd" type="text" name="date_end" placeholder="End Date">
-                    </div>
-                    &nbsp;
-                    <div id="button">
-                        <input type="button" value="Analyze" onclick="save_session()">
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="media-list">
-            <form name="media">
-                <select id="medlist" name="medlist" multiple="multiple" data-placeholder="Select your media"></select>
-            </form>
-        </div>
-    {%-endif %}
     <div id="result">
         {%-if var == "index" %}
             <div id="medshare" class="lazy">
@@ -124,37 +128,36 @@
 
 </body>
     <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
-    {%-if var == "index" %}
+    <script src="{{ url_for('static', filename='js/c3/c3.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/select2.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/load.js') }}"></script>
     <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/c3/c3.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/test.js') }}"></script>
-    {%-endif %}
-    {%-if var != "index" %}
-    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+
+{%-if var != "index" %}
     <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
     <script src="{{ url_for('static', filename='js/pagination.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/c3/c3.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/news.js') }}"></script>
-    {%-endif %}
-    {%-if var == "mediashare" %}
+{%-endif %}
+
+{%-if var == "index" %}
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{%-endif %}
+
+{%-if var == "mediashare" %}
     <script src="{{ url_for('static', filename='js/medshare.js') }}"></script>
-    {%-endif %}
-    {%-if var == "mediasummary" %}
+{%-endif %}
+
+{%-if var == "mediasummary" %}
     <script src="{{ url_for('static', filename='js/medsum.js') }}"></script>
-    {%-endif %}
-    {%-if var == "wordfrequency" %}
-    <script src="{{ url_for('static', filename='js/d3-layout-cloud.js') }}"></script>
+{%-endif %}
+
+{%-if var == "wordfrequency" %}
     <script src="{{ url_for('static', filename='js/wordfrequency.js') }}"></script>
-    {%-endif %}
-    {%-if var == "keyopinionleader" %}
+{%-endif %}
+
+{%-if var == "keyopinionleader" %}
     <script src="{{ url_for('static', filename='js/kol.js') }}"></script>
-    {%-endif %}
-    {%-if var == "test" %}
-    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/test.js') }}"></script>
-    {%-endif %}
+{%-endif %}
+
 </html>
