@@ -7,7 +7,11 @@ $("datepicker").datepicker({
     }
 });
 
-window.onload = check_local();
+$(window).load(function(){
+  var media_list = localStorage.getItem("medialist").split(",");
+  $("#medlist").val(media_list).change();
+  check_local();
+})
 
  // Check whether the localStorage is empty or not 
 function check_local(){
@@ -17,10 +21,6 @@ function check_local(){
     kol_data = localStorage.getItem("kol_data");
     medsum_data = localStorage.getItem("medsum_data");
     wordfreq_data = localStorage.getItem("wordfreq_data");
-    
-    if (localStorage.getItem("medialist")) {
-      set_selected_media();
-    }
 
     document.search["keyword"].value = localStorage.getItem("keyword");    
     document.search["date_start"].value = localStorage.getItem("begin");
@@ -29,26 +29,6 @@ function check_local(){
     return true;
   } 
   return false;
-}
-
-
-function set_selected_media(){
-  $(".select2-search--inline").hide();
-  $(".select2-selection--multiple").attr("aria-owns","select2-medlist-results");
-  var ul_list = $(".select2-selection__rendered");
-  var media_list = localStorage.getItem("medialist").split(",");
-  $("#medialist").val(media_list).change();
-  var inserted_element = [];
-
-  media_list.forEach(function(d){
-    inserted_element.push(generate_selected_item(d));
-  });
-
-  ul_list.append(inserted_element);
-}
-
-function generate_selected_item(media_name){
-  return '<li class="select2-selection__choice" title="'+media_name+'"><span class="select2-selection__choice__remove" role="presentation">×</span>'+media_name+'</li>';
 }
 
 function select_multiple(){
