@@ -86,9 +86,6 @@ function make_multiline(data){
       zoom: {
           enabled: true
       },
-      subchart: {
-          show: true
-      },
       point: {
         show: false
       }
