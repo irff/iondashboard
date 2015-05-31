@@ -17,8 +17,8 @@ def index():
 @data.route('/data/', defaults={'data': 'index'})
 @data.route('/data/<data>')
 def show(data):
-    # if 'username' not in session:
-    #     return redirect(url_for('auth.index'))
+    if 'username' not in session:
+        return redirect(url_for('auth.index'))
 
     try:
         return render_template('data/%s.html' % data, var=data)

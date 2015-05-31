@@ -29,29 +29,6 @@
 	height: 100%;
 }
 
-.navbar li {
-	cursor: pointer;
-	padding: 0px 20px 0px 20px;
-	height: 100%;
-	display: inline-block;
-}
-
-.navbar li:hover {
-	/*background: #448AFF;*/
-}
-
-.navbar li div{
-	height: 100%;
-	display: inline-block;
-	line-height: 43px;
-}
-
-.navbar li div a {
-	text-decoration: none;
-	color: white;
-	display: inline-block;
-}
-
 h1{
    margin-top: 20px;
    font-size: 20px;

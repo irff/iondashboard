@@ -17,18 +17,40 @@ body {
   height: 100%;
 }
 
-header ul li {
+header ul li:not(#signout) {
   cursor: pointer;
   padding: 0px 20px 0px 20px;
   height: 100%;
   display: inline-block;
 }
 
+#signout {
+  cursor: pointer;
+  height: 100%;
+  display: inline-block; 
+}
+
+
+#logout {
+  width: 30%;
+  vertical-align: middle;
+}
+
+#signout > div {
+  display: inline-block;
+  line-height: 43px;
+}
+
+#signout > div > a{
+  text-align: center;
+}
+
+
 header ul li:hover {
   background: #EF9A9A;
 }
 
-header ul li div{
+header ul li div:not(#signout){
   height: 100%;
   display: inline-block;
   line-height: 43px;
