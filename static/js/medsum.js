@@ -48,14 +48,20 @@ function make_piechart(data, div, desc){
       height: 400
     },
     padding: {
-      top: 50
+      top: 0
     },
     data : {
       columns : data,
       type : 'donut'
     },
     donut: {
-        title: desc
+        title: desc,
+        label: {
+            format: function (value, ratio, id) {
+                // console.log(value+" "+ratio+" "+id);
+                return value;
+            }
+        }
     }
   });
 }

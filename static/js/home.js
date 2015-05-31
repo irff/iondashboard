@@ -17,9 +17,6 @@ function dashboard_init(){
     $("#keyop").html('<img class="loader" src="/static/img/loader.gif" />');
     $("#word").html('<img class="loader" src="/static/img/loader.gif" />');
     console.log("AJAX start calling");
-  })
-  .ajaxStop(function () {
-    console.log("AJAX stop calling");
   });
 
   if (check_local()) {
@@ -210,7 +207,12 @@ function make_piechart(data, div, desc){
       type : 'donut'
     },
       donut: {
-          title: desc
+          title: desc,
+          label: {
+            format: function (value, ratio, id) {
+                return value;
+            }
+        }
       }
   });
   d3.select(div+' svg').append('text')

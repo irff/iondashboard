@@ -8,10 +8,18 @@ $("datepicker").datepicker({
 });
 
 $(window).load(function(){
-  var media_list = localStorage.getItem("medialist").split(",");
-  $("#medlist").val(media_list).change();
   check_local();
+  console.log("it changed");
 })
+
+$(document).load(function () {
+    if (localStorage.getItem("medialist")) {
+      var media_list = localStorage.getItem("medialist").split(",");
+      $("#medlist").val(media_list).change();
+      return false;
+    }
+    console.log("AJAX stop calling");
+  });
 
  // Check whether the localStorage is empty or not 
 function check_local(){
