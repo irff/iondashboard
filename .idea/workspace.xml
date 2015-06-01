@@ -2,10 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="527ec569-55f6-4e7c-8e45-c5c57276b135" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp/ios/ic_exit_to_app_white_18pt.imageset/Contents.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_black_48dp.zip" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp/android/drawable-hdpi/ic_exit_to_app_white_18dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp/android/drawable-mdpi/ic_exit_to_app_white_18dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp/android/drawable-xhdpi/ic_exit_to_app_white_18dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp/android/drawable-xxhdpi/ic_exit_to_app_white_18dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp/android/drawable-xxxhdpi/ic_exit_to_app_white_18dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp.zip" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp/ios/ic_exit_to_app_white_18pt.imageset/ic_exit_to_app_white_18pt.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp/ios/ic_exit_to_app_white_18pt.imageset/ic_exit_to_app_white_18pt_2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/ic_exit_to_app_white_18dp/ios/ic_exit_to_app_white_18pt.imageset/ic_exit_to_app_white_18pt_3x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/img/logout.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/.fuse_hidden0000052000000003" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/css/login.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/data/news.html" />
+      <change type="DELETED" beforePath="D:\Lab\iondashboard\static\js\load.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/auth.py" afterPath="$PROJECT_DIR$/controllers/auth.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/dashboard.css" afterPath="$PROJECT_DIR$/static/css/dashboard.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/dashboard.js" afterPath="$PROJECT_DIR$/static/js/dashboard.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/data.css" afterPath="$PROJECT_DIR$/static/css/data.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/index.css" afterPath="$PROJECT_DIR$/static/css/index.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/kol.css" afterPath="$PROJECT_DIR$/static/css/kol.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/kol.js" afterPath="$PROJECT_DIR$/static/js/kol.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/layout.html" afterPath="$PROJECT_DIR$/templates/layout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/data/layout.html" afterPath="$PROJECT_DIR$/templates/data/layout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/auth/login.html" afterPath="$PROJECT_DIR$/templates/auth/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/medshare.js" afterPath="$PROJECT_DIR$/static/js/medshare.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/medsum.js" afterPath="$PROJECT_DIR$/static/js/medsum.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/news.css" afterPath="$PROJECT_DIR$/static/css/news.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/news.js" afterPath="$PROJECT_DIR$/static/js/news.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.py" afterPath="$PROJECT_DIR$/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/unused.js" afterPath="$PROJECT_DIR$/static/js/unused.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/user.py" afterPath="$PROJECT_DIR$/models/user.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/wordfrequency.js" afterPath="$PROJECT_DIR$/static/js/wordfrequency.js" />
+      <change type="MOVED" beforePath="D:\Lab\iondashboard\static\js\dashboard.js" afterPath="$PROJECT_DIR$/static/js/home.js" />
     </list>
     <ignored path="iondashboard.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,12 +59,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="user.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="user.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.76" vertical-offset="0" max-vertical-offset="884">
-              <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
-              <folding />
+            <state vertical-scroll-proportion="0.06017699" vertical-offset="0" max-vertical-offset="867">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding>
+                <element signature="e#30#76#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -50,10 +83,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="app.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5115044" vertical-offset="0" max-vertical-offset="565">
+            <state vertical-scroll-proportion="-11.56" vertical-offset="0" max-vertical-offset="459">
               <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
               <folding />
             </state>
@@ -83,7 +116,7 @@
       <file leaf-file-name="auth.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/auth.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="336" max-vertical-offset="918">
+            <state vertical-scroll-proportion="0.0" vertical-offset="336" max-vertical-offset="935">
               <caret line="46" column="33" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
               <folding />
             </state>
@@ -93,8 +126,8 @@
       <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="119">
-              <caret line="1" column="49" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="136">
+              <caret line="2" column="0" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -103,8 +136,8 @@
       <file leaf-file-name="login.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/auth/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="561">
-              <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="595">
+              <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -144,8 +177,8 @@
         <option value="$PROJECT_DIR$/controllers/auth.py" />
         <option value="$PROJECT_DIR$/templates/auth/about.html" />
         <option value="$PROJECT_DIR$/database.py" />
-        <option value="$PROJECT_DIR$/models/user.py" />
         <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/models/user.py" />
       </list>
     </option>
   </component>
@@ -430,7 +463,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24981412" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24981412" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -469,7 +502,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="918">
           <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-          <folding />
+          <folding>
+            <element signature="e#30#76#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -533,7 +568,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
           <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-          <folding />
+          <folding>
+            <element signature="e#30#76#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -610,16 +647,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="119">
-          <caret line="1" column="49" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="136">
+          <caret line="2" column="0" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="49" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/auth/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="561">
-          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="595">
+          <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
           <folding />
         </state>
       </provider>
@@ -658,19 +695,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/user.py">
+    <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.76" vertical-offset="0" max-vertical-offset="884">
-          <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+        <state vertical-scroll-proportion="-11.56" vertical-offset="0" max-vertical-offset="459">
+          <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
+    <entry file="file://$PROJECT_DIR$/models/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5115044" vertical-offset="0" max-vertical-offset="565">
-          <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
-          <folding />
+        <state vertical-scroll-proportion="0.06017699" vertical-offset="0" max-vertical-offset="867">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding>
+            <element signature="e#30#76#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

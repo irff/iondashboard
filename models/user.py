@@ -1,12 +1,10 @@
 __author__ = 'Kandito Agung'
 
-from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String
 from database import Base
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
 import hashlib
 import settings
-
 
 class User(Base):
     __tablename__ = 'users'

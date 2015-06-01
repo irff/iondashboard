@@ -15,10 +15,10 @@ function generate_item(data){
 	// console.log(data);
 	// console.log(data.privider);
 	result = "<li>";
-	result = result +"<div class='title'>"+ data.title +"</div>";
+	result = result +"<div class='title'><a target='_blank' href='http://128.199.120.29:3000/?url="+data.url+"'>"+ data.title +"</a></div>";
 	result = result +"<div class='author'>by : "+ data.author +"</div>";
 	result = result +"<div class='provider'>site: "+ data.provider +"</div>";
-	result = result +"<div class='url'><a href='"+ data.url +"'>[article's link]</a>&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://128.199.120.29:3000/?url="+data.url+"'>[Download snapshot]</a></div>";
+	result = result +"<div class='url'><a href='"+ data.url +"' target='_blank'>[article's link]</a>&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://128.199.120.29:3000/?url="+data.url+"'>[Download snapshot]</a></div>";
 
 	formatted = moment(data.publish);
 	formatted = String(formatted._d).substring(0,25);
@@ -48,6 +48,7 @@ function get_news(){
 	        response = msg.result[0].news;
 	        total_article = msg.total;
 			generate_result(response);
+			$("#total-articles").html("There are "+total_article+" related articles");
 			console.log(from/size);
 			$('#pagination').pagination({
 				pages: Math.floor(total_article/size),

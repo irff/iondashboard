@@ -44,17 +44,24 @@ function make_piechart(data, div, desc){
   var chart = c3.generate({
     bindto :div,
     size : {
-      width: $(window).width()*0.6
+      width: $(window).width(),
+      height: 400
     },
     padding: {
-      top: 50
+      top: 0
     },
     data : {
       columns : data,
       type : 'donut'
     },
     donut: {
-        title: desc
+        title: desc,
+        label: {
+            format: function (value, ratio, id) {
+                // console.log(value+" "+ratio+" "+id);
+                return value;
+            }
+        }
     }
   });
 }

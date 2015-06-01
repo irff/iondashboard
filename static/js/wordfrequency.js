@@ -19,7 +19,7 @@ function init_chart(){
   });
 
   $.when(get_wordfrequency()).done(function(d){
-    make_barchart(prettify_frequency_data(d[0].result[0].words),get_category(d[0].result[0].words));
+    make_barchart(prettify_frequency_data(d.result[0].words),get_category(d.result[0].words));
   });
 }
 
@@ -51,7 +51,7 @@ function make_barchart(data,cat){
   var chart = c3.generate({
       bindto : '#result',
       padding: {
-        top: 50
+        top: 0
       },
       data: {
           columns: [
@@ -79,11 +79,4 @@ function make_barchart(data,cat){
         }
       }
   });
-  d3.select('#word svg').append('text')
-    .attr('x', d3.select('#word svg').node().getBoundingClientRect().width / 2)
-    .attr('y', 50)
-    .attr('text-anchor', 'middle')
-    .style('font-size', '2em')
-    .style('font-family',"Roboto', sans-serif")
-    .text('Word Frequency');
 }

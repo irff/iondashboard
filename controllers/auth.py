@@ -33,7 +33,7 @@ def index():
                 return redirect(url_for('auth.index'))
     else:
         try:
-            return render_template('auth/login.html')
+            return render_template('auth/login.html', var="login")
         except TemplateNotFound:
             abort(404)
 
