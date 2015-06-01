@@ -1,4 +1,5 @@
 from flask import Flask
+from database import db_session
 import config
 
 """import all controller from application.controllers"""
