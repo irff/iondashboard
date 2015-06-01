@@ -14,6 +14,10 @@ app.register_blueprint(data)
 app.register_blueprint(auth)
 """register more controller"""
 
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
+
 if __name__ == '__main__':
     app.debug = True
     app.run(port=config.PORT, host='0.0.0.0')
