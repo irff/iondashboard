@@ -1,6 +1,6 @@
 from flask import Flask
 from database import db_session
-import config
+import settings
 
 """import all controller from application.controllers"""
 from controllers.auth import auth
@@ -8,7 +8,7 @@ from controllers.data import data
 """import more controller"""
 
 app = Flask(__name__)
-app.secret_key = config.SECRET_KEY
+app.secret_key = settings.SECRET_KEY
 
 """register each controller as blueprint"""
 app.register_blueprint(data)
@@ -21,4 +21,4 @@ def shutdown_session(exception=None):
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(port=config.PORT, host='0.0.0.0')
+    app.run(port=settings.PORT, host='0.0.0.0')
