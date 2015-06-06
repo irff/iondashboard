@@ -33,6 +33,7 @@ function get_news(){
 	var size = $("#list-news").data("size");
 	var data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
 	var post_data = "";
+    template.html('<img style="" src="/static/img/loader.gif" />');   
 	if (data_media) {
 		post_data = '{"media":["'+ data_media+'"],"keyword":"'+localStorage.getItem("keyword")+'","begin":"'+localStorage.getItem("begin")+' 01:00:00","end":"'+localStorage.getItem("end")+' 01:00:00","from_page":'+from+',"page_size":'+size+'}';
 	} else {
@@ -44,6 +45,7 @@ function get_news(){
 	    // http://en.wikipedia.org/wiki/Same_origin_policy
 	    url: 'http://128.199.120.29:8274/api/v1/news',
 	    data: post_data,
+	    crossDomain: true,
 	    success: function(msg){
 	        response = msg.result[0].news;
 	        total_article = msg.total;
@@ -56,14 +58,9 @@ function get_news(){
 				cssStyle: 'light-theme'
 			});
 	    },
-	    beforeSend : function() {
-	          template.html(
-	            '<img style="" src="/static/img/loader.gif" />'
-	          );   
-        },
-        headers: {
-        	"Authorization":set_header()
-      	}
+        headers:{
+      		"Authorization":""+set_header()
+    	}
 	});
 }
   

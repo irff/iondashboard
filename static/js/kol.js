@@ -9,14 +9,9 @@ Array.prototype.indexOfNested = function(str){
 }
 
 function init_chart(){
-  $(document)
-  .ajaxStart(function () {
+  if (localStorage.getItem("kol_data")) {
     $("#result").html('<img class="loader" src="/static/img/loader.gif" />');
-    console.log("AJAX start calling");
-  })
-  .ajaxStop(function () {
-    console.log("AJAX stop calling");
-  });
+  }
   $.when(get_keyopinion()).done(function(b){
     make_piechart(prettify_summary_data(b.result[0].people),"#result", "Key Opinion Leader");
   });

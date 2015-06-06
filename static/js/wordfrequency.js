@@ -9,14 +9,9 @@ Array.prototype.indexOfNested = function(str){
 }
 
 function init_chart(){
-  $(document)
-  .ajaxStart(function () {
+  if (localStorage.getItem("wordfreq_data")) {
     $("#result").html('<img class="loader" src="/static/img/loader.gif" />');
-    console.log("AJAX start calling");
-  })
-  .ajaxStop(function () {
-    console.log("AJAX stop calling");
-  });
+  }
 
   $.when(get_wordfrequency()).done(function(d){
     make_barchart(prettify_frequency_data(d.result[0].words),get_category(d.result[0].words));

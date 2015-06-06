@@ -19,7 +19,6 @@ function dashboard_init(){
 
     $.when(get_mediashare()).done(function(a){
       make_multiline(prettify_share_data(a.result));
-      console.log("Multiline finished");
     });
     $.when(get_mediasummary()).done(function(b){
       make_piechart(prettify_summary_data(b.result[0].media), '#medsum', 'Media Summary');
@@ -56,7 +55,6 @@ function prettify_share_data(data){
 
 function prettify_summary_data(data){
   result = [];
-  console.log(data);
   Object.keys(data).forEach(function(d){
     result.push([d,data[d]]);
   });

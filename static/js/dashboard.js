@@ -13,7 +13,6 @@ $(document).ready(check_local);
 function set_selected_media(){
   if (localStorage.getItem("medialist")) {
     var media_list = localStorage.getItem("medialist").split(",");
-    console.log(media_list);
     $("#medlist").val(media_list).change();
   }
 }
@@ -21,7 +20,6 @@ function set_selected_media(){
  // Check whether the localStorage is empty or not 
 function check_local(){
   select_multiple();
-  set_selected_media();
   if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data") && localStorage.getItem("wordfreq_data")){
     medshare_data = localStorage.getItem("medshare_data");
     kol_data = localStorage.getItem("kol_data");
@@ -40,31 +38,25 @@ function select_multiple(){
 }
 
 function get_media_list(){
-  console.log("req [1]");
   $.ajax({
-    // username : USERNAME,
-    // password: "unused",
     dataType: "json",
     type: "GET",
     url: create_url("listmedia"),
     crossDomain: true,
     // async:false,
     success: function(data){
-      console.log("success bro");
        data = data.result;
        var options = [];
        $.each(data,function(c,d){
         options.push("<option value='"+d+"'>"+d+"</option>");
        });
        $("#medlist").append(options); 
+       set_selected_media();
+       console.log("changed");
     },
     headers:{
       "Authorization":""+set_header()
     }
-    // beforeSend: function(xhr) {
-    //   console.log(set_header());
-    //   xhr.setRequestHeader('Authorization', set_header())
-    // }
   });
 }
 
