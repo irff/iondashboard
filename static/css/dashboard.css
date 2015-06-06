@@ -207,9 +207,8 @@ p{
 
 #result {
   padding-top: 10px;
-  font-family: Arial!important;
   height: 100%;
-  background: #f1f1f1;
+  /*background: #f1f1f1;*/
 }
 
 #medshare {

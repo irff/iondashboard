@@ -33,9 +33,10 @@
 }
 
 #footer {
-	clear: both;
-	text-align: center;
-	background: #f1f1f1;
-	border-top:15px solid #f1f1f1;
-	margin-top: 10px;
+  text-align: center;
+  background: #f1f1f1;
+  border-top: 15px solid #f1f1f1;
+  margin-top: 10px;
+  bottom: 0;
+  width: 100%;
 }

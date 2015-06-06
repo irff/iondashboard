@@ -30,7 +30,10 @@ function dashboard_init(){
       make_barchart(prettify_frequency_data(d.result[0].words),get_category(d.result[0].words));
     });
   } else {
+  	console.log("wow much wow");
   	$("#result").html("Please specify your search attributes first!");
+  	$("#result").attr("style","padding-top: 0px!important;color: #9e9e9e;font-family: 'Roboto', sans-serif;margin-top:10px!important;font-size: 30px");
+  	$("#footer").attr("style","position:absolute;");
   }
 }
 function prettify_share_data(data){

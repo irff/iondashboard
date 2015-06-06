@@ -33,27 +33,24 @@ function check_local(){
 }
 
 function select_multiple(){
-  get_media_list();
+  $.when(get_media_list()).done(function(data){
+    data = data.result;
+    var options = [];
+    $.each(data,function(c,d){
+      options.push("<option value='"+d+"'>"+d+"</option>");
+    });
+    $("#medlist").append(options); 
+    set_selected_media();
+  });
   $("#medlist").select2();
 }
 
 function get_media_list(){
-  $.ajax({
+  return $.ajax({
     dataType: "json",
     type: "GET",
     url: create_url("listmedia"),
     crossDomain: true,
-    // async:false,
-    success: function(data){
-       data = data.result;
-       var options = [];
-       $.each(data,function(c,d){
-        options.push("<option value='"+d+"'>"+d+"</option>");
-       });
-       $("#medlist").append(options); 
-       set_selected_media();
-       console.log("changed");
-    },
     headers:{
       "Authorization":""+set_header()
     }
