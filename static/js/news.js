@@ -60,7 +60,10 @@ function get_news(){
 	          template.html(
 	            '<img style="" src="/static/img/loader.gif" />'
 	          );   
-        }
+        },
+        headers: {
+        	"Authorization":set_header()
+      	}
 	});
 }
   

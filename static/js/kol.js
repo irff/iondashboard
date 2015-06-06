@@ -25,7 +25,7 @@ function init_chart(){
 function get_keyopinion(){
   return $.ajax({
       type: 'POST',
-      url: 'http://128.199.120.29:8274/api/v1/keyopinionleader',
+      url: create_url("keyopinionleader"),
       data: localStorage.getItem("kol_data")
   }); 
 }

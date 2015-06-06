@@ -1,4 +1,4 @@
-ENGINE_STRING = 'mysql://root:@localhost/iondashboard'
+ENGINE_STRING = 'mysql://root:mantabg@n@localhost/iondashboard'
 
 SECRET_KEY = 'adFEaef3rqwfWrASDFa325afASfas'
 

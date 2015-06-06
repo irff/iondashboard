@@ -26,8 +26,11 @@ function init_chart(){
 function get_mediashare(){
   return $.ajax({
       type: 'POST',
-      url: 'http://128.199.120.29:8274/api/v1/mediashare',
-      data: localStorage.getItem("medshare_data")
+      url: create_url("mediashare"),
+      data: localStorage.getItem("medshare_data"),
+      headers: {
+        "Authorization":set_header()
+      }
   });
 }
 

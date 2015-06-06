@@ -26,7 +26,7 @@ function init_chart(){
 function get_wordfrequency(){
   return $.ajax({
       type: 'POST',
-      url: 'http://128.199.120.29:8274/api/v1/wordfrequencymanual',
+      url: create_url("wordfrequencymanual"),
       data: localStorage.getItem("wordfreq_data")
   });   
 }

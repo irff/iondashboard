@@ -7,24 +7,22 @@ $("datepicker").datepicker({
     }
 });
 
-$(window).load(function(){
-  check_local();
-  console.log("it changed");
-})
 
-$(document).load(function () {
-    if (localStorage.getItem("medialist")) {
-      var media_list = localStorage.getItem("medialist").split(",");
-      $("#medlist").val(media_list).change();
-      return false;
-    }
-    console.log("AJAX stop calling");
-  });
+$(document).ready(check_local);
+
+function set_selected_media(){
+  if (localStorage.getItem("medialist")) {
+    var media_list = localStorage.getItem("medialist").split(",");
+    console.log(media_list);
+    $("#medlist").val(media_list).change();
+  }
+}
 
  // Check whether the localStorage is empty or not 
 function check_local(){
   select_multiple();
-  if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data")){
+  set_selected_media();
+  if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data") && localStorage.getItem("wordfreq_data")){
     medshare_data = localStorage.getItem("medshare_data");
     kol_data = localStorage.getItem("kol_data");
     medsum_data = localStorage.getItem("medsum_data");
@@ -33,10 +31,7 @@ function check_local(){
     document.search["keyword"].value = localStorage.getItem("keyword");    
     document.search["date_start"].value = localStorage.getItem("begin");
     document.search["date_end"].value = localStorage.getItem("end");
-
-    return true;
   } 
-  return false;
 }
 
 function select_multiple(){
@@ -45,14 +40,31 @@ function select_multiple(){
 }
 
 function get_media_list(){
-  $.getJSON("http://128.199.120.29:8274/api/v1/listmedia",function(data){
-     data = data.result;
-     var options = [];
-     $.each(data,function(c,d){
-      options.push("<option value='"+d+"'>"+d+"</option>");
-     });
-
-     $("#medlist").append(options);
+  console.log("req [1]");
+  $.ajax({
+    // username : USERNAME,
+    // password: "unused",
+    dataType: "json",
+    type: "GET",
+    url: create_url("listmedia"),
+    crossDomain: true,
+    // async:false,
+    success: function(data){
+      console.log("success bro");
+       data = data.result;
+       var options = [];
+       $.each(data,function(c,d){
+        options.push("<option value='"+d+"'>"+d+"</option>");
+       });
+       $("#medlist").append(options); 
+    },
+    headers:{
+      "Authorization":""+set_header()
+    }
+    // beforeSend: function(xhr) {
+    //   console.log(set_header());
+    //   xhr.setRequestHeader('Authorization', set_header())
+    // }
   });
 }
 

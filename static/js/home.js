@@ -9,23 +9,29 @@ Array.prototype.indexOfNested = function(str){
 window.onload = dashboard_init();
 
 function dashboard_init(){
-  
-  $(document)
-  .ajaxStart(function () {
-    $("#medshare").html('<img class="loader" src="/static/img/loader.gif" />');
-    $("#medsum").html('<img class="loader" src="/static/img/loader.gif" />');
-    $("#keyop").html('<img class="loader" src="/static/img/loader.gif" />');
-    $("#word").html('<img class="loader" src="/static/img/loader.gif" />');
-    console.log("AJAX start calling");
-  });
+    //console.log("AJAX start calling");
 
-  if (check_local()) {
-    $.when(get_mediashare(),get_mediasummary(),get_keyopinion(),get_wordfrequency()).done(function(a,b,c,d){
-      make_multiline(prettify_share_data(a[0].result));
-      make_piechart(prettify_summary_data(b[0].result[0].media), '#medsum', 'Media Summary');
-      make_piechart(prettify_summary_data(c[0].result[0].people),"#keyop", "Key Opinion Leader");
-      make_barchart(prettify_frequency_data(d[0].result[0].words),get_category(d[0].result[0].words));
+  if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data") && localStorage.getItem("wordfreq_data")){
+  	$("#medshare").html('<img class="loader" src="/static/img/loader.gif" />');
+	$("#medsum").html('<img class="loader" src="/static/img/loader.gif" />');
+	$("#keyop").html('<img class="loader" src="/static/img/loader.gif" />');
+	$("#word").html('<img class="loader" src="/static/img/loader.gif" />');
+
+    $.when(get_mediashare()).done(function(a){
+      make_multiline(prettify_share_data(a.result));
+      console.log("Multiline finished");
     });
+    $.when(get_mediasummary()).done(function(b){
+      make_piechart(prettify_summary_data(b.result[0].media), '#medsum', 'Media Summary');
+    });
+    $.when(get_keyopinion()).done(function(c){
+      make_piechart(prettify_summary_data(c.result[0].people),"#keyop", "Key Opinion Leader");
+    });
+    $.when(get_wordfrequency()).done(function(d){
+      make_barchart(prettify_frequency_data(d.result[0].words),get_category(d.result[0].words));
+    });
+  } else {
+  	$("#result").html("Please specify your search attributes first!");
   }
 }
 function prettify_share_data(data){
@@ -77,32 +83,48 @@ function get_category(data){
 function get_mediasummary(){
   return $.ajax({
       type: 'POST',
-      url: 'http://128.199.120.29:8274/api/v1/mediashare/summary',
+      url: create_url("mediashare/summary"),
       data: localStorage.getItem("medsum_data"),
+      crossDomain: true,
+      headers: {
+        "Authorization":set_header()
+      },
   });
 }
 
 function get_keyopinion(){
   return $.ajax({
       type: 'POST',
-      url: 'http://128.199.120.29:8274/api/v1/keyopinionleader',
-      data: localStorage.getItem("kol_data")
+      url: create_url("keyopinionleader"),
+      data: localStorage.getItem("kol_data"),
+      crossDomain: true,
+      headers: {
+        "Authorization":set_header()
+      }
   }); 
 }
 
 function get_wordfrequency(){
   return $.ajax({
       type: 'POST',
-      url: 'http://128.199.120.29:8274/api/v1/wordfrequencymanual',
-      data: localStorage.getItem("wordfreq_data")
+      url: create_url("wordfrequencymanual"),
+      data: localStorage.getItem("wordfreq_data"),
+      crossDomain: true,
+      headers: {
+        "Authorization":set_header()
+      }
   });   
 }
 
 function get_mediashare(){
   return $.ajax({
       type: 'POST',
-      url: 'http://128.199.120.29:8274/api/v1/mediashare',
-      data: localStorage.getItem("medshare_data")
+      url: create_url("mediashare"),
+      data: localStorage.getItem("medshare_data"),
+      crossDomain: true,
+      headers: {
+        "Authorization":set_header()
+      }
   });
 }
 

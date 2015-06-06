@@ -25,7 +25,7 @@ function init_chart(){
 function get_mediasummary(){
   return $.ajax({
       type: 'POST',
-      url: 'http://128.199.120.29:8274/api/v1/mediashare/summary',
+      url: create_url("/mediashare/summary"),
       data: localStorage.getItem("medsum_data"),
   });
 }
