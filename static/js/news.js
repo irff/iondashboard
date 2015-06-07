@@ -17,12 +17,13 @@ function show_articles(id){
 	console.log(time);
 	console.log(content);
 	var result = "";
-	result += title + "<br>";
-	result += author + "<br>";
-	result += provider + "<br>";
-	result += location + "<br>";
-	result += time + "<br>";
-	result += "<p style='text-align:justify;'>"+content + "</p><br>";
+	result += "<div class='a-t'>"+title + "</div>";
+	result += "<div class='a-a'>"+author + "</div>";
+	result += "<div class='a-a'>"+time+ "</div>";
+	result += "<div class='a-a'>"+provider+ "</div>";
+	result += "<div class='a-a'>"+location+ "</div>";
+	
+	result += "<p style='text-align:justify;color:#424242;'>"+content + "</p><br>";
 
 
 	// $("body").attr("style","opacity:0.5;");
