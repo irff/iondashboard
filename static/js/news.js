@@ -1,21 +1,53 @@
 var template = $("#related-news ul");
 var total_article = 0;
 
+
+function show_articles(id){
+	var par = "#"+id.substring(0,id.length-2)+"-par"; 
+	var title = $(par).children(".title").text();
+	var author = $(par).children(".author").text();
+	var provider = $(par).children(".provider").text();
+	var location = $(par).children(".loc").text();
+	var time = $(par).children(".time").text();
+	var content = $(par).children("input[type='hidden']").val();
+	console.log(title);
+	console.log(author);
+	console.log(provider);
+	console.log(location);
+	console.log(time);
+	console.log(content);
+	var result = "";
+	result += title + "<br>";
+	result += author + "<br>";
+	result += provider + "<br>";
+	result += location + "<br>";
+	result += time + "<br>";
+	result += "<p style='text-align:justify;'>"+content + "</p><br>";
+
+
+	// $("body").attr("style","opacity:0.5;");
+	modal.open({
+		content: result,
+		width: "600px"
+	}); 
+}
+
 get_news();
 
 function generate_result(data){	
 	var list = "";
+	var counter = 1;
 	data.forEach(function(d){
-		list += generate_item(d);
+		list += generate_item(d,counter++);
 	});
 	template.html(list);
 }
 
-function generate_item(data){
+function generate_item(data, id){
 	// console.log(data);
 	// console.log(data.privider);
-	result = "<li>";
-	result = result +"<div class='title'><a target='_blank' href='http://128.199.120.29:3000/?url="+data.url+"'>"+ data.title +"</a></div>";
+	result = "<li  id='"+id+"-par'>";
+	result = result +"<div class='title'><a id='"+id+"-t' href='#' onclick='show_articles(this.id);return false;'>"+ data.title +"</a></div>";
 	result = result +"<div class='author'>by : "+ data.author +"</div>";
 	result = result +"<div class='provider'>site: "+ data.provider +"</div>";
 	result = result +"<div class='url'><a href='"+ data.url +"' target='_blank'>[article's link]</a>&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://128.199.120.29:3000/?url="+data.url+"'>[Download snapshot]</a></div>";
@@ -25,6 +57,7 @@ function generate_item(data){
 	result = result +"<div class='time'>time: "+ formatted +"WIB</div>";
 	result = result +"<div class='loc'>location:"+ data.location +"</div>";
 	result = result +"<div class='crawled' style='text-align:right;color:#212121;'>crawled on "+ String(moment(data.date_crawl)._d).substring(0,25) +"WIB</div>";
+	result = result + "<input type='hidden' name='content' value='"+data.content+"'>";
 	return result;
 }
 
@@ -43,7 +76,7 @@ function get_news(){
 	    type: 'POST',
 	    // make sure you respect the same origin policy with this url:
 	    // http://en.wikipedia.org/wiki/Same_origin_policy
-	    url: 'http://128.199.120.29:8274/api/v1/news',
+	    url: create_url("news"),
 	    data: post_data,
 	    crossDomain: true,
 	    success: function(msg){
@@ -62,5 +95,4 @@ function get_news(){
       		"Authorization":""+set_header()
     	}
 	});
-}
-  
+}  

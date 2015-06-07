@@ -219,7 +219,6 @@ function make_multiline(data){
 }
 
 function make_piechart(data, div, desc){
-  console.log(data);
   var chart = c3.generate({
     bindto :div,
     padding: {

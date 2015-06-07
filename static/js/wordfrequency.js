@@ -22,7 +22,10 @@ function get_wordfrequency(){
   return $.ajax({
       type: 'POST',
       url: create_url("wordfrequencymanual"),
-      data: localStorage.getItem("wordfreq_data")
+      data: localStorage.getItem("wordfreq_data"),
+      headers: {
+        "Authorization":set_header()
+      }
   });   
 }
 

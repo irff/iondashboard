@@ -21,7 +21,10 @@ function get_keyopinion(){
   return $.ajax({
       type: 'POST',
       url: create_url("keyopinionleader"),
-      data: localStorage.getItem("kol_data")
+      data: localStorage.getItem("kol_data"),
+      headers: {
+        "Authorization":set_header()
+      }
   }); 
 }
 
