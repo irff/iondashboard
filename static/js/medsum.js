@@ -22,6 +22,9 @@ function get_mediasummary(){
       type: 'POST',
       url: create_url("/mediashare/summary"),
       data: localStorage.getItem("medsum_data"),
+      headers : {	
+        "Authorization":set_header()
+      }
   });
 }
 
