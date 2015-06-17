@@ -2,6 +2,7 @@ window.onload = init_chart();
 
 Array.prototype.indexOfNested = function(str){
   for (var i=0;i<this.length;++i){
+    // console.log(this[i][0] + " " + str);
     if (this[i][0] === str)
       return i;
   }
@@ -34,17 +35,20 @@ function prettify_share_data(data){
 
   data.forEach(function(d){
     tmp = [];
+    //push date to the "date" index on result
     result[0].push(d.date);
     medias.forEach(function(e){
-      idx = result.indexOfNested(e)
-      if (idx === -1) {
+
+      //check if the name of media is on the result
+      if (result.indexOfNested(e) === -1) {
+        //push the name to result
         result.push([e]);
-      } else {
-        result[idx].push(d.media[e]);
       }
+      // add articles share to its media index
+      idx = result.indexOfNested(e);
+      result[idx].push(d.media[e]);
     });
   });
-
   return result;
 }
 
