@@ -71,8 +71,14 @@
     </div>
     <div id="media-list">
         <form name="media" style="display:table;width: 100%;">
-            <select style="width:80%;" id="medlist" name="medlist" multiple="multiple" data-placeholder="Select your media"></select>
-            <span style=""><input type="checkbox" value="all" onclick="select_all()" data-clicked="false"> Select All Media </span>
+            <select style="width:90%;" id="medlist" name="medlist" multiple="multiple" data-placeholder="Select your media"></select>
+            <div style="margin-top: 10px;">
+                <span style="margin-right:20px;"><input type="checkbox" value="all" onclick="select_all()" data-clicked="false"> Select All Media </span>
+                <input type="radio" value="D" name="interlude">per day
+                <input type="radio" value="W" name="interlude">per week
+                <input type="radio" value="M" name="interlude">per month
+                <input type="radio" value="Q" name="interlude">per quarter
+            </div>
         </form>
     </div>
 

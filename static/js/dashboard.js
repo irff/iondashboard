@@ -134,3 +134,11 @@ function save_session(data){
   window.location.reload();
 }
 
+
+function set_interlude(){
+
+}
+
+function get_interlude(){
+  
+}
