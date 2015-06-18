@@ -70,10 +70,10 @@
         </div>
     </div>
     <div id="media-list">
-        <form name="media">
-            <select id="medlist" name="medlist" multiple="multiple" data-placeholder="Select your media"></select>
+        <form name="media" style="display:table;width: 100%;">
+            <select style="width:80%;" id="medlist" name="medlist" multiple="multiple" data-placeholder="Select your media"></select>
+            <span style=""><input type="checkbox" value="all" onclick="select_all()" data-clicked="false"> Select All Media </span>
         </form>
-        <span><input type="checkbox" value="all"> Select All Media </span>
     </div>
 
     {%-if var != "index" %}

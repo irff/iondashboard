@@ -36,18 +36,6 @@ def snapshot():
     if 'username' not in session:
         return redirect(url_for('auth.index'))
 
-    r = requests.get(settings.API_ENDPOINT + '/listmedia', auth=(session['token'], 'unused'))
-
-    if r.status_code != 200:
-        return redirect(url_for('auth.logout'))
-
     url = request.args.get("url")
-    file_name = datetime.now().strftime("%Y-%m-%d") + "_" + hashlib.sha224(url).hexdigest() + ".png"
-    file_name = "snapshot/" + file_name
-
-    if os.path.exists(file_name) == False:
-        print "call snapshot"
-        output = check_output(["python",settings.SNAPSHOT_SCRIPT,url,file_name])
-        print output
-
-    return send_file(file_name, mimetype='image/png')
+    r = requests.get('http://128.199.168.81:3000/?url=' + url)
+    return send_file(r.raw, mimetype='image/png')

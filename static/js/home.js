@@ -36,23 +36,27 @@ function dashboard_init(){
   	$("#footer").attr("style","position:absolute;");
   }
 }
+
 function prettify_share_data(data){
   result = [["date"]];
   medias = localStorage.getItem("medialist").split(",");
 
   data.forEach(function(d){
     tmp = [];
+    //push date to the "date" index on result
     result[0].push(d.date);
     medias.forEach(function(e){
-      idx = result.indexOfNested(e)
-      if (idx === -1) {
+
+      //check if the name of media is on the result
+      if (result.indexOfNested(e) === -1) {
+        //push the name to result
         result.push([e]);
-      } else {
-        result[idx].push(d.media[e]);
       }
+      // add articles share to its media index
+      idx = result.indexOfNested(e);
+      result[idx].push(d.media[e]);
     });
   });
-
   return result;
 }
 
