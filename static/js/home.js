@@ -30,29 +30,32 @@ function dashboard_init(){
       make_barchart(prettify_frequency_data(d.result[0].words),get_category(d.result[0].words));
     });
   } else {
-  	console.log("wow much wow");
   	$("#result").html("Please specify your search attributes first!");
   	$("#result").attr("style","padding-top: 0px!important;color: #9e9e9e;font-family: 'Roboto', sans-serif;margin-top:10px!important;font-size: 30px");
   	$("#footer").attr("style","position:absolute;");
   }
 }
+
 function prettify_share_data(data){
   result = [["date"]];
   medias = localStorage.getItem("medialist").split(",");
 
   data.forEach(function(d){
     tmp = [];
+    //push date to the "date" index on result
     result[0].push(d.date);
     medias.forEach(function(e){
-      idx = result.indexOfNested(e)
-      if (idx === -1) {
+
+      //check if the name of media is on the result
+      if (result.indexOfNested(e) === -1) {
+        //push the name to result
         result.push([e]);
-      } else {
-        result[idx].push(d.media[e]);
       }
+      // add articles share to its media index
+      idx = result.indexOfNested(e);
+      result[idx].push(d.media[e]);
     });
   });
-
   return result;
 }
 
@@ -184,6 +187,9 @@ function make_multiline(data){
           x: 'date',
           columns: data
       },
+      color: {
+        pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+      },
       axis: {
         x:{
           type:'timeseries',
@@ -224,18 +230,26 @@ function make_piechart(data, div, desc){
     padding: {
       top: 50
     },
+    color: {
+        pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+    },
     data : {
       columns : data,
       type : 'donut'
     },
-      donut: {
-          title: desc,
-          label: {
-            format: function (value, ratio, id) {
-                return value;
-            }
+    donut: {
+        title: desc,
+        label: {
+          show : false
+        }
+    },
+    tooltip: {
+      format: {
+        value: function (value, ratio, id) {
+            return value + " ("+Math.floor(ratio*10000)/100+"%)";
         }
       }
+    }
   });
   d3.select(div+' svg').append('text')
     .attr('x', d3.select(div+' svg').node().getBoundingClientRect().width / 2)

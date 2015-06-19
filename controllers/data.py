@@ -30,11 +30,11 @@ def show(data):
 
 @data.route('/snapshot')
 def snapshot():
-    print "get request"
     if 'username' not in session:
         return redirect(url_for('auth.index'))
 
     url = request.args.get("url")
+
     req = requests.Session()
     r = req.get('http://128.199.168.81:3000/?url=' + url, stream=True)
     return send_file(io.BytesIO(r.content), mimetype='image/png')

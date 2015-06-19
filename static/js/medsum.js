@@ -60,6 +60,13 @@ function make_piechart(data, div, desc){
                 return value;
             }
         }
+    },
+    tooltip: {
+      format: {
+        value: function (value, ratio, id) {
+            return value + " ("+Math.floor(ratio*10000)/100+"%)";
+        }
+      }
     }
   });
 }

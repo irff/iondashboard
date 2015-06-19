@@ -57,6 +57,26 @@ function get_media_list(){
   });
 }
 
+function get_all_media_name(){
+  var arr = [];
+  $("option").each(function(d){
+    arr.push($(this).val());
+  });
+  return arr;
+}
+
+function select_all(){
+	var clicked = $("input[type='checkbox']").data("clicked");
+  if (clicked) {
+    clicked = false;
+    $("#medlist").val(null).change();
+  } else {
+    clicked = true;
+    $("#medlist").val(get_all_media_name()).change();
+  }
+  $("input[type='checkbox']").data("clicked",clicked);
+}
+
 function save_session(data){
   var keyword = document.search["keyword"].value;
   var start = document.search["date_start"].value;
