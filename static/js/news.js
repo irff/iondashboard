@@ -51,7 +51,7 @@ function generate_item(data, id){
 	result = result +"<div class='title'><a id='"+id+"-t' href='#' onclick='show_articles(this.id);return false;'>"+ data.title +"</a></div>";
 	result = result +"<div class='author'>by : "+ data.author +"</div>";
 	result = result +"<div class='provider'>site: "+ data.provider +"</div>";
-	result = result +"<div class='url'><a href='"+ data.url +"' target='_blank'>[article's link]</a>&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://128.199.120.29:3000/?url="+data.url+"'>[Download snapshot]</a></div>";
+	result = result +"<div class='url'><a href='"+ data.url +"' target='_blank'>[article's link]</a>&nbsp;&nbsp;&nbsp;<a target='_blank' href='/snapshot?url="+data.url+"'>[Download snapshot]</a></div>";
 
 	formatted = moment(data.publish);
 	formatted = String(formatted._d).substring(0,25);

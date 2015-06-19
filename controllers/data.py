@@ -3,10 +3,7 @@ from flask import  session, redirect, url_for, request, send_file
 from jinja2 import TemplateNotFound
 import settings
 import requests
-import hashlib
-from datetime import datetime
-from subprocess import check_output
-import os.path
+import io
 
 data = Blueprint('data', __name__, template_folder='application/templates')
 
@@ -33,21 +30,11 @@ def show(data):
 
 @data.route('/snapshot')
 def snapshot():
+    print "get request"
     if 'username' not in session:
         return redirect(url_for('auth.index'))
 
-    r = requests.get(settings.API_ENDPOINT + '/listmedia', auth=(session['token'], 'unused'))
-
-    if r.status_code != 200:
-        return redirect(url_for('auth.logout'))
-
     url = request.args.get("url")
-    file_name = datetime.now().strftime("%Y-%m-%d") + "_" + hashlib.sha224(url).hexdigest() + ".png"
-    file_name = "snapshot/" + file_name
-
-    if os.path.exists(file_name) == False:
-        print "call snapshot"
-        output = check_output(["python",settings.SNAPSHOT_SCRIPT,url,file_name])
-        print output
-
-    return send_file(file_name, mimetype='image/png')
+    req = requests.Session()
+    r = req.get('http://128.199.168.81:3000/?url=' + url, stream=True)
+    return send_file(io.BytesIO(r.content), mimetype='image/png')
