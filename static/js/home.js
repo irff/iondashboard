@@ -208,6 +208,13 @@ function make_multiline(data){
           }
         }
       },
+      tooltip:{
+        format:{
+          title: function (date,xx,yy){
+            return make_date_interval(date);
+          }
+        }
+      },
       zoom: {
           enabled: true
       },
@@ -222,6 +229,28 @@ function make_multiline(data){
     .style('font-size', '2em')
     .style('font-family',"Roboto', sans-serif")
     .text('Media Share');
+}
+
+function make_date_interval(date){
+  var interlude = 0;
+  var user_interlude = localStorage.getItem("interlude");
+  if (user_interlude == "W") {
+    interlude = 6;
+  } else if (user_interlude == "M"){
+    interlude = 29;
+  } else if (user_interlude == "Q"){
+    interlude = 89;
+  }
+  var begin_date = moment(date).format("DD-MM-YYYY");
+  var end_date = moment(date).add(interlude,"days").format("DD-MM-YYYY");
+  var user_date_end = moment(localStorage.getItem("end")).format("DD-MM-YYYY");
+  // console.log(end_date + " "+ user_date_end);
+  // if (end_date > user_date_end) {
+  //   end_date = user_date_end;
+  // }
+  if (user_interlude != "D") {
+    return begin_date+" to "+end_date;
+  } else return date;
 }
 
 function make_piechart(data, div, desc){
