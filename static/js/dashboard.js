@@ -20,15 +20,17 @@ function set_selected_media(){
  // Check whether the localStorage is empty or not 
 function check_local(){
   select_multiple();
-  if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data") && localStorage.getItem("wordfreq_data")){
+  if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data") && localStorage.getItem("wordfreq_data") && localStorage.getItem("interlude")){
     medshare_data = localStorage.getItem("medshare_data");
     kol_data = localStorage.getItem("kol_data");
     medsum_data = localStorage.getItem("medsum_data");
     wordfreq_data = localStorage.getItem("wordfreq_data");
+    interlude = localStorage.getItem("interlude");
 
     document.search["keyword"].value = localStorage.getItem("keyword");    
     document.search["date_start"].value = localStorage.getItem("begin");
     document.search["date_end"].value = localStorage.getItem("end");
+    document.media["interlude"].value = localStorage.getItem("interlude");
   } 
 }
 
@@ -81,6 +83,7 @@ function save_session(data){
   var keyword = document.search["keyword"].value;
   var start = document.search["date_start"].value;
   var end = document.search["date_end"].value;
+  var interlude = document.media["interlude"].value;
 
   if (!keyword || !start || !end){
     return false;
@@ -89,6 +92,7 @@ function save_session(data){
   localStorage.setItem("keyword",keyword);
   localStorage.setItem("begin",start);
   localStorage.setItem("end",end);
+  localStorage.setItem("interlude",interlude);
 
   list_media = $("#medlist").val() ? $("#medlist").val() : [];
   localStorage.setItem("medialist",list_media);
@@ -97,7 +101,8 @@ function save_session(data){
     media:list_media,
     keyword: keyword,
     begin: start+" 01:00:00",
-    end: end+" 01:00:00"
+    end: end+" 01:00:00",
+    interlude: interlude
   });
 
   localStorage.setItem("medshare_data",tmp_data);
@@ -107,7 +112,8 @@ function save_session(data){
     name: ["jokowi","prabowo","samad","sby","megawati","habibie","paloh"],
     keyword: keyword,
     begin: start+" 01:00:00",
-    end: end+" 01:00:00"
+    end: end+" 01:00:00",
+    interlude: interlude
   });
 
   localStorage.setItem("kol_data",tmp_data);
@@ -116,7 +122,8 @@ function save_session(data){
     media:list_media,
     keyword: keyword,
     begin: start+" 01:00:00",
-    end: end+" 01:00:00"
+    end: end+" 01:00:00",
+    interlude: interlude
   });
 
   localStorage.setItem("medsum_data",tmp_data);
@@ -126,7 +133,8 @@ function save_session(data){
     keyword: keyword,
     limit:20,
     begin: start+" 01:00:00",
-    end: end+" 01:00:00"
+    end: end+" 01:00:00",
+    interlude: interlude
   });
 
   localStorage.setItem("wordfreq_data",tmp_data);
@@ -135,7 +143,7 @@ function save_session(data){
 }
 
 
-function set_interlude(){
+function update_interlude(interlude){
 
 }
 
