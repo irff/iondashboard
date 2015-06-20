@@ -10,12 +10,12 @@ function show_articles(id){
 	var location = $(par).children(".loc").text();
 	var time = $(par).children(".time").text();
 	var content = $(par).children("input[type='hidden']").val();
-	console.log(title);
-	console.log(author);
-	console.log(provider);
-	console.log(location);
-	console.log(time);
-	console.log(content);
+	// console.log(title);
+	// console.log(author);
+	// console.log(provider);
+	// console.log(location);
+	// console.log(time);
+	// console.log(content);
 	var result = "";
 	result += "<div class='a-t'>"+title + "</div>";
 	result += "<div class='a-a'>"+author + "</div>";
@@ -24,7 +24,6 @@ function show_articles(id){
 	result += "<div class='a-a'>"+location+ "</div>";
 	
 	result += "<p style='text-align:justify;color:#424242;'>"+content + "</p><br>";
-
 
 	// $("body").attr("style","opacity:0.5;");
 	modal.open({
@@ -62,17 +61,43 @@ function generate_item(data, id){
 	return result;
 }
 
+function generate_data(media,sort_property,order){
+	var post_data = "";
+	var data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
+	var from = $("#list-news").data("from");
+	var size = $("#list-news").data("size");
+	if (media) {
+		post_data = '{"media":["'+ data_media+'"],'+
+		'"keyword":"' +localStorage.getItem("keyword")+'",'+
+		'"begin":"'   +localStorage.getItem("begin")  +' 01:00:00",'+
+		'"end":"'     +localStorage.getItem("end")    +' 01:00:00",'+
+		'"from_page":'+from+','+
+		'"sort_by":"'+sort_property+'",'+
+		'"order":"'+order+'",'+
+		'"page_size":'+size+'}';
+	} else {
+		post_data = '{"keyword":"'+localStorage.getItem("keyword")+'",'+
+		'"begin":"'   +localStorage.getItem("begin")+' 01:00:00",'+
+		'"end":"'     +localStorage.getItem("end")+' 01:00:00",'+
+		'"from_page":'+from+','+
+		'"sort_by":"'+sort_property+'",'+
+		'"order":"'+order+'",'+
+		'"page_size":'+size+'}';
+	}
+	return post_data;
+}
+
 function get_news(){
+	$("#sort-property").select2({
+		width : "140px"
+	});
 	var from = $("#list-news").data("from");
 	var size = $("#list-news").data("size");
 	var data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
-	var post_data = "";
+	var sorted_by = $("#sort-property").val();
+	var sorted_order = $("input[name=order]:checked").val();
+	var post_data = generate_data(data_media == null ? false:true,sorted_by,sorted_order);
     template.html('<img style="" src="/static/img/loader.gif" />');   
-	if (data_media) {
-		post_data = '{"media":["'+ data_media+'"],"keyword":"'+localStorage.getItem("keyword")+'","begin":"'+localStorage.getItem("begin")+' 01:00:00","end":"'+localStorage.getItem("end")+' 01:00:00","from_page":'+from+',"page_size":'+size+'}';
-	} else {
-		post_data = '{"keyword":"'+localStorage.getItem("keyword")+'","begin":"'+localStorage.getItem("begin")+' 01:00:00","end":"'+localStorage.getItem("end")+' 01:00:00","from_page":'+from+',"page_size":'+size+'}';
-	}
 	$.ajax({
 	    type: 'POST',
 	    // make sure you respect the same origin policy with this url:
@@ -83,7 +108,7 @@ function get_news(){
 	    success: function(msg){
 	        response = msg.result[0].news;
 	        total_article = msg.total;
-			generate_result(response);
+			generate_result(response);  
 			$("#total-articles").html("There are "+total_article+" related articles");
 			console.log(from/size);
 			$('#pagination').pagination({

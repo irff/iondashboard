@@ -63,8 +63,14 @@
 
 #related-news #total-articles{
   text-align: center;
-  font-size: 14px;
-  margin-bottom: 25px;  
+  font-size: 14px;  
+  margin-bottom: 10px;
+}
+
+#related-news #sort-by {
+  margin-bottom: 10px;
+  text-align: right;
+  min-height: 30px;
 }
 
 #related-news #pagination{

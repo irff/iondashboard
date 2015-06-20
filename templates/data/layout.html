@@ -119,6 +119,20 @@
     <div id="related-news">
         <h1>Related Articles</h1>
         <div id="total-articles"></div>
+        <div id="sort-by">
+            <div style="float:left;">
+                <input name="order" type="radio" value="desc"  onchange="get_news()"> Z-A
+                <input name="order" type="radio" value="asc"  onchange="get_news()"> A-Z
+            </div>
+            <div  style="float:right;">
+                sort by
+                <select id="sort-property" onchange="get_news()">
+                    <option value="publish">Publish time</option>
+                    <option value="timestamp">Crawled time</option>
+                    <option value="title">Article's title</option>
+                </select>
+            </div>
+        </div>
         <input id="list-news" type="hidden" data-from="0" data-size="10">
         <ul>
             
