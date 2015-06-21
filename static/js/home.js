@@ -31,7 +31,7 @@ function dashboard_init(){
     });
   } else {
   	$("#result").html("Please specify your search attributes first!");
-  	$("#result").attr("style","padding-top: 0px!important;color: #9e9e9e;font-family: 'Roboto', sans-serif;margin-top:10px!important;font-size: 30px");
+  	$("#result").attr("style","padding-top: 0px!important;color: #9e9e9e;font-family: 'Roboto', sans-serif;padding-top:10px!important;font-size: 30px;text-align:center;");
   	$("#footer").attr("style","position:absolute;");
   }
 }
