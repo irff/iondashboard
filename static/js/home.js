@@ -24,6 +24,7 @@ function dashboard_init(){
       make_piechart(prettify_summary_data(b.result[0].media), '#medsum', 'Media Summary');
     });
     $.when(get_keyopinion()).done(function(c){
+      console.log("keyol started");
       make_piechart(prettify_summary_data(c.result[0].people),"#keyop", "Key Opinion Leader");
     });
     $.when(get_wordfrequency()).done(function(d){

@@ -20,13 +20,15 @@ function set_selected_media(){
 function set_selected_keyop(){
   if (localStorage.getItem("keyop_data")) {
     var kol_list = localStorage.getItem("keyop_data").split(",");
-    $("#keyop").val(kol_list).change();
+    $("#kol").val(kol_list).change();
   }
 }
 
  // Check whether the localStorage is empty or not 
 function check_local(){
-  select_multiple();
+  select_multiple();  
+  set_selected_media();
+  set_selected_keyop();
   if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data") && localStorage.getItem("wordfreq_data") && localStorage.getItem("interlude") && localStorage.getItem("keyop_data")){
     medshare_data = localStorage.getItem("medshare_data");
     kol_data = localStorage.getItem("kol_data");
@@ -39,9 +41,6 @@ function check_local(){
     document.search["date_start"].value = localStorage.getItem("begin");
     document.search["date_end"].value = localStorage.getItem("end");
     document.media["interlude"].value = localStorage.getItem("interlude");
-
-    set_selected_media();
-    set_selected_keyop();
   } 
 }
 
@@ -62,12 +61,12 @@ function select_multiple(){
 	  $.each(keyop_list,function(id,data){
 	  	options.push("<option value='"+data+"'>"+data+"</option>");
 	  });
-	  $("#keyop").append(options);
+	  $("#kol").append(options);
   }
 
-  $("#keyop").select2({
+  $("#kol").select2({
     tags:true,
-    tokenSeparators: [',', ' ']
+    tokenSeparators: [',']
   });
 }
 
@@ -92,7 +91,7 @@ function get_all_media_name(){
 }
 
 function select_all(){
-	var clicked = $("input[type='checkbox']").data("clicked");
+  var clicked = $("input[type='checkbox']").data("clicked");
   if (clicked) {
     clicked = false;
     $("#medlist").val(null).change();
@@ -108,7 +107,7 @@ function save_session(data){
   var start = document.search["date_start"].value;
   var end = document.search["date_end"].value;
   var interlude = document.media["interlude"].value;
-  var keyop_data = $("#keyop").val() ? $("#keyop").val() : [];
+  var keyop_data = $("#kol").val() ? $("#kol").val() : [];
 
   if (!keyword || !start || !end){
     return false;
@@ -163,13 +162,4 @@ function save_session(data){
   localStorage.setItem("wordfreq_data",tmp_data);
 
   window.location.reload();
-}
-
-
-function update_interlude(interlude){
-
-}
-
-function get_interlude(){
-  
 }

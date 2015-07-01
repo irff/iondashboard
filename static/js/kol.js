@@ -36,7 +36,6 @@ function get_keyopinion(){
 
 function prettify_summary_data(data){
   result = [];
-  console.log(data);
   Object.keys(data).forEach(function(d){
     result.push([d,data[d]]);
   });
