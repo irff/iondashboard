@@ -2,6 +2,10 @@ from flask import Flask
 from database import db_session
 import settings
 
+from tornado.wsgi import WSGIContainer
+from tornado.web import Application, FallbackHandler
+from tornado.ioloop import IOLoop
+
 """import all controller from application.controllers"""
 from controllers.auth import auth
 from controllers.data import data
@@ -19,6 +23,14 @@ app.register_blueprint(auth)
 def shutdown_session(exception=None):
     db_session.remove()
 
-if __name__ == '__main__':
-    app.debug = True
-    app.run(port=settings.PORT, host='0.0.0.0')
+# if __name__ == '__main__':
+#     app.debug = True
+#     app.run(port=settings.PORT, host='0.0.0.0')
+
+if __name__ == "__main__":
+    container = WSGIContainer(app)
+    server = Application([
+        (r'.*', FallbackHandler, dict(fallback=container))
+    ])
+    server.listen(settings.PORT, address="0.0.0.0")
+    IOLoop.instance().start()
