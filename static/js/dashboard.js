@@ -1,5 +1,10 @@
 var click_status;
 
+function on_logout(){
+  localStorage.clear();
+}
+
+
 // Script for date
 $("datepicker").datepicker({
     isDisabled: function(date) {

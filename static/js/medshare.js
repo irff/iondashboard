@@ -64,7 +64,13 @@ function make_multiline(data){
       bindto: '#result',
       data: {
           x: 'date',
-          columns: data
+          columns: data,
+          onclick: function(e){
+            console.log(e);
+          },
+          onmouseover: function(e){
+            console.log("hover "+e);
+          }
       },
       axis: {
         x:{
@@ -89,6 +95,11 @@ function make_multiline(data){
       },
       point: {
         show: false
+      },
+      tooltip: {
+        contents: function(d,title,value,color){
+          console.log(d);
+        }
       }
   });
 }

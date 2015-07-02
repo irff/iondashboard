@@ -47,7 +47,7 @@
             <li><div><a href="/data/mediasummary">Media Summary</a></div></li>
             <li><div><a href="/data/wordfrequency">Word Frequency</a></div></li>
             <li><div><a href="/data/keyopinionleader">Key Opinion Leader</a></div></li>
-            <li id="signout"><div><a href="/auth/logout"><img id="logout" src="{{ url_for('static', filename='img/logout.png')}}"></a></div></li>
+            <li id="signout"><div><a onclick="on_logout()" href="/auth/logout"><img id="logout" src="{{ url_for('static', filename='img/logout.png')}}"></a></div></li>
         </ul>
     </header>
 
@@ -125,15 +125,14 @@
         <div id="total-articles"></div>
         <div id="sort-by">
             <div style="float:left;">
-                <input name="order" type="radio" value="desc"  onchange="get_news()" checked="checked"> Z-A
-                <input name="order" type="radio" value="asc"  onchange="get_news()"> A-Z
+                <input name="order" type="radio" value="desc"  onchange="get_news()" checked="checked">Older-Newer
+                <input name="order" type="radio" value="asc"  onchange="get_news()">Newer-Older
             </div>
             <div  style="float:right;">
                 sort by
                 <select id="sort-property" onchange="get_news()">
                     <option value="publish">Publish time</option>
                     <option value="timestamp">Crawled time</option>
-                    <option value="title">Article's title</option>
                 </select>
             </div>
         </div>

@@ -10,12 +10,6 @@ function show_articles(id){
 	var location = $(par).children(".loc").text();
 	var time = $(par).children(".time").text();
 	var content = $(par).children("input[type='hidden']").val();
-	// console.log(title);
-	// console.log(author);
-	// console.log(provider);
-	// console.log(location);
-	// console.log(time);
-	// console.log(content);
 	var result = "";
 	result += "<div class='a-t'>"+title + "</div>";
 	result += "<div class='a-a'>"+author + "</div>";
