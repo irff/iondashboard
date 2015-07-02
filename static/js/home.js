@@ -24,6 +24,7 @@ function dashboard_init(){
       make_piechart(prettify_summary_data(b.result[0].media), '#medsum', 'Media Summary');
     });
     $.when(get_keyopinion()).done(function(c){
+      console.log("keyol started");
       make_piechart(prettify_summary_data(c.result[0].people),"#keyop", "Key Opinion Leader");
     });
     $.when(get_wordfrequency()).done(function(d){
@@ -31,7 +32,7 @@ function dashboard_init(){
     });
   } else {
   	$("#result").html("Please specify your search attributes first!");
-  	$("#result").attr("style","padding-top: 0px!important;color: #9e9e9e;font-family: 'Roboto', sans-serif;margin-top:10px!important;font-size: 30px");
+  	$("#result").attr("style","padding-top: 0px!important;color: #9e9e9e;font-family: 'Roboto', sans-serif;padding-top:10px!important;font-size: 30px;text-align:center;");
   	$("#footer").attr("style","position:absolute;");
   }
 }

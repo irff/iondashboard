@@ -93,32 +93,34 @@ function get_news(){
 	});
 	var from = $("#list-news").data("from");
 	var size = $("#list-news").data("size");
-	var data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
-	var sorted_by = $("#sort-property").val();
-	var sorted_order = $("input[name=order]:checked").val();
-	var post_data = generate_data(data_media == null ? false:true,sorted_by,sorted_order);
-    template.html('<img style="" src="/static/img/loader.gif" />');   
-	$.ajax({
-	    type: 'POST',
-	    // make sure you respect the same origin policy with this url:
-	    // http://en.wikipedia.org/wiki/Same_origin_policy
-	    url: create_url("news"),
-	    data: post_data,
-	    crossDomain: true,
-	    success: function(msg){
-	        response = msg.result[0].news;
-	        total_article = msg.total;
-			generate_result(response);  
-			$("#total-articles").html("There are "+total_article+" related articles");
-			console.log(from/size);
-			$('#pagination').pagination({
-				pages: Math.floor(total_article/size),
-				currentPage: (from/size) == 0 ? 1 : from/size,
-				cssStyle: 'light-theme'
-			});
-	    },
-        headers:{
-      		"Authorization":""+set_header()
-    	}
-	});
+	if (localStorage.getItem("medialist")) {
+		var data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
+		var sorted_by = $("#sort-property").val();
+		var sorted_order = $("input[name=order]:checked").val();
+		var post_data = generate_data(data_media == null ? false:true,sorted_by,sorted_order);
+	    template.html('<img style="" src="/static/img/loader.gif" />');   
+		$.ajax({
+		    type: 'POST',
+		    // make sure you respect the same origin policy with this url:
+		    // http://en.wikipedia.org/wiki/Same_origin_policy
+		    url: create_url("news"),
+		    data: post_data,
+		    crossDomain: true,
+		    success: function(msg){
+		        response = msg.result[0].news;
+		        total_article = msg.total;
+				generate_result(response);  
+				$("#total-articles").html("There are "+total_article+" related articles");
+				console.log(from/size);
+				$('#pagination').pagination({
+					pages: Math.floor(total_article/size),
+					currentPage: (from/size) == 0 ? 1 : from/size,
+					cssStyle: 'light-theme'
+				});
+		    },
+	        headers:{
+	      		"Authorization":""+set_header()
+	    	}
+		});
+	}
 }  

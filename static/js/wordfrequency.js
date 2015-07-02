@@ -23,6 +23,7 @@ function get_wordfrequency(){
       type: 'POST',
       url: create_url("wordfrequencymanual"),
       data: localStorage.getItem("wordfreq_data"),
+      crossDomain: true,
       headers: {
         "Authorization":set_header()
       }
