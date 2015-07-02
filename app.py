@@ -9,6 +9,7 @@ from tornado.ioloop import IOLoop
 """import all controller from application.controllers"""
 from controllers.auth import auth
 from controllers.data import data
+from controllers.social import social
 """import more controller"""
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ app.secret_key = settings.SECRET_KEY
 """register each controller as blueprint"""
 app.register_blueprint(data)
 app.register_blueprint(auth)
+app.register_blueprint(social)
 """register more controller"""
 
 @app.teardown_appcontext
