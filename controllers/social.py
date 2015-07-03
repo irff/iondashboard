@@ -9,7 +9,10 @@ social = Blueprint('social', __name__, template_folder='application/templates')
 
 @social.route('/social/', defaults={'data': 'index'})
 def show(data):
+    if 'username' not in session:
+        return redirect(url_for('auth.index'))
+
     try:
-        return "hello world"
+        return "Hello Gan!"
     except TemplateNotFound:
         abort(404)
