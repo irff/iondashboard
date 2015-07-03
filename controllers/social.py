@@ -15,4 +15,4 @@ def show(data):
     try:
         return "Hello Gan!"
     except TemplateNotFound:
-        abort(404)
+        abort(400)
