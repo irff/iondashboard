@@ -11,8 +11,12 @@ function show_articles(id){
 	var time = $(par).children(".time").text();
 	var content = $(par).children("input[type='hidden']").val();
 	var result = "";
-	result += "<div class='a-t'>"+title + "</div>";
-	result += "<div class='a-a'>"+author + "</div>";
+	if (typeof title !== "undefined") {
+		result += "<div class='a-t'>"+title + "</div>";
+	}
+	if (typeof author !== "undefined") {
+		result += "<div class='a-a'>"+author + "</div>";
+	}
 	result += "<div class='a-a'>"+time+ "</div>";
 	result += "<div class='a-a'>"+provider+ "</div>";
 	result += "<div class='a-a'>"+location+ "</div>";
@@ -42,7 +46,9 @@ function generate_item(data, id){
 	// console.log(data.privider);
 	result = "<li  id='"+id+"-par'>";
 	result = result +"<div class='title'><a id='"+id+"-t' href='#' onclick='show_articles(this.id);return false;'>"+ data.title +"</a></div>";
-	result = result +"<div class='author'>by : "+ data.author +"</div>";
+	if (typeof data.author !== "undefined") {
+		result = result +"<div class='author'>by : "+ data.author +"</div>";
+	}
 	result = result +"<div class='provider'>site: "+ data.provider +"</div>";
 	result = result +"<div class='url'><a href='"+ data.url +"' target='_blank'>[article's link]</a>&nbsp;&nbsp;&nbsp;<a target='_blank' href='/snapshot?url="+data.url+"'>[Download snapshot]</a></div>";
 
@@ -57,27 +63,26 @@ function generate_item(data, id){
 
 function generate_data(media,sort_property,order){
 	var post_data = "";
-	var data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
+	var data_media = "";
+	if (localStorage.getItem("news-media") === null) {
+		data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
+	} else {
+		data_media = localStorage.getItem("news-media");
+	}
 	var from = $("#list-news").data("from");
 	var size = $("#list-news").data("size");
 	if (media) {
-		post_data = '{"media":["'+ data_media+'"],'+
-		'"keyword":"' +localStorage.getItem("keyword")+'",'+
+		post_data = '{"media":["'+ data_media+'"],';
+	} else {
+		post_data = '{';
+	}
+	post_data += '"keyword":"'+localStorage.getItem("keyword")+'",'+
 		'"begin":"'   +localStorage.getItem("begin")  +' 01:00:00",'+
 		'"end":"'     +localStorage.getItem("end")    +' 01:00:00",'+
 		'"from_page":'+from+','+
 		'"sort_by":"'+sort_property+'",'+
 		'"order":"'+order+'",'+
 		'"page_size":'+size+'}';
-	} else {
-		post_data = '{"keyword":"'+localStorage.getItem("keyword")+'",'+
-		'"begin":"'   +localStorage.getItem("begin")+' 01:00:00",'+
-		'"end":"'     +localStorage.getItem("end")+' 01:00:00",'+
-		'"from_page":'+from+','+
-		'"sort_by":"'+sort_property+'",'+
-		'"order":"'+order+'",'+
-		'"page_size":'+size+'}';
-	}
 	return post_data;
 }
 
@@ -117,4 +122,9 @@ function get_news(){
 	    	}
 		});
 	}
+}
+
+function reset_search(){
+	localStorage.removeItem("news-media");
+	get_news();
 }  

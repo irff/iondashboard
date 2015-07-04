@@ -9,6 +9,24 @@
   filter:alpha(opacity=50);
 }
 
+button {
+  color: #fff;
+  background-color: #F44336;
+  text-align: center;
+  letter-spacing: .5px;
+  border: none;
+  border-radius: 2px;
+  display: inline-block;
+  height: 28px;
+  line-height: 28px;
+  outline: 0;
+  padding: 0 1rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
 #modal {
   position:absolute;
   background: white;

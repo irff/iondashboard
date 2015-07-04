@@ -20,7 +20,7 @@ function init_chart(){
 function get_mediasummary(){
   return $.ajax({
       type: 'POST',
-      url: create_url("/mediashare/summary"),
+      url: create_url("mediashare/summary"),
       data: localStorage.getItem("medsum_data"),
       headers : {	
         "Authorization":set_header()
@@ -50,7 +50,11 @@ function make_piechart(data, div, desc){
     },
     data : {
       columns : data,
-      type : 'donut'
+      type : 'donut',
+      onclick: function(event){
+        console.log(event.id);
+        generate_news(event.id);
+      }
     },
     donut: {
         title: desc,
@@ -69,4 +73,9 @@ function make_piechart(data, div, desc){
       }
     }
   });
+}
+
+function generate_news(media){
+  localStorage.setItem("news-media",media);
+  get_news();
 }

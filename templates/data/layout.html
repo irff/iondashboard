@@ -123,10 +123,11 @@
     <div id="related-news">
         <h1>Related Articles</h1>
         <div id="total-articles"></div>
+        <div style="text-align:center;"><button onclick="reset_search()">Reset search</button></div>
         <div id="sort-by">
             <div style="float:left;">
-                <input name="order" type="radio" value="desc"  onchange="get_news()" checked="checked">Older-Newer
-                <input name="order" type="radio" value="asc"  onchange="get_news()">Newer-Older
+                <input name="order" type="radio" value="desc"  onchange="get_news()" checked="checked">Newer-Older
+                <input name="order" type="radio" value="asc"  onchange="get_news()">Older-Newer
             </div>
             <div  style="float:right;">
                 sort by
@@ -154,7 +155,7 @@
 
 </body>
 <script>
-    var USERNAME = "{{ session.token }}";
+    var token = "{{ session.token }}";
 </script>
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/config.js') }}"></script>

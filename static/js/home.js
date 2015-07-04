@@ -279,6 +279,9 @@ function make_piechart(data, div, desc){
             return value + " ("+Math.floor(ratio*10000)/100+"%)";
         }
       }
+    },
+    legend: {
+      show:false
     }
   });
   d3.select(div+' svg').append('text')
