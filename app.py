@@ -5,11 +5,14 @@ import settings
 from tornado.wsgi import WSGIContainer
 from tornado.web import Application, FallbackHandler
 from tornado.ioloop import IOLoop
+from tornado import autoreload
+
 
 """import all controller from application.controllers"""
 from controllers.auth import auth
 from controllers.data import data
 from controllers.social import social
+from controllers.dashboard import dashboard
 """import more controller"""
 
 app = Flask(__name__)
@@ -19,6 +22,7 @@ app.secret_key = settings.SECRET_KEY
 app.register_blueprint(data)
 app.register_blueprint(auth)
 app.register_blueprint(social)
+app.register_blueprint(dashboard)
 """register more controller"""
 
 @app.teardown_appcontext
@@ -34,5 +38,7 @@ if __name__ == "__main__":
     server = Application([
         (r'.*', FallbackHandler, dict(fallback=container))
     ])
-    server.listen(settings.PORT, address="0.0.0.0")
-    IOLoop.instance().start()
+    server.listen(settings.PORT, address=settings.IP)
+    ioloop = IOLoop.instance()
+    autoreload.start(ioloop)
+    ioloop.start()

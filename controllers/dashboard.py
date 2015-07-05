@@ -5,10 +5,10 @@ import settings
 import requests
 import io
 
-social = Blueprint('social', __name__, template_folder='application/templates')
+dashboard = Blueprint('dashboard', __name__, template_folder='application/templates')
 
-@social.route('/social/', defaults={'data': 'index'})
-def show(data):
+@dashboard.route('/dashboard', methods=['GET'])
+def show():
     if 'username' not in session:
         return redirect(url_for('auth.index'))
 
