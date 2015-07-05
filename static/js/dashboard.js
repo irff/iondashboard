@@ -171,7 +171,7 @@ function save_session(data){
   tmp_data = JSON.stringify({
     media:list_media,
     keyword: keyword,
-    limit:10,
+    limit:11,
     begin: start+" 01:00:00",
     end: end+" 01:00:00"
   });

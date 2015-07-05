@@ -155,7 +155,7 @@ function make_barchart(data,cat){
           type: 'category',
           categories : cat,
           label: {
-            text: "20 kata terbanyak",
+            text: "10 kata terbanyak",
           }
         },
         y : {
