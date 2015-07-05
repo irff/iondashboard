@@ -251,7 +251,7 @@ function make_date_interval(date){
   // }
   if (user_interlude != "D") {
     return begin_date+" to "+end_date;
-  } else return date;
+  } else return begin_date;
 }
 
 function make_piechart(data, div, desc){
