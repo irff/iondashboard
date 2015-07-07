@@ -1,6 +1,6 @@
 from simplemysql import SimpleMysql
 
-db = SimpleMysql(host="localhost", db="ionstreamer", user="root", passwd="", keep_alive=True)
+db = SimpleMysql(host="localhost", db="ionstreamer", user="root", passwd="mantabg@n", keep_alive=True)
 
 TOKEN = "token"
 
