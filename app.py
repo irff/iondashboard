@@ -1,5 +1,5 @@
 from flask import Flask
-from database import db_session
+from models.database import db_session
 import settings
 
 from tornado.wsgi import WSGIContainer
@@ -13,6 +13,7 @@ from controllers.auth import auth
 from controllers.data import data
 from controllers.social import social
 from controllers.dashboard import dashboard
+from controllers.users import users
 """import more controller"""
 
 app = Flask(__name__)
@@ -23,6 +24,7 @@ app.register_blueprint(data)
 app.register_blueprint(auth)
 app.register_blueprint(social)
 app.register_blueprint(dashboard)
+app.register_blueprint(users)
 """register more controller"""
 
 @app.teardown_appcontext
