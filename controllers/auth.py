@@ -15,8 +15,7 @@ def index():
         password = request.form["password"]
 
         user = User.query.filter_by(username=username).first()
-
-        if user == None:
+        if user == None or user.status == 0:
             flash('Invalid username or password')
             return redirect(url_for('auth.index'))
         else:
@@ -24,9 +23,11 @@ def index():
             if hash_pass == user.password:
                 r = requests.get(settings.API_ENDPOINT + "/token", auth=(username, password))
                 data = r.json()
+                if "token" not in data:
+                    flash('Invalid username or password')
+                    return redirect(url_for('auth.index'))
                 session['username'] = request.form['username']
                 session['token'] = data["token"]
-                print session['token']
                 return redirect(url_for('data.show'))
             else:
                 flash('Invalid username or password')

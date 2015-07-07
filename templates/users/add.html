@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}Data Index{% endblock %}
+
+
+{% block content %}
+    <form method="POST" style="margin-left: 10px">
+        {% for error in form.errors["username"] %}
+        <div class="alert alert-error">
+            <strong>Error!</strong> {{error}}
+        </div>
+        {% endfor %}
+        <label>Username</label><br>
+        <input type="text" name="username" value="{% if form.username.data != None %}{{ form.username.data }}{% endif %}"><br>
+
+        {% for error in form.errors["firstname"] %}
+        <div class="alert alert-error">
+            <strong>Error!</strong> {{error}}
+        </div>
+        {% endfor %}
+        <label>First Name</label><br>
+        <input type="text" name="firstname" value="{% if form.firstname.data != None %}{{ form.firstname.data }}{% endif %}"><br>
+
+        {% for error in form.errors["lastname"] %}
+        <div class="alert alert-error">
+            <strong>Error!</strong> {{error}}
+        </div>
+        {% endfor %}
+        <label>Last Name</label><br>
+        <input type="text" name="lastname" value="{% if form.lastname.data != None %}{{ form.lastname.data }}{% endif %}"><br>
+
+        {% for error in form.errors["email"] %}
+        <div class="alert alert-error">
+            <strong>Error!</strong> {{error}}
+        </div>
+        {% endfor %}
+        <label>Email</label><br>
+        <input type="text" name="email" value="{% if form.email.data != None %}{{ form.email.data }}{% endif %}"><br>
+
+        {% for error in form.errors["password"] %}
+        <div class="alert alert-error">
+            <strong>Error!</strong> {{error}}
+        </div>
+        {% endfor %}
+        <label>Password</label><br>
+        <input type="password" name="password"><br>
+
+        {% for error in form.errors["repeat_password"] %}
+        <div class="alert alert-error">
+            <strong>Error!</strong> {{error}}
+        </div>
+        {% endfor %}
+        <label>Repeat password</label><br>
+        <input type="password" name="repeat_password"><br>
+
+        <input type="submit" value="Add">
+    </form>
+{% endblock %}

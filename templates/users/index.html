@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}Data Index{% endblock %}
+
+{% block content %}
+    <h1>Users</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <a href="{{ url_for('users.add') }}">Add user</a>
+
+    <table style="text-align:center;width:100%">
+        <thead>
+            <tr>
+                <th>Username</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Role</th><th>Status</th><th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.status }}</td>
+                <td>
+                    <a href="{{ url_for('users.delete', id=user.iduser) }}" onclick="return confirm('Are you sure want delete this user?')">Delete</a>
+                    <a href="{{ url_for('users.update', id=user.iduser) }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

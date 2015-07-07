@@ -14,6 +14,8 @@ class User(Base):
     email = Column(String(45))
     firstname = Column(String(65))
     lastname = Column(String(65))
+    role = Column(Integer)
+    status = Column(Integer)
 
     def __init__(self, username, password, email, firstname, lastname):
         self.username = username
@@ -21,6 +23,8 @@ class User(Base):
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
+        self.role = 0
+        self.status = 1
 
     def __repr__(self):
         return '<User %r>' % self.username
