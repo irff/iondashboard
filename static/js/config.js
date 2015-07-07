@@ -5,7 +5,7 @@ function create_url(service) {
 }
 
 function set_header(){
-  return "Basic "+window.btoa(unescape(encodeURIComponent(USERNAME + ':' + 'unused')));
+  return "Basic "+window.btoa(unescape(encodeURIComponent(token + ':' + 'unused')));
 }
 
 

@@ -31,7 +31,7 @@
 					var size = $("#list-news").data("size");
 					var page = pageNumber;
 					$("#list-news").data("from",page*size);
-					get_news(page*size,size);
+					get_news();
 				},
 				onInit: function() {
 					// Callback triggered immediately after initialization

@@ -155,7 +155,7 @@ function make_barchart(data,cat){
           type: 'category',
           categories : cat,
           label: {
-            text: "20 kata terbanyak",
+            text: "10 kata terbanyak",
           }
         },
         y : {
@@ -251,7 +251,7 @@ function make_date_interval(date){
   // }
   if (user_interlude != "D") {
     return begin_date+" to "+end_date;
-  } else return date;
+  } else return begin_date;
 }
 
 function make_piechart(data, div, desc){
@@ -279,6 +279,9 @@ function make_piechart(data, div, desc){
             return value + " ("+Math.floor(ratio*10000)/100+"%)";
         }
       }
+    },
+    legend: {
+      show:false
     }
   });
   d3.select(div+' svg').append('text')

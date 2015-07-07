@@ -11,8 +11,12 @@ function show_articles(id){
 	var time = $(par).children(".time").text();
 	var content = $(par).children("input[type='hidden']").val();
 	var result = "";
-	result += "<div class='a-t'>"+title + "</div>";
-	result += "<div class='a-a'>"+author + "</div>";
+	if (typeof title !== "undefined") {
+		result += "<div class='a-t'>"+title + "</div>";
+	}
+	if (typeof author !== "undefined") {
+		result += "<div class='a-a'>"+author + "</div>";
+	}
 	result += "<div class='a-a'>"+time+ "</div>";
 	result += "<div class='a-a'>"+provider+ "</div>";
 	result += "<div class='a-a'>"+location+ "</div>";
@@ -42,7 +46,9 @@ function generate_item(data, id){
 	// console.log(data.privider);
 	result = "<li  id='"+id+"-par'>";
 	result = result +"<div class='title'><a id='"+id+"-t' href='#' onclick='show_articles(this.id);return false;'>"+ data.title +"</a></div>";
-	result = result +"<div class='author'>by : "+ data.author +"</div>";
+	if (typeof data.author !== "undefined") {
+		result = result +"<div class='author'>by : "+ data.author +"</div>";
+	}
 	result = result +"<div class='provider'>site: "+ data.provider +"</div>";
 	result = result +"<div class='url'><a href='"+ data.url +"' target='_blank'>[article's link]</a>&nbsp;&nbsp;&nbsp;<a target='_blank' href='/snapshot?url="+data.url+"'>[Download snapshot]</a></div>";
 
@@ -55,43 +61,49 @@ function generate_item(data, id){
 	return result;
 }
 
-function generate_data(media,sort_property,order){
+function generate_data(keyword,start,end,media,sort_property,order){
 	var post_data = "";
-	var data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
+	var data_media = media.split(",").join('",').split(",").join(',"');
 	var from = $("#list-news").data("from");
 	var size = $("#list-news").data("size");
-	if (media) {
-		post_data = '{"media":["'+ data_media+'"],'+
-		'"keyword":"' +localStorage.getItem("keyword")+'",'+
-		'"begin":"'   +localStorage.getItem("begin")  +' 01:00:00",'+
-		'"end":"'     +localStorage.getItem("end")    +' 01:00:00",'+
-		'"from_page":'+from+','+
-		'"sort_by":"'+sort_property+'",'+
-		'"order":"'+order+'",'+
-		'"page_size":'+size+'}';
-	} else {
-		post_data = '{"keyword":"'+localStorage.getItem("keyword")+'",'+
-		'"begin":"'   +localStorage.getItem("begin")+' 01:00:00",'+
-		'"end":"'     +localStorage.getItem("end")+' 01:00:00",'+
-		'"from_page":'+from+','+
-		'"sort_by":"'+sort_property+'",'+
-		'"order":"'+order+'",'+
-		'"page_size":'+size+'}';
-	}
+	post_data = '{"media":["'+ data_media+'"],';
+	post_data += '"keyword":"' +keyword+'",'+
+				 '"begin":"'   +start  +' 01:00:00",'+
+				 '"end":"'     +end    +' 01:00:00",'+
+				 '"from_page":'+from                 +','+
+				 '"sort_by":"' +sort_property        +'",'+
+				 '"order":"'   +order                +'",'+
+				 '"page_size":'+size                 +'}';
 	return post_data;
 }
 
-function get_news(){
+function get_news(keyword,media,start,end){
 	$("#sort-property").select2({
 		width : "140px"
 	});
 	var from = $("#list-news").data("from");
 	var size = $("#list-news").data("size");
 	if (localStorage.getItem("medialist")) {
-		var data_media = localStorage.getItem("medialist").split(",").join('",').split(",").join(',"');
+		var keyword = typeof keyword !== 'undefined' ? keyword : localStorage.getItem("keyword");
+		var medias  = typeof media !== 'undefined' ? media : localStorage.getItem("medialist");
+		if (localStorage.getItem("news-media") !== null) {
+			medias = localStorage.getItem("news-media");
+		}
+		if (localStorage.getItem("shr-media") !== null){
+			medias = localStorage.getItem("shr-media");	
+		}
+		var begin   = typeof start !== 'undefined' ? start : localStorage.getItem("begin");
+		if (localStorage.getItem("shr-start") !== null){
+			begin = localStorage.getItem("shr-start");	
+		}
+		var end     = typeof end !== 'undefined' ? end : localStorage.getItem("end");
+		if (localStorage.getItem("shr-end") !== null){
+			end = localStorage.getItem("shr-end");	
+		}
 		var sorted_by = $("#sort-property").val();
 		var sorted_order = $("input[name=order]:checked").val();
-		var post_data = generate_data(data_media == null ? false:true,sorted_by,sorted_order);
+		var post_data = generate_data(keyword,begin,end,medias,sorted_by,sorted_order);
+		// console.log(post_data);
 	    template.html('<img style="" src="/static/img/loader.gif" />');   
 		$.ajax({
 		    type: 'POST',
@@ -104,17 +116,24 @@ function get_news(){
 		        response = msg.result[0].news;
 		        total_article = msg.total;
 				generate_result(response);  
-				$("#total-articles").html("There are "+total_article+" related articles");
-				console.log(from/size);
-				$('#pagination').pagination({
-					pages: Math.floor(total_article/size),
-					currentPage: (from/size) == 0 ? 1 : from/size,
-					cssStyle: 'light-theme'
-				});
+				// console.log(from/size);
+				// if (from == 0) {
+					$("#total-articles").html("There are "+total_article+" related articles");
+					$('#pagination').pagination({
+						pages: Math.floor(total_article/size),
+						currentPage: (from/size) == 0 ? 1 : from/size,
+						cssStyle: 'light-theme'
+					});
+				// }
 		    },
 	        headers:{
 	      		"Authorization":""+set_header()
 	    	}
 		});
 	}
+}
+
+function reset_search(){
+	localStorage.removeItem("news-media");
+	get_news();
 }  

@@ -29,11 +29,11 @@ function set_selected_keyop(){
   }
 }
 
- // Check whether the localStorage is empty or not 
+/*
+* Set the submitted value from user
+*/
 function check_local(){
   select_multiple();  
-  set_selected_media();
-  set_selected_keyop();
   if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data") && localStorage.getItem("wordfreq_data") && localStorage.getItem("interlude") && localStorage.getItem("keyop_data")){
     medshare_data = localStorage.getItem("medshare_data");
     kol_data = localStorage.getItem("kol_data");
@@ -46,6 +46,9 @@ function check_local(){
     document.search["date_start"].value = localStorage.getItem("begin");
     document.search["date_end"].value = localStorage.getItem("end");
     document.media["interlude"].value = localStorage.getItem("interlude");
+
+    set_selected_media();
+    set_selected_keyop();
   } 
 }
 
@@ -60,14 +63,14 @@ function select_multiple(){
   });
   $("#medlist").select2();
 
-  if(localStorage.getItem("keyop_data")) {
+/*  if(localStorage.getItem("keyop_data")) {
 	  var keyop_list = localStorage.getItem("keyop_data").split();
 	  var options = [];
 	  $.each(keyop_list,function(id,data){
 	  	options.push("<option value='"+data+"'>"+data+"</option>");
 	  });
 	  $("#kol").append(options);
-  }
+  }*/
 
   $("#kol").select2({
     tags:true,
@@ -95,6 +98,10 @@ function get_all_media_name(){
   return arr;
 }
 
+/*
+* "Select all media" handler
+* First click to set, second click to unset
+*/
 function select_all(){
   var clicked = $("input[type='checkbox']").data("clicked");
   if (clicked) {
@@ -107,6 +114,11 @@ function select_all(){
   $("input[type='checkbox']").data("clicked",clicked);
 }
 
+/*
+* If user submit data, do:
+* 1. Save data to localStorage
+* 2. Reload page for begin the search
+*/
 function save_session(data){
   var keyword = document.search["keyword"].value;
   var start = document.search["date_start"].value;
@@ -159,7 +171,7 @@ function save_session(data){
   tmp_data = JSON.stringify({
     media:list_media,
     keyword: keyword,
-    limit:20,
+    limit:11,
     begin: start+" 01:00:00",
     end: end+" 01:00:00"
   });
