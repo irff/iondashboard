@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}Langgar Tweet Analyzer{% endblock %}
+{% block content %}
+
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+<script type="text/javascript">
+google.load('visualization', '1.0', {packages: ['corechart']});
+google.setOnLoadCallback(drawCurves);
+
+function drawFreq() {
+  var data = new google.visualization.DataTable();
+  data.addColumn('datetime', 'Time');
+  data.addColumn('number', 'All Tweets');
+  data.addColumn('number', 'Positive Tweets');
+  data.addColumn('number', 'Negative Tweets');
+
+  var chart = new google.visualization.LineChart(document.getElementById('freq'));
+  var chart2 = new google.visualization.PieChart(document.getElementById('sentiment'));
+  $.get('/api/analyze/freq/{{encoded_keyword}}', function(r){
+    tabel = r.map(function(x){x[0] = new Date(x[0]); return x;});
+    data.addRows(tabel);
+    chart.draw(data, options_freq);
+
+    var positive = r.reduce(function(acc, curr){return acc + curr[2];}, 0);
+    var negative = r.reduce(function(acc, curr){return acc + curr[3];}, 0);
+    data = google.visualization.arrayToDataTable([
+      ['Sentiment', 'Number of Occurence'],
+      ['Positive Tweets', positive],
+      ['Negative Tweets', negative],
+    ]);
+    chart2.draw(data, options_sentiment);
+  }, 'JSON');
+}
+
+function drawTopMention() {
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Username');
+  data.addColumn('number', 'Number of Mentions');
+  var chart = new google.visualization.BarChart(document.getElementById('topmention'));
+  $.get('/api/analyze/topmention/{{encoded_keyword}}', function(r){
+    data.addRows(r);
+    chart.draw(data, options_topmention);
+  }, 'JSON');
+}
+
+function drawTopPosting() {
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Username');
+  data.addColumn('number', 'Number of Posts');
+  var chart = new google.visualization.BarChart(document.getElementById('topposting'));
+  $.get('/api/analyze/topposting/{{encoded_keyword}}', function(r){
+    data.addRows(r);
+    chart.draw(data, options_topposting);
+  }, 'JSON');
+}
+
+function drawCurves() {
+  drawFreq();
+  drawTopMention();
+  drawTopPosting();
+}
+</script>
+
+
+<div ng-controller="analyzeController">
+
+  <nav class="top-bar" data-topbar>
+    <span class="name text-center">
+      <h1 class="title"><i class="fa fa-twitter fa-lg"></i> Tweet Analyzer of {{keyword}}</h1>
+    </span>
+  </nav>
+
+  <hr>
+
+  <div class="row">
+    <div class="small-12 large-9 columns">
+      <div id="freq" class="text-center"><h1><i class="fa fa-lg fa-line-chart fa-spin"></i></h1></div>
+    </div>
+    <div class="small-12 large-3 columns">
+      <div id="sentiment" class="text-center"><h1><i class="fa fa-lg fa-pie-chart fa-spin"></i></h1></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 large-6 columns">
+      <div id="topmention" class="text-center"><h1><i class="fa fa-lg fa-bar-chart fa-spin"></i></h1></div>
+    </div>
+    <div class="small-12 large-6 columns">
+      <div id="topposting" class="text-center"><h1><i class="fa fa-lg fa-bar-chart fa-spin"></i></h1></div>
+    </div>
+  </div>
+
+  <div hidden id="keyword">{{encoded_keyword}}</div>
+  {% raw %}
+  <!-- <hr> -->
+
+  <div class="row">
+    <div class="columns small-12 large-6 topretweet">
+      <div class="alert-box info radius" ng-show="showtopretweet">Top Retweet</div>
+      <!-- TOP TWEET -->
+      <div class="row" ng-repeat="tweet in tweets">    
+        <div class="columns small-2 th">
+          <img ng-src="{{ tweet.retweeted_status.user.profile_image_url }}">
+        </div>
+        <div class="columns small-10">
+          <div class="user">
+            <span class="name" ng-bind-html="tweet.retweeted_status.user.name"></span>
+            <a target="_blank" ng-href="http://twitter.com/{{ tweet.retweeted_status.user.screen_name }}" class="username" ng-bind-html="'@'+tweet.retweeted_status.user.screen_name"></a>
+            <a target="_blank" ng-href="http://twitter.com/{{ tweet.retweeted_status.user.screen_name }}/status/{{ tweet.retweeted_status.id_str }}" class="count label secondary radius" ng-bind-html="tweet.retweeted_status.retweet_count+' retweets'"></a>
+          </div>
+          <div class="text">
+            <p ng-bind-html="tweet.text"></p>
+          </div>
+        </div>
+      </div>
+      <!-- END OF TOP TWEET -->
+    </div>
+
+    <div class="columns small-12 large-6 topretweet">
+      <div class="alert-box info radius" ng-show="showtweets">Tweets</div>
+      <!-- TOP TWEET -->
+      <div class="row" ng-repeat="tweet in tweets">    
+        <div class="columns small-2 th">
+          <img ng-src="{{ tweet.retweeted_status.user.profile_image_url }}">
+        </div>
+        <div class="columns small-10">
+          <div class="user">
+            <span class="name" ng-bind-html="tweet.retweeted_status.user.name"></span>
+            <a target="_blank" ng-href="http://twitter.com/{{ tweet.retweeted_status.user.screen_name }}" class="username" ng-bind-html="'@'+tweet.retweeted_status.user.screen_name"></a>
+            <a target="_blank" ng-href="http://twitter.com/{{ tweet.retweeted_status.user.screen_name }}/status/{{ tweet.retweeted_status.id_str }}" class="count label secondary radius" ng-bind-html="tweet.retweeted_status.retweet_count+' retweets'"></a>
+          </div>
+          <div class="text">
+            <p ng-bind-html="tweet.text"></p>
+          </div>
+        </div>
+      </div>
+      <!-- END OF TOP TWEET -->
+    </div>
+  </div>
+
+
+  {% endraw %}
+
+  <hr>
+
+  <footer class="row">
+    <div class="columns text-center">
+      <p>Copyright <i class="fa fa-copyright"></i> <a href="http://langgar.co">langgar.co</a>.</p>
+    </div>
+  </footer>
+
+</div>
+
+{% endblock %}
