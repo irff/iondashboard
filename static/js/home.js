@@ -70,10 +70,15 @@ function prettify_summary_data(data){
 }
 
 function prettify_frequency_data(data){
-  result = ["Word Frequency"];
+  result = [];
   Object.keys(data).forEach(function(d){
     result.push(data[d]);
   });
+  console.log(result);
+  result = result.sort(function(a,b){return b-a});
+  console.log(result);
+  result.unshift("Word Frequency");
+  console.log(result);
   return result;
 }
 

@@ -1,8 +1,8 @@
-ENGINE_STRING = 'mysql://root:@localhost/iondashboard'
+ENGINE_STRING = 'mysql://root:mantabg@n@localhost/iondashboard'
 
 SECRET_KEY = 'adFEaef3rqwfWrASDFa325afASfas'
 
-PORT = 8888
+PORT = 80
 
 IP = "0.0.0.0"
 
