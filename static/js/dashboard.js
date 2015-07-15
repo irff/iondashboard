@@ -1,4 +1,5 @@
 var click_status;
+var counter = 0;
 
 function on_logout(){
   localStorage.clear();
@@ -15,15 +16,19 @@ $("datepicker").datepicker({
 
 $(document).ready(check_local);
 
+function isEmpty(id){
+  return localStorage.getItem(id) == null;
+}
+
 function set_selected_media(){
-  if (localStorage.getItem("medialist")) {
+  if (!isEmpty("medialist")) {
     var media_list = localStorage.getItem("medialist").split(",");
-    $("#medlist").val(media_list).change();
+	$("#medlist").val(media_list).change();
   }
 }
 
 function set_selected_keyop(){
-  if (localStorage.getItem("keyop_data")) {
+  if (!isEmpty("keyop_data")) {
     var kol_list = localStorage.getItem("keyop_data").split(",");
     $("#kol").val(kol_list).change();
   }
@@ -34,7 +39,9 @@ function set_selected_keyop(){
 */
 function check_local(){
   select_multiple();  
-  if (localStorage.getItem("medshare_data") && localStorage.getItem("kol_data") && localStorage.getItem("medsum_data") && localStorage.getItem("wordfreq_data") && localStorage.getItem("interlude") && localStorage.getItem("keyop_data")){
+  if (!isEmpty("medshare_data") && !isEmpty("kol_data") && !isEmpty("medsum_data") && 
+  	!isEmpty("wordfreq_data") && !isEmpty("interlude") && !isEmpty("keyop_data")){
+    
     medshare_data = localStorage.getItem("medshare_data");
     kol_data = localStorage.getItem("kol_data");
     medsum_data = localStorage.getItem("medsum_data");
@@ -46,10 +53,23 @@ function check_local(){
     document.search["date_start"].value = localStorage.getItem("begin");
     document.search["date_end"].value = localStorage.getItem("end");
     document.media["interlude"].value = localStorage.getItem("interlude");
-
-    set_selected_media();
-    set_selected_keyop();
+    $(document).ajaxComplete(function(){
+    	set_selected_media();
+    	set_selected_keyop();
+    });
   } 
+}
+
+function get_media_list(){
+  return $.ajax({
+    dataType: "json",
+    type: "GET",
+    url: create_url("listmedia"),
+    crossDomain: true,
+    headers:{
+      "Authorization":""+set_header()
+    }
+  });
 }
 
 function select_multiple(){
@@ -75,18 +95,6 @@ function select_multiple(){
   $("#kol").select2({
     tags:true,
     tokenSeparators: [',']
-  });
-}
-
-function get_media_list(){
-  return $.ajax({
-    dataType: "json",
-    type: "GET",
-    url: create_url("listmedia"),
-    crossDomain: true,
-    headers:{
-      "Authorization":""+set_header()
-    }
   });
 }
 
@@ -151,7 +159,7 @@ function save_session(data){
 
   tmp_data = JSON.stringify({
     media:list_media,
-    name: keyop_data,
+    name: ["jokowi","prabowo","sby","megawati","kalla","bakrie"],
     keyword: keyword,
     begin: start+" 01:00:00",
     end: end+" 01:00:00"

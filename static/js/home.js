@@ -6,7 +6,7 @@ Array.prototype.indexOfNested = function(str){
   return -1;
 }
 
-window.onload = dashboard_init();
+dashboard_init();
 
 function dashboard_init(){
     //console.log("AJAX start calling");
@@ -24,7 +24,6 @@ function dashboard_init(){
       make_piechart(prettify_summary_data(b.result[0].media), '#medsum', 'Media Summary');
     });
     $.when(get_keyopinion()).done(function(c){
-      console.log("keyol started");
       make_piechart(prettify_summary_data(c.result[0].people),"#keyop", "Key Opinion Leader");
     });
     $.when(get_wordfrequency()).done(function(d){
@@ -74,11 +73,8 @@ function prettify_frequency_data(data){
   Object.keys(data).forEach(function(d){
     result.push(data[d]);
   });
-  console.log(result);
   result = result.sort(function(a,b){return b-a});
-  console.log(result);
   result.unshift("Word Frequency");
-  console.log(result);
   return result;
 }
 
